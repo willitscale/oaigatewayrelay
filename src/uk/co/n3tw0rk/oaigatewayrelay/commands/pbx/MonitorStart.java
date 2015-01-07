@@ -1,7 +1,7 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Confirmation;
+import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 
 /**
  * <strong>Monitor Start Class</strong>
