@@ -58,4 +58,9 @@ public class NoOperation extends Command
 	{
 		return COMMAND + "," + this.getInvokeID();
 	}
+
+	@Override
+	public void confirmation()
+	{
+	}
 }

@@ -1,6 +1,8 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 
 /**
@@ -124,136 +126,119 @@ import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
  *
  *	Table 27: MS – System Affected_ID Values for Monitor_Type (V05.00 and Later)
  *
- *	VALUE 	<MONITOR_TYPE> VALID FORMS OF 					<AFFECTED_ID>
- *	0 		Call – Call monitoring on specified call. 		Valid Call ID (cannot use expanded format).
- *
- *	1		Device – Device monitoring on specified			Valid device (see page 11).
- *			device. 
- *
- *	2		Calls Via Device – Call via Device				Valid Hunt Group device.
- *			monitoring on specified device.
-
- *	3 		All Stations (Device-Type Monitoring)			Not used.
- *			on all stations. 
- *
- *	4 		All Trunks (Device-Type Monitoring)				Not used.
- *			on all trunks. 
- *
- *	5 		Device with Resync – Device monitoring			Valid device (see page 11).
- *			on specified device. 
- *
- *	6 		All Stations with Resync – Device				Not used.
- *			monitoring on all stations. 
- *
- *	7 		Agent ID – Creates a device-type				Valid Agent ID.
- *			monitor wherever the agent logs in.
- *			
- *	8 		Call Termination. 								Not used.
- *
- *	9 		All Voice Mail Applications – Devicetype		Not used.
- *			monitor. 
- *
- *	10 		All Private Network Trunks. 					Reserved for future use.
- *
- *	11 		System – System monitor. 						Not used.
+ *		VALUE 	<MONITOR_TYPE> 									VALID FORMS OF <AFFECTED_ID>
+ *		0 		Call – Call monitoring on specified call. 		Valid Call ID (cannot use expanded format).
+ *		1		Device – Device monitoring on specified			Valid device (see page 11).
+ *				device. 
+ *		2		Calls Via Device – Call via Device				Valid Hunt Group device.
+ *				monitoring on specified device.
+ *		3 		All Stations (Device-Type Monitoring)			Not used.
+ *				on all stations. 
+ *		4 		All Trunks (Device-Type Monitoring)				Not used.
+ *				on all trunks. 
+ *		5 		Device with Resync – Device monitoring			Valid device (see page 11).
+ *				on specified device. 
+ *		6 		All Stations with Resync – Device				Not used.
+ *				monitoring on all stations. 
+ *		7 		Agent ID – Creates a device-type				Valid Agent ID.
+ *				monitor wherever the agent logs in.
+ *		8 		Call Termination. 								Not used.
+ *		9 		All Voice Mail Applications – Devicetype		Not used.
+ *				monitor. 
+ *		10 		All Private Network Trunks. 					Reserved for future use.
+ *		11 		System – System monitor. 						Not used.
  *
  *	NOTE: 
  *		The system node receiving the command must be programmed to use the
  *		expanded format if the command specifies the node number in the <Affected_ID>
  *		parameter (see page 119).
 
-Table 28: MS – Gateway Affected_ID Values for Monitor_Type (V05.00 and Later)
-VALUE <MONITOR_TYPE> VALID FORMS OF <AFFECTED_ID>
-0 Call – Call monitoring on specified
-call.
-Valid Call ID (cannot use expanded
-format).
-1 Device – Device monitoring on specified
-device.
-Valid device (see page 11).
-2 Calls Via Device – Call via Device
-monitoring on specified device.
-Valid Hunt Group device.
-3 All Stations (Device-Type Monitoring)
-on all stations.
-(Optional) Valid device or possibly the
-system node. If you do not specify a
-system node, the command is sent to
-all nodes.
-4 All Trunks (Device-Type Monitoring)
-on all trunks.
-(Optional) Valid device or possibly the
-system node. If you do not specify a
-system node, the command is sent to
-all nodes.
-5 Device with Resync – Device monitoring
-on specified device.
-Valid device (see page 11).
-6 All Stations with Resync – Device
-monitoring on all stations.
-(Optional) Valid device or possibly the
-system node. If you do not specify a
-system node, the command is sent to
-all nodes.
-7 Agent ID – Creates a device-type
-monitor wherever the agent logs in.
-Valid Agent ID.
-8 Call Termination. Not used.
-9 All Voice Mail Applications – Devicetype
-monitor.
-(Optional) System node. If you do not
-specify a system node, the command
-is sent to all nodes.
-10 All Private Network Trunks. Reserved for future use.
-11 System – System monitor. (Optional) System node. If you do not
-specify a system node, the command
-is sent to all nodes.
-
-NOTE: The CT Gateway processes commands with or without the expanded format
-specified.
-
-• Monitor_Type: Identifies the requested monitor type (default is “1”), which can be one
-of the values identified in the following table.
-
-Table 29: MS – Monitor_Type Values (V05.00 and Later)
-VALUE <MONITOR_TYPE>
-0 Call.
-1 Device.
-2 Calls Via Device.
-3 All Stations (Device-Type Monitoring).
-4 All Trunks (Device-Type Monitoring). This does NOT include T1
-trunks used for transparent networking in system version 05.00 or
-later.
-5* Device with an automatic Resync Request on the specified device.
-The resync will occur only for stations and voice mail applications.
-6* All Stations (Device-Type Monitoring) with an automatic Resync
-Request on the monitored stations.
-7 Agent ID Monitoring where a specific agent ID is being monitored.
-NOTE: Any device logged into any hunt group using this agent ID
-will have events reported for it. These event reports are in addition to
-any other monitors for the device. Creates a device-type monitor
-wherever the agent logs in. If the application starts a device-type
-monitor on extension 1000 and an agent ID monitor on agent ID
-2000, it will receive two (duplicate) events if agent ID 2000 logs into
-extension 1000.
-8 Call Termination. Creates a system-wide call termination monitor.
-NOTE: The Call Termination monitor type is not recommended for
-use with the CT Gateway. It may cause the application to receive a
-Call Cleared event for a call that is still active in the system.
-9 All voice mail applications. Creates device monitors on all voice mail
-applications.
-10 (Future Enhancement) All Private Network Trunks (Device-Type
-Monitoring). Creates a device monitor on all private network trunks.
-11 (System versions 05.10 and Later) System (System-Type Monitoring).
-Creates a system monitor.
-
-* If a Monitor Start with a resync does not start any monitors (e.g., there are no devices to
-monitor), the Resync Request is not issued.
-CONFIRMATION
-(MONITOR = 0-10): <Sequence_Number>,CF,_MS,<InvokeID>,<Outcome>,
-<Number_Of_Monitor_Sessions>,<Mon_Cross_Ref_ID>,<Monitored_Ext>,
-<Agent_Filter_Mask>,<Call_Filter_Mask>,<Feature_Filter_Mask><CR><LF>
-
+ *	Table 28: MS – Gateway Affected_ID Values for Monitor_Type (V05.00 and Later)
+ *
+ *		VALUE 		<MONITOR_TYPE> 								VALID FORMS OF <AFFECTED_ID>
+ *		0 			Call – 	Call monitoring on specified call.	Valid Call ID (cannot use expanded format).
+ *		1 			Device – Device monitoring on specified		Valid device (see page 11).
+ *					device.
+ *		2 			Calls Via Device – 	Call via Device			Valid Hunt Group device.
+ *					monitoring on specified device.
+ *		3 			All Stations (Device-Type Monitoring)		(Optional) Valid device or possibly the
+ *					on all stations.							system node. If you do not specify a
+ *																system node, the command is sent to
+ *																all nodes.
+ *		4 			All Trunks (Device-Type Monitoring)			(Optional) Valid device or possibly the
+ *					on all trunks.								system node. If you do not specify a
+ *																system node, the command is sent to
+ *																all nodes.		
+ *		5			Device with Resync – Device monitoring		Valid device (see page 11).
+ *					on specified device.
+ *		6			All Stations with Resync – Device			(Optional) Valid device or possibly the
+ *					monitoring on all stations.					system node. If you do not specify a
+ *																system node, the command is sent to
+ *																all nodes.
+ *		7			Agent ID – Creates a device-type			Valid Agent ID.
+ *					monitor wherever the agent logs in.
+ *		8 			Call Termination. 							Not used.
+ *		9 			All Voice Mail Applications – Devicetype	(Optional) System node. If you do not
+ *					monitor.									specify a system node, the command
+ *																is sent to all nodes.
+ *		10			All Private Network Trunks. 				Reserved for future use.
+ *		11 			System – System monitor. 					(Optional) System node. If you do not
+ *																specify a system node, the command
+ *																is sent to all nodes.
+ *	
+ *	NOTE: The CT Gateway processes commands with or without the expanded format
+ *	specified.
+ *	
+ *	• Monitor_Type: Identifies the requested monitor type (default is “1”), which can be one
+ *	of the values identified in the following table.
+ *	
+ *	Table 29: MS – Monitor_Type Values (V05.00 and Later)
+ *
+ *		VALUE 		<MONITOR_TYPE>
+ *		0 			Call.
+ *		1 			Device.
+ *		2 			Calls Via Device.
+ *		3 			All Stations (Device-Type Monitoring).
+ *		4 			All Trunks (Device-Type Monitoring). This does NOT include T1
+ *					trunks used for transparent networking in system version 05.00 or
+ *					later.
+ *		5* 			Device with an automatic Resync Request on the specified device.
+ *					The resync will occur only for stations and voice mail applications.
+ *		6* 			All Stations (Device-Type Monitoring) with an automatic Resync
+ *					Request on the monitored stations.
+ *		7 			Agent ID Monitoring where a specific agent ID is being monitored.
+ *	
+ *		NOTE: 
+ *			Any device logged into any hunt group using this agent ID
+ *			will have events reported for it. These event reports are in addition to
+ *			any other monitors for the device. Creates a device-type monitor
+ *			wherever the agent logs in. If the application starts a device-type
+ *			monitor on extension 1000 and an agent ID monitor on agent ID
+ *			2000, it will receive two (duplicate) events if agent ID 2000 logs into
+ *			extension 1000.
+ *		
+ *		8 			Call Termination. Creates a system-wide call termination monitor.
+ *		
+ *		NOTE: 
+ *			The Call Termination monitor type is not recommended for
+ *			use with the CT Gateway. It may cause the application to receive a
+ *			Call Cleared event for a call that is still active in the system.
+ *		
+ *		9 			All voice mail applications. Creates device monitors on all voice mail
+ *					applications.
+ *		10 			(Future Enhancement) All Private Network Trunks (Device-Type
+ *					Monitoring). Creates a device monitor on all private network trunks.
+ *		11 			(System versions 05.10 and Later) System (System-Type Monitoring).
+ *					Creates a system monitor.
+ *		
+ *		* 	If a Monitor Start with a resync does not start any monitors (e.g., there are no devices to
+ *			monitor), the Resync Request is not issued.
+ *	
+ *	CONFIRMATION (MONITOR = 0-10): 
+ *		<Sequence_Number>,CF,_MS,<InvokeID>,<Outcome>,
+ *		<Number_Of_Monitor_Sessions>,<Mon_Cross_Ref_ID>,<Monitored_Ext>,
+ *		<Agent_Filter_Mask>,<Call_Filter_Mask>,<Feature_Filter_Mask><CR><LF>
+ *	
  *	CONFIRMATION (MONITOR = 11):
  *		<Sequence_Number>,CF,_MS,<InvokeID>,<Outcome>,<Number_Of_Monitor_Sessions>,<Mon_Cross_Ref_ID>,<Node_Number>,<System_Filter_Mask><CR><LF>
  *	
@@ -351,9 +336,24 @@ CONFIRMATION
  */
 public class MonitorStart extends Command
 {
+	/** Command */
 	public static final String COMMAND = "_MS";
 	
+	/** Affected Extension */
 	protected int mAffectedExt;
+	
+	public static final int MONITOR_TYPE_CALL = 0x00;
+	public static final int MONITOR_TYPE_DEVICE = 0x01;
+	public static final int MONITOR_TYPE_CALLS_VIA_DEVICE = 0x02;
+	public static final int MONITOR_TYPE_ALL_STATIONS = 0x03;
+	public static final int MONITOR_TYPE_ALL_TRUNKS = 0x04;
+	public static final int MONITOR_TYPE_DEVICE_RESYNC = 0x05;
+	public static final int MONITOR_TYPE_ALL_STATIONS_RESYNC = 0x06;
+	public static final int MONITOR_TYPE_AGENT = 0x07;
+	public static final int MONITOR_TYPE_CALL_TERMINATION = 0x08;
+	public static final int MONITOR_TYPE_VOICE_MAIL = 0x09;
+	public static final int MONITOR_TYPE_PRIVATE_NETWORK = 0x0A;
+	public static final int MONITOR_TYPE_SYSTEM = 0x0B;
 	
 	protected String mMonitorOptions;
 	
@@ -410,5 +410,116 @@ public class MonitorStart extends Command
 	public boolean hasCompleted()
 	{
 		return ( this.mEvent instanceof Confirmation );
+	}
+
+	@Override
+	public void confirmation()
+	{
+		if( !( this.mEvent instanceof Confirmation ) )
+		{
+			return;
+		}
+
+		switch( this.getMonitorType() )
+		{
+			case MONITOR_TYPE_CALL : {}
+			case MONITOR_TYPE_DEVICE : {}
+			case MONITOR_TYPE_CALLS_VIA_DEVICE : {}
+			case MONITOR_TYPE_ALL_STATIONS : 
+			{
+				allStationsConfirmation();
+				return;
+			}
+			case MONITOR_TYPE_ALL_TRUNKS : {}
+			case MONITOR_TYPE_DEVICE_RESYNC : {}
+			case MONITOR_TYPE_ALL_STATIONS_RESYNC :	{}
+			case MONITOR_TYPE_AGENT : {}
+			case MONITOR_TYPE_CALL_TERMINATION : {}
+			case MONITOR_TYPE_VOICE_MAIL : 	{}
+			case MONITOR_TYPE_PRIVATE_NETWORK : {}
+			case MONITOR_TYPE_SYSTEM :
+			{
+				systemConfirmation();
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * 3,			Sequence ID
+	 * CF,			Confirmation
+	 * _MS,			Monitor Start
+	 * 2,			Invoke ID
+	 * 0,			Outcome
+	 * 0226,		Monitoring Sessions
+	 * 
+	 * 000001,		Mon Cross Ref ID (1)
+	 * 1000,		Node Number (1)
+	 * 
+	 * 000002,		Mon Cross Ref ID (2)
+	 * 1001,		Node Number (2)
+	 * 
+	 * 000003,		Mon Cross Ref ID (3)
+	 * 1087,		Node Number (3)
+	 * 
+	 * 000004,		Mon Cross Ref ID (4)
+	 * 1003,		Node Number (4)
+	 * 
+	 * 000005,1004,000006,1143,000007,1129,000008,1007,000009,1109,000010,1009,000011,1128,000012,1108,000013,1012,000014,1013,000015,1014,000016,1015,000017,1016,000018,1017,000019,1018,000020,1019,000021,1020,000022,1021,000023,1022,000024,1023,000025,1024,000026,1121,000027,1026,000028,1027,000029,1028,000030,1074,000031,1030,000032,1031,000033,1034,000034,1092,000035,1086,000036,1056,000037,1103,000038,1119,000039,1040,000040,1041,000041,1042,000042,1043,000043,1044,000044,1110,000045,1046,000046,1047,000047,1048,000048,1070,000049,1088,000050,1083,000051,1052,000052,1053,000053,1054,000054,1008,000055,1090,000056,1100,000057,1058,000058,1059,000059,1114,000060,1061,000061,1062,000062,1120,000063,1076,000064,1069,000065,1501,000066,1502,000067,1503,000068,1504,000069,1500,000070,1032,000071,1102,000072,1165,000073,1104,000074,1065,000075,1049,000076,1033,000077,1066,000078,1067,000079,311,000080,1101,000081,1115,000082,1125,000083,2521,000084,1068,000085,1029,000086,1072,000087,1063,000088,1039,000089,1081,000090,1064,000091,1085,000092,1105,000093,1078,000094,1050,000095,1002,000096,1077,000097,1051,000098,1010,000099,1036,000100,1011,000101,1006,000102,1082,000103,1073,000104,1038,000105,1091,000106,1060,000107,1093,000108,1094,000109,1095,000110,1096,000111,1097,000112,1098,000113,1099,000114,1057,000115,1106,000116,1111,000117,1055,000118,1107,000119,1089,000120,1035,000121,1112,000122,1045,000123,1113,000124,1130,000125,1117,000126,1118,000127,1071,000128,1075,000129,1025,000130,1122,000131,1123,000132,1124,000133,1127,000134,1126,000135,1084,000136,1116,000137,1079,000138,1131,000139,1132,000140,1133,000141,1134,000142,1135,000143,1136,000144,1137,000145,1138,000146,1139,000147,1140,000148,1141,000149,1142,000150,1005,000151,1144,000152,1145,000153,1146,000154,1147,000155,1148,000156,1149,000157,1150,000158,1151,000159,1152,000160,1153,000161,1154,000162,1155,000163,1156,000164,1157,000165,1158,000166,1159,000167,1160,000168,1161,000169,1162,000170,1163,000171,1164,000172,1037,000173,1166,000174,1167,000175,1168,000176,1169,000177,1170,000178,1171,000179,1508,000180,1505,000181,1506,000182,1507,000183,1500,000184,1633,000185,1666,000186,1667,000187,1701,000188,1715,000189,1725,000190,2621,000191,311,000192,1810,000193,1811,000194,1833,000195,1834,000196,1840,000197,1841,000198,1842,000199,1843,000200,1844,000201,1845,000202,1854,000203,1855,000204,1856,000205,1857,000206,1861,000207,1862,000208,1864,000209,1865,000210,1866,000211,1867,000212,1868,000213,1869,000214,1870,000215,1872,000216,1873,000217,1874,000218,1876,000219,1877,000220,1878,000221,1879,000222,1880,000223,1884,000224,1818,000225,1888,000226,1881,
+	 * 
+	 * A:00FC,C:FFFE,F:1FFF			Filter
+	 */
+	
+	public void allStationsConfirmation()
+	{
+		int partsSize = this.mEvent.getPartsSize();
+		
+		if( 0 == partsSize )
+		{
+			return;
+		}
+		
+		int stationSize = ( ( partsSize - 7 ) / 2 );
+		int reportedStationSize = this.mEvent.getIntPart( 5 );
+		
+		if( stationSize != reportedStationSize )
+		{
+			return;
+		}
+		
+		SystemController system = SystemController.instance();
+		
+		for( int i = 5; i < partsSize - 1; i += 2 )
+		{
+			int monCrossRefID = this.mEvent.getIntPart( i );
+			int extension = this.mEvent.getIntPart( i + 1 );
+			
+			system
+				.getDevices()
+				.addStructure( monCrossRefID, 
+					new Device().setExtension( extension ) );
+		}
+	}
+	
+	/*
+	 *  004,			Sequence ID
+	 *  CF,				Confirmation
+	 *  _MS,			Monitor Start
+	 *  3,				Invoke ID
+	 *  0,				Outcome
+	 *  0002,			Monitoring Sessions
+	 *  
+	 *  000227,			Mon Cross Ref ID (1)
+	 *  1:,				Node Number (1)
+	 *  
+	 *  000228,			Mon Cross Ref ID (2)
+	 *  2:,				Node Number (2)
+	 *  
+	 *  S:00FE			Filter
+	 */
+	
+	public void systemConfirmation()
+	{
+		
 	}
 }

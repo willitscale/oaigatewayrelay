@@ -57,4 +57,7 @@ public class Connection extends Command
 			this.getApplicationName(), this.getPassword() );
 	}
 
+	@Override
+	public void confirmation(){}
+
 }

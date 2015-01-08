@@ -373,4 +373,9 @@ public class QueryDeviceInfo extends Command
 	<CR>
 	<LF>
 	*/
+
+	@Override
+	public void confirmation()
+	{
+	}
 }

@@ -52,4 +52,9 @@ public class GatewayUtilityQueryStatistics extends Command
 	{
 		return null;
 	}
+
+	@Override
+	public void confirmation()
+	{
+	}
 }

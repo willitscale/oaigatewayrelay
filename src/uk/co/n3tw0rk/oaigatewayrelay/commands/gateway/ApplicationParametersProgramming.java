@@ -27,4 +27,9 @@ public class ApplicationParametersProgramming extends Command
 	{
 		return null;
 	}
+
+	@Override
+	public void confirmation()
+	{
+	}
 }

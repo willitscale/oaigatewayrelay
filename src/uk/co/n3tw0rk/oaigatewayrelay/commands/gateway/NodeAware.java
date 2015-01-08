@@ -103,4 +103,9 @@ public class NodeAware extends Command
 	{
 		return COMMAND + "," + this.getInvokeID() + "," + this.getSetting();
 	}
+
+	@Override
+	public void confirmation()
+	{
+	}
 }

@@ -60,4 +60,9 @@ public class GatewayAttachDataToCall extends Command
 	{
 		return null;
 	}
+
+	@Override
+	public void confirmation()
+	{
+	}
 }

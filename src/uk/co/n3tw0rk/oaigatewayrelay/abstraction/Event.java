@@ -118,4 +118,8 @@ public abstract class Event implements OAIPacket
 		return null;
 	}
 	
+	public int getPartsSize()
+	{
+		return this.mEventParts.length;
+	}
 }

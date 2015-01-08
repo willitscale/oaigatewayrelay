@@ -37,4 +37,6 @@ public abstract class Command implements OAIPacket
 	{
 		return true;
 	}
+	
+	public abstract void confirmation();
 }

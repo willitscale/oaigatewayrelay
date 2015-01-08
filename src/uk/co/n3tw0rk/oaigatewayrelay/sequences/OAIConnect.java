@@ -57,7 +57,7 @@ public class OAIConnect
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new MonitorStart()
 					.setAffectedExt( -1 )
-					.setMonitorType( 3 )
+					.setMonitorType( MonitorStart.MONITOR_TYPE_ALL_STATIONS )
 					.setMonitorOptions( "A:FFFF,C:FFFF,F:FFFF" ) );
 				break;
 			}
@@ -66,7 +66,7 @@ public class OAIConnect
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new MonitorStart()
 					.setAffectedExt( -1 )
-					.setMonitorType( 11 )
+					.setMonitorType( MonitorStart.MONITOR_TYPE_SYSTEM )
 					.setMonitorOptions( "S:FFFF" ) );
 				break;
 			}

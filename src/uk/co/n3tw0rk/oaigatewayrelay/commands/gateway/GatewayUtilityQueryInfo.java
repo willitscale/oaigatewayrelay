@@ -55,4 +55,9 @@ public class GatewayUtilityQueryInfo extends Command
 	{
 		return null;
 	}
+
+	@Override
+	public void confirmation()
+	{
+	}
 }

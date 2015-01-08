@@ -33,4 +33,9 @@ public class GatewayDeleteDataToAttachedCall extends Command
 	{
 		return null;
 	}
+
+	@Override
+	public void confirmation()
+	{
+	}
 }

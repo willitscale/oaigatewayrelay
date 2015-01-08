@@ -29,4 +29,9 @@ public class GatewayDataDestinationRegistration extends Command
 	{
 		return null;
 	}
+
+	@Override
+	public void confirmation()
+	{
+	}
 }
