@@ -3,6 +3,7 @@ package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Node;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 
 /**
@@ -493,7 +494,7 @@ public class MonitorStart extends Command
 		{
 			int monCrossRefID = this.mEvent.getIntPart( i );
 			int extension = this.mEvent.getIntPart( i + 1 );
-			
+
 			system
 				.getDevices()
 				.addStructure( monCrossRefID, 
@@ -520,6 +521,32 @@ public class MonitorStart extends Command
 	
 	public void systemConfirmation()
 	{
+		int partsSize = this.mEvent.getPartsSize();
 		
+		if( 0 == partsSize )
+		{
+			return;
+		}
+		
+		int stationSize = ( ( partsSize - 7 ) / 2 );
+		int reportedStationSize = this.mEvent.getIntPart( 5 );
+		
+		if( stationSize != reportedStationSize )
+		{
+			return;
+		}
+		
+		SystemController system = SystemController.instance();
+		
+		for( int i = 5; i < partsSize - 1; i += 2 )
+		{
+			int monCrossRefID = this.mEvent.getIntPart( i );
+			int extension = this.mEvent.getIntPart( i + 1 );
+
+			system
+				.getNodes()
+				.addStructure( monCrossRefID, 
+					new Node().setNodeNumber( extension ) );
+		}
 	}
 }
