@@ -10,6 +10,12 @@ import uk.co.n3tw0rk.oaigatewayrelay.utils.Config;
 
 public class OAIConnect
 {
+	public static final int STAGE_CONNECT = 0x01;
+	public static final int STAGE_NODE_AWARE = 0x02;
+	public static final int STAGE_MONITOR_STATIONS = 0x03;
+	public static final int STAGE_MONITOR_SYSTEM = 0x04;
+	public static final int STAGE_MOCK = 0x05;
+	
 	boolean mComplete = false;
 	int mStage = 1;
 	Command mActiveCommand = null;
@@ -38,7 +44,7 @@ public class OAIConnect
 		
 		switch( this.mStage )
 		{
-			case 1 :
+			case STAGE_CONNECT :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new Connection()
 					.setSocketType( Config.PBX_TYPE )
@@ -46,14 +52,14 @@ public class OAIConnect
 					.setPassword( "" ) );
 				break;
 			}
-			case 2 :
+			case STAGE_NODE_AWARE :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new NodeAware()
 					.setSetting( 1 ) );
 				break;
 			}
 			
-			case 3 :
+			case STAGE_MONITOR_STATIONS :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new MonitorStart()
 					.setAffectedExt( -1 )
@@ -62,7 +68,7 @@ public class OAIConnect
 				break;
 			}
 
-			case 4 :
+			case STAGE_MONITOR_SYSTEM :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new MonitorStart()
 					.setAffectedExt( -1 )
@@ -71,6 +77,7 @@ public class OAIConnect
 				break;
 			}
 			
+			/** MOCK **/
 			case 5 :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new QueryDeviceInfo()
@@ -78,6 +85,7 @@ public class OAIConnect
 				this.mComplete = true;
 				break;
 			}
+			/** MOCK **/
 		}
 
 		this.mStage++;

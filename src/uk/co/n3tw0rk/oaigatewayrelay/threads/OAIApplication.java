@@ -13,7 +13,7 @@ public class OAIApplication implements Runnable
 		
 		try
 		{
-		//	( new SocketServer( Config.SERVER_SOCKET, new EventRegistration() ) ).start();
+			( new SocketServer( Config.SERVER_SOCKET, new EventRegistration() ) ).start();
 		}
 		catch( Exception e )
 		{

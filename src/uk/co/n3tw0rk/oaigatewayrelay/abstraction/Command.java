@@ -12,6 +12,7 @@ public abstract class Command implements OAIPacket
 	public Command setEvent( Event event )
 	{
 		this.mEvent = event;
+		this.confirmation();
 		return this;
 	}
 	

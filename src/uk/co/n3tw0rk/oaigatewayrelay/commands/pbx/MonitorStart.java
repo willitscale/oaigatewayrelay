@@ -480,7 +480,7 @@ public class MonitorStart extends Command
 			return;
 		}
 		
-		int stationSize = ( ( partsSize - 7 ) / 2 );
+		int stationSize = ( ( partsSize - 9 ) / 2 );
 		int reportedStationSize = this.mEvent.getIntPart( 5 );
 		
 		if( stationSize != reportedStationSize )
@@ -490,7 +490,7 @@ public class MonitorStart extends Command
 		
 		SystemController system = SystemController.instance();
 		
-		for( int i = 5; i < partsSize - 1; i += 2 )
+		for( int i = 6; i < partsSize - 3; i += 2 )
 		{
 			int monCrossRefID = this.mEvent.getIntPart( i );
 			int extension = this.mEvent.getIntPart( i + 1 );
@@ -538,7 +538,7 @@ public class MonitorStart extends Command
 		
 		SystemController system = SystemController.instance();
 		
-		for( int i = 5; i < partsSize - 1; i += 2 )
+		for( int i = 6; i < partsSize - 1; i += 2 )
 		{
 			int monCrossRefID = this.mEvent.getIntPart( i );
 			int extension = this.mEvent.getIntPart( i + 1 );

@@ -48,7 +48,9 @@ public class OAI implements Runnable
 	@Override
 	public void run()
 	{
-	/*
+		
+		OAIConnect connectSequence = new OAIConnect();
+
 		LinkedList<String> messages = new LinkedList<String>();
 		
 		messages.add( null );
@@ -59,13 +61,11 @@ public class OAI implements Runnable
 		messages.add( "004,CF,_MS,3,0,0002,000227,1:,000228,2:,S:00FE" );
 		messages.add( "005,CF,_QI,4,0,1876,0,0,|Test|,|Test|,0,0,,0000,0000,,0,0,64,0,0,0123456789" );
 		messages.add( "006,LF,,000015,1014,5485,|Test|,2004" );
+
 		try
 		{
 
 			System.out.println( "Connected" );
-			boolean connectionComplete = false;
-			int stage = 1;
-			Command activeCommand = null;
 			System.out.println( "Listening" );
 			while( true )
 			{
@@ -73,15 +73,14 @@ public class OAI implements Runnable
 				{
 					break;
 				}
-				
 
-				if( activeCommand != null )
+				if( null != connectSequence.activeCommand() )
 				{
 					tmpString = messages.pop();
 					
 					if( null != tmpString )
 					{
-	*/
+	/*
 		try
 		{
 			System.out.println( "Connecting to " + Config.PBX_NAME + ":" + Config.PBX_PORT );
@@ -93,8 +92,6 @@ public class OAI implements Runnable
 			this.in = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
 			this.out = new BufferedOutputStream( this.socket.getOutputStream() );
 			this.out.flush();
-			
-			OAIConnect connectSequence = new OAIConnect();
 
 			this.timeFromResponse = (int)(System.currentTimeMillis()/1000L);
 
@@ -109,6 +106,7 @@ public class OAI implements Runnable
 					{
 						tmpString = tmpString.substring( 4 ).intern().trim();
 		
+	*/
 						System.out.println( " << " + tmpString );
 
 						String[] parts = Event.splitEvent( tmpString );
@@ -148,17 +146,18 @@ public class OAI implements Runnable
 					
 					if( 4 <= tmpString.length() )
 					{
-						System.out.println( " >> " + tmpString.substring( 4 ).intern().trim() );
+						System.out.println( " >> " + tmpString.intern().trim() );
+						//System.out.println( " >> " + tmpString.substring( 4 ).intern().trim() );
 					}
 					
 					this.byteBuffer = tmpString.getBytes( "ISO-8859-1" ); // This char set is important for the byte sequence!
 
 					for( int i = 0; i < this.byteBuffer.length; i++ )
 					{
-						this.out.write( this.byteBuffer[ i ] );
+					//	this.out.write( this.byteBuffer[ i ] );
 					}
 					
-					this.out.flush();
+					//this.out.flush();
 				}
 			}
 		}
