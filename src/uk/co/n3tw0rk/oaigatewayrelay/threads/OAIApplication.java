@@ -2,9 +2,7 @@ package uk.co.n3tw0rk.oaigatewayrelay.threads;
 
 import uk.co.n3tw0rk.websocketregistration.config.Config;
 import uk.co.n3tw0rk.websocketregistration.events.EventRegistration;
-import uk.co.n3tw0rk.websocketregistration.threads.ChannelWebSocketClient;
 import uk.co.n3tw0rk.websocketregistration.threads.ChannelWebSocketServer;
-import uk.co.n3tw0rk.websocketregistration.threads.SocketServer;
 
 public class OAIApplication implements Runnable
 {

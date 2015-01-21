@@ -8,6 +8,8 @@ import uk.co.n3tw0rk.websocketregistration.events.Event;
 
 public class WebSocketEvents extends Event
 {
+	protected String mThread;
+	
 	@Override
 	public String event( String data )
 	{
@@ -16,6 +18,7 @@ public class WebSocketEvents extends Event
 
 		try
 		{
+			System.out.println( "data:" + data );
 			operation = gson.fromJson( data, WebSocketOperation.class );
 		}
 		catch( Exception exception )
@@ -30,6 +33,4 @@ public class WebSocketEvents extends Event
 
 		return gson.toJson( operation.process() );
 	}
-	
-
 }
