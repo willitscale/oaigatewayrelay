@@ -11,9 +11,9 @@ public class DeviceList extends WebSocketResponse
 {
 	public List<Integer> mDevices;
 	
-	public DeviceList( Object data )
+	public DeviceList( Object data, String session )
 	{
-		super( "DeviceList", data );
+		super( "DeviceList", data, session );
 	}
 	
 	@Override
@@ -23,7 +23,7 @@ public class DeviceList extends WebSocketResponse
 	}
 	
 	@Override
-	public void process( Object data )
+	public void process( Object data, String session )
 	{
 		this.mDevices = new LinkedList<Integer>();
 		

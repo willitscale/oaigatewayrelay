@@ -13,7 +13,7 @@ public class WebSocketOperation
 	public String operation;
 	public Object data;
 	
-	public WebSocketResponse process()
+	public WebSocketResponse process( String session )
 	{
 		if( null == operation || operation.isEmpty() )
 		{
@@ -22,27 +22,27 @@ public class WebSocketOperation
 
 		if( 0 == "DeviceCount".compareToIgnoreCase( operation ) )
 		{
-			return new DeviceCount( data );
+			return new DeviceCount( data, session );
 		}
 		else if( 0 == "DeviceData".compareToIgnoreCase( operation ) )
 		{
-			return new DeviceData( data );
+			return new DeviceData( data, session );
 		}
 		else if( 0 == "DeviceList".compareToIgnoreCase( operation ) )
 		{
-			return new DeviceList( data );
+			return new DeviceList( data, session );
 		}
 		else if( 0 == "NodeCount".compareToIgnoreCase( operation ) )
 		{
-			return new NodeCount( data );
+			return new NodeCount( data, session );
 		}
 		else if( 0 == "NodeList".compareToIgnoreCase( operation ) )
 		{
-			return new NodeList( data );
+			return new NodeList( data, session );
 		}
 		else if( 0 == "NodeData".compareToIgnoreCase( operation ) )
 		{
-			return new NodeData( data );
+			return new NodeData( data, session );
 		}
 		
 		return null;

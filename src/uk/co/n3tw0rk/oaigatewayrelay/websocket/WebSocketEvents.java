@@ -13,11 +13,18 @@ public class WebSocketEvents extends Event
 	@Override
 	public String event( String data )
 	{
+		return this.event( data, null );
+	}
+	
+	@Override
+	public String event( String data, String session )
+	{
 		Gson gson = new Gson();
 		WebSocketOperation operation = null;
 
 		try
 		{
+			System.out.println( "session:" + session );
 			System.out.println( "data:" + data );
 			operation = gson.fromJson( data, WebSocketOperation.class );
 		}
@@ -31,6 +38,6 @@ public class WebSocketEvents extends Event
 			return gson.toJson( new JsonError( "Invalid JSON", 0x01 ) );
 		}
 
-		return gson.toJson( operation.process() );
+		return gson.toJson( operation.process( session ) );
 	}
 }

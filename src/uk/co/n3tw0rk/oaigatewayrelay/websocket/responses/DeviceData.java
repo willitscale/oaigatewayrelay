@@ -4,9 +4,9 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.WebSocketResponse;
 
 public class DeviceData extends WebSocketResponse
 {
-	public DeviceData( Object data )
+	public DeviceData( Object data, String session )
 	{
-		super( "DeviceData", data );
+		super( "DeviceData", data,session );
 	}
 	
 	@Override
@@ -16,7 +16,7 @@ public class DeviceData extends WebSocketResponse
 	}
 	
 	@Override
-	public void process( Object data )
+	public void process( Object data, String session )
 	{
 		
 	}

@@ -4,12 +4,12 @@ public abstract class WebSocketResponse
 {
 	public String mOperation;
 	
-	public WebSocketResponse( String operation, Object data )
+	public WebSocketResponse( String operation, Object data, String session )
 	{
 		this.mOperation = operation;
-		this.process( data );
+		this.process( data, session );
 	}
 
 	public abstract WebSocketResponse getResponse();
-	public abstract void process( Object data );
+	public abstract void process( Object data, String session );
 }

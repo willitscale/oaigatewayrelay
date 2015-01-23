@@ -4,9 +4,9 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.WebSocketResponse;
 
 public class NodeList extends WebSocketResponse
 {
-	public NodeList( Object data )
+	public NodeList( Object data, String session )
 	{
-		super( "NodeList", data );
+		super( "NodeList", data, session );
 	}
 	
 	@Override
@@ -16,7 +16,7 @@ public class NodeList extends WebSocketResponse
 	}
 	
 	@Override
-	public void process( Object data )
+	public void process( Object data, String session )
 	{
 		
 	}
