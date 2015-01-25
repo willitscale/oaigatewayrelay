@@ -347,7 +347,6 @@ public class QueryDeviceInfo extends Command
 	}
 	
 
-
 	/*
 	<Sequence_Number>,								005
 	CF,												CF

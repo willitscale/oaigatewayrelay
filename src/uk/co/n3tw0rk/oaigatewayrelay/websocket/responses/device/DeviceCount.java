@@ -1,7 +1,8 @@
-package uk.co.n3tw0rk.oaigatewayrelay.websocket.responses;
+package uk.co.n3tw0rk.oaigatewayrelay.websocket.responses.device;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.WebSocketResponse;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
+import uk.co.n3tw0rk.oaigatewayrelay.websocket.abstraction.WebSocketResponse;
+import uk.co.n3tw0rk.oaigatewayrelay.websocket.constants.OperationMap;
 import uk.co.n3tw0rk.websocketregistration.exceptions.HandshakeException;
 import uk.co.n3tw0rk.websocketregistration.exceptions.WebsocketVersionException;
 import uk.co.n3tw0rk.websocketregistration.factories.WebsocketVersionFactory;
@@ -13,7 +14,9 @@ public class DeviceCount extends WebSocketResponse
 	
 	public DeviceCount( Object data, String session )
 	{
-		super( "DeviceCount", data, session );
+		super( OperationMap.DEVICE_CONTROLLER,
+			OperationMap.DEVICE_COUNT_ACTION, 
+			data, session );
 	}
 
 	@Override
@@ -23,7 +26,7 @@ public class DeviceCount extends WebSocketResponse
 	}
 	
 	@Override
-	public void process( Object data, final String session )
+	public void process( Object data )
 	{
 		this.mDeviceCount = SystemController
 			.instance()
@@ -40,7 +43,7 @@ public class DeviceCount extends WebSocketResponse
 					try
 					{
 						Thread.sleep( 2000l );
-						ChannelSocketPool.put( session, WebsocketVersionFactory.parcelString( "HUR DUR" ) );
+						ChannelSocketPool.put( mSession, WebsocketVersionFactory.parcelString( "HUR DUR" ) );
 					}
 					catch( WebsocketVersionException e )
 					{

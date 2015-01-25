@@ -1,9 +1,9 @@
-package uk.co.n3tw0rk.oaigatewayrelay.websocket;
+package uk.co.n3tw0rk.oaigatewayrelay.websocket.events;
 
 import com.google.gson.Gson;
 
-import uk.co.n3tw0rk.oaigatewayrelay.factories.WebSocketOperation;
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.error.JsonError;
+import uk.co.n3tw0rk.oaigatewayrelay.websocket.factories.WebSocketOperation;
 import uk.co.n3tw0rk.websocketregistration.events.Event;
 
 public class WebSocketEvents extends Event
