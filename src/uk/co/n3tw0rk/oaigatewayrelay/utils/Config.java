@@ -26,6 +26,7 @@ public class Config
 		"pbx_name", 
 		"pbx_pass", 
 		"pbx_type", 
+		"pbx_noop", 
 		"ws_type",
 		"ws_host", 
 		"ws_port" };
@@ -46,6 +47,7 @@ public class Config
 	public static String PBX_NAME;
 	public static String PBX_PASS;
 	public static char PBX_TYPE = 0x87;
+	public static int PBX_NOOP;
 
 	public static String DB_PROTOCOL;
 	public static String DB_HOSTNAME;
@@ -141,21 +143,22 @@ public class Config
 	
 	public static void setVariable( String name, String value )
 	{
-		if( name.compareTo( "version" ) == 0 ) { VERSION = value; }
-		else if( name.compareTo( "debugging" ) == 0 ) { DEBUGGING = ( value.compareTo( "yes" ) == 0 ); } 
-		else if( name.compareTo( "pbx_host" ) == 0 ){ PBX_HOST = value; }
-		else if( name.compareTo( "pbx_port" ) == 0 ){ PBX_PORT = Integer.parseInt( value ); }
-		else if( name.compareTo( "pbx_name" ) == 0 ){ PBX_NAME = value; }
-		else if( name.compareTo( "pbx_pass" ) == 0 ){ PBX_PASS = value; }
-		else if( name.compareTo( "db_protocol" ) == 0 ) { DB_PROTOCOL = value; }
-		else if( name.compareTo( "db_hostname" ) == 0 ) { DB_HOSTNAME = value; }
-		else if( name.compareTo( "db_username" ) == 0 ) { DB_USERNAME = value; }
-		else if( name.compareTo( "db_password" ) == 0 ) { DB_PASSWORD = value; }
-		else if( name.compareTo( "db_database" ) == 0 ) { DB_DATABASE = value; }
-		else if( name.compareTo( "db_reconnect" ) == 0 ) { DB_RECONNECT = ( value.compareTo( "yes" ) == 0 ); }
-		else if( name.compareTo( "ws_type" ) == 0 ){ WS_TYPE = value; }
-		else if( name.compareTo( "ws_host" ) == 0 ){ WS_HOST = value; }
-		else if( name.compareTo( "ws_port" ) == 0 ){ WS_PORT = Integer.parseInt( value ); }
+		if( 0 == name.compareTo( "version" ) ) { VERSION = value; }
+		else if( 0 == name.compareTo( "debugging" ) ) { DEBUGGING = ( value.compareTo( "yes" ) == 0 ); } 
+		else if( 0 == name.compareTo( "pbx_host" ) ){ PBX_HOST = value; }
+		else if( 0 == name.compareTo( "pbx_port") ){ PBX_PORT = Integer.parseInt( value ); }
+		else if( 0 == name.compareTo( "pbx_name" ) ){ PBX_NAME = value; }
+		else if( 0 == name.compareTo( "pbx_pass" ) ){ PBX_PASS = value; }
+		else if( 0 == name.compareTo( "pbx_noop" ) ){ PBX_NOOP = Integer.parseInt( value ); }
+		else if( 0 == name.compareTo( "db_protocol" ) ) { DB_PROTOCOL = value; }
+		else if( 0 == name.compareTo( "db_hostname" ) ) { DB_HOSTNAME = value; }
+		else if( 0 == name.compareTo( "db_username" ) ) { DB_USERNAME = value; }
+		else if( 0 == name.compareTo( "db_password" ) ) { DB_PASSWORD = value; }
+		else if( 0 == name.compareTo( "db_database" ) ) { DB_DATABASE = value; }
+		else if( 0 == name.compareTo( "db_reconnect" ) ) { DB_RECONNECT = ( value.compareTo( "yes" ) == 0 ); }
+		else if( 0 == name.compareTo( "ws_type" ) ){ WS_TYPE = value; }
+		else if( 0 == name.compareTo( "ws_host" ) ){ WS_HOST = value; }
+		else if( 0 == name.compareTo( "ws_port" ) ){ WS_PORT = Integer.parseInt( value ); }
 
 		CONFIG_VALUES.put( name, value );
 	}

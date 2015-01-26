@@ -3,6 +3,14 @@ package uk.co.n3tw0rk.oaigatewayrelay.commands.system;
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
 import uk.co.n3tw0rk.oaigatewayrelay.utils.OAIToolkit;
 
+/**
+ * <strong>Connection Class</strong>
+ * 
+ * @author James Lockhart <james@n3tw0rk.co.uk>
+ * @version 1.0
+ * @since 25-01-2015
+ *
+ */
 public class Connection extends Command
 {
 	protected char mSocketType;

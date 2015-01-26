@@ -39,6 +39,7 @@ _DD, <InvokeID>,111,@003,2,| FOREVER |
 001,CF,_DD,<InvokeID>,0
 
  */
-public class DivertToDND {
+public class DivertToDND
+{
 
 }

@@ -4,6 +4,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.websocket.abstraction.FactoryResponse;
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.abstraction.WebSocketResponse;
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.constants.OperationMap;
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.responses.device.*;
+import uk.co.n3tw0rk.oaigatewayrelay.websocket.responses.generic.ActionInvalid;
 
 public class WebSocketDeviceResponse extends FactoryResponse
 {
@@ -16,7 +17,7 @@ public class WebSocketDeviceResponse extends FactoryResponse
 	{
 		if( null == this.mAction || this.mAction.isEmpty() )
 		{
-			return null;
+			return new ActionInvalid( this.mData, this.mSession );
 		}
 
 		if( 0 == OperationMap.DEVICE_COUNT_ACTION.compareToIgnoreCase( this.mAction ) )
@@ -40,7 +41,7 @@ public class WebSocketDeviceResponse extends FactoryResponse
 			return new DeviceCommand( this.mData, this.mSession );
 		}
 
-		return null;
+		return new ActionInvalid( this.mData, this.mSession );
 	}
 	
 }

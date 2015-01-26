@@ -49,4 +49,9 @@ public class PBXOutbound
 		
 		return mMessageQueue.pop();
 	}
+	
+	public static synchronized int size()
+	{
+		return mMessageQueue.size();
+	}
 }

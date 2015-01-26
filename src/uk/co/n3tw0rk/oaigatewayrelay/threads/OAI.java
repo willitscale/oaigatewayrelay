@@ -51,6 +51,7 @@ public class OAI implements Runnable
 		
 		OAIConnect connectSequence = new OAIConnect();
 
+		/*
 		LinkedList<String> messages = new LinkedList<String>();
 		
 		messages.add( null );
@@ -80,12 +81,12 @@ public class OAI implements Runnable
 					
 					if( null != tmpString )
 					{
-	/*
+						*/
 		try
 		{
-			System.out.println( "Connecting to " + Config.PBX_NAME + ":" + Config.PBX_PORT );
+			System.out.println( "Connecting to " + Config.PBX_HOST + ":" + Config.PBX_PORT );
 			
-			this.socket = new Socket( Config.PBX_NAME, Config.PBX_PORT );
+			this.socket = new Socket( Config.PBX_HOST, Config.PBX_PORT );
 			
 			System.out.println( "Connected" );
 			
@@ -93,7 +94,7 @@ public class OAI implements Runnable
 			this.out = new BufferedOutputStream( this.socket.getOutputStream() );
 			this.out.flush();
 
-			this.timeFromResponse = (int)(System.currentTimeMillis()/1000L);
+			this.timeFromResponse = ( int )( System.currentTimeMillis() / 1000L );
 
 			System.out.println( "Listening" );
 			while( true )
@@ -105,16 +106,15 @@ public class OAI implements Runnable
 					if( 4 <= tmpString.length() )
 					{
 						tmpString = tmpString.substring( 4 ).intern().trim();
-		
-	*/
+
 						System.out.println( " << " + tmpString );
 
 						String[] parts = Event.splitEvent( tmpString );
-						
+
 						if( 0 < parts.length )
 						{
 							Event event = EventFactory.getEvent( parts );
-							
+
 							if( event instanceof Confirmation )
 							{
 								int invokeID = ( ( Confirmation ) event ).getInvokeID();
@@ -133,31 +133,40 @@ public class OAI implements Runnable
 							}
 						}
 					}
-
+					else
+					{
+						this.delay();
+					}
 				}
-				else if( connectSequence.nextSequence() )
+				else if( connectSequence.nextSequence() || connectSequence.completed() )
 				{
 					tmpString = PBXOutbound.getNextMessage();
-					
-					if( null == tmpString )
-					{
-						continue;
-					}
-					
-					if( 4 <= tmpString.length() )
-					{
-						System.out.println( " >> " + tmpString.intern().trim() );
-						//System.out.println( " >> " + tmpString.substring( 4 ).intern().trim() );
-					}
-					
-					this.byteBuffer = tmpString.getBytes( "ISO-8859-1" ); // This char set is important for the byte sequence!
 
-					for( int i = 0; i < this.byteBuffer.length; i++ )
+					if( null != tmpString )
 					{
-					//	this.out.write( this.byteBuffer[ i ] );
+						if( 4 <= tmpString.length() )
+						{
+							//System.out.println( " >> " + tmpString.intern().trim() );
+							System.out.println( " >> " + tmpString.substring( 4 ).intern().trim() );
+						}
+	
+						this.byteBuffer = tmpString.getBytes( "ISO-8859-1" ); // This char set is important for the byte sequence!
+	
+						for( int i = 0; i < this.byteBuffer.length; i++ )
+						{
+							this.out.write( this.byteBuffer[ i ] );
+						}
+	
+						this.out.flush();
 					}
-					
-					//this.out.flush();
+					else
+					{
+						this.delay();
+					}
+				}
+				else
+				{
+					this.delay();
 				}
 			}
 		}
@@ -171,9 +180,24 @@ public class OAI implements Runnable
 			try { this.out.close(); } catch ( Exception e ) { e.printStackTrace(); }
 			try { this.socket.close(); } catch ( Exception e ) { e.printStackTrace(); }
 			try { Thread.sleep( RETRY_DELAY ); } catch( Exception e ) { e.printStackTrace(); }
-		}	
-
-		
+			run();
+		}
+	}
+	
+	/**
+	 * 
+	 * Cut down CPU consumption while inactive
+	 */
+	public void delay()
+	{
+		try
+		{
+			Thread.sleep( 100L ); 
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
 	}
 	
 }

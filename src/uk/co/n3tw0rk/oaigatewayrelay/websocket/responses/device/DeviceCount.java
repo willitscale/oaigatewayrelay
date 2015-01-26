@@ -32,33 +32,5 @@ public class DeviceCount extends WebSocketResponse
 			.instance()
 			.getDevices()
 			.size();
-		
-		( new Thread( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				for(;;)
-				{
-					try
-					{
-						Thread.sleep( 2000l );
-						ChannelSocketPool.put( mSession, WebsocketVersionFactory.parcelString( "HUR DUR" ) );
-					}
-					catch( WebsocketVersionException e )
-					{
-						e.printStackTrace();
-					}
-					catch( HandshakeException e )
-					{
-						e.printStackTrace();
-					}
-					catch( Exception e )
-					{
-						e.printStackTrace();
-					}
-				}
-			}
-		} ) ).start();
 	}
 }

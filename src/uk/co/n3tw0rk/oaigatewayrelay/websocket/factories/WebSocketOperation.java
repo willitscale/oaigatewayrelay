@@ -2,6 +2,8 @@ package uk.co.n3tw0rk.oaigatewayrelay.websocket.factories;
 
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.abstraction.WebSocketResponse;
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.constants.OperationMap;
+import uk.co.n3tw0rk.oaigatewayrelay.websocket.responses.generic.ActionInvalid;
+import uk.co.n3tw0rk.oaigatewayrelay.websocket.responses.generic.ControllerInvalid;
 
 public class WebSocketOperation
 {
@@ -13,7 +15,7 @@ public class WebSocketOperation
 	{
 		if( null == controller || controller.isEmpty() )
 		{
-			return null;
+			return new ControllerInvalid( this.data, session );
 		}
 
 		if( 0 == OperationMap.DEVICE_CONTROLLER.compareToIgnoreCase( controller ) )
@@ -25,6 +27,6 @@ public class WebSocketOperation
 			return ( new WebSocketNodeResponse( this.action, this.data, session ) ).process();
 		}
 
-		return null;
+		return new ControllerInvalid( this.data, session );
 	}
 }

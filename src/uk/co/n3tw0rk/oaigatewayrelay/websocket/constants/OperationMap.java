@@ -2,6 +2,12 @@ package uk.co.n3tw0rk.oaigatewayrelay.websocket.constants;
 
 public class OperationMap
 {
+	/** GENERIC EVENTS **/
+	public static final String GENERIC_CONTROLLER = "DEVICE";
+
+	public static final String GENERIC_INVALID_ACTION = "LIST";
+	
+	
 	/** DEVICE EVENTS **/
 	public static final String DEVICE_CONTROLLER = "DEVICE";
 
@@ -10,7 +16,6 @@ public class OperationMap
 	public static final String DEVICE_DATA_ACTION = "DATA";
 	public static final String DEVICE_MONITOR_ACTION = "MONITOR";
 	public static final String DEVICE_COMMAND_ACTION = "COMMAND";
-	public static final String DEVICE_INVALID_ACTION = "INVALID";
 
 	/** NODE EVENTS **/
 	public static final String NODE_CONTROLLER = "NODE";
@@ -20,7 +25,6 @@ public class OperationMap
 	public static final String NODE_DATA_ACTION = "DATA";
 	public static final String NODE_MONITOR_ACTION = "MONITOR";
 	public static final String NODE_COMMAND_ACTION = "COMMAND";
-	public static final String NODE_INVALID_ACTION = "INVALID";
 
 	/** AGENT EVENTS **/
 	public static final String AGENT_CONTROLLER = "AGENT";

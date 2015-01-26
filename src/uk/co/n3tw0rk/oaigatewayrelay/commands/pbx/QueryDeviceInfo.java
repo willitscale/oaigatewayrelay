@@ -324,7 +324,6 @@ device.
  */
 public class QueryDeviceInfo extends Command
 {
-
 	public static final String COMMAND = "_QI";
 	
 	protected int mAffectedExt;
@@ -345,7 +344,6 @@ public class QueryDeviceInfo extends Command
 	{
 		return COMMAND + "," + this.getInvokeID() + "," + this.getAffectedExt();
 	}
-	
 
 	/*
 	<Sequence_Number>,								005
