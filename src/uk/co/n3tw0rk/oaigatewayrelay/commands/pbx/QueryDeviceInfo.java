@@ -1,6 +1,9 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
+import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 
 /**
  * <strong>Query Device Info Class</strong>
@@ -374,5 +377,50 @@ public class QueryDeviceInfo extends Command
 	@Override
 	public void confirmation()
 	{
+		if( !( this.mEvent instanceof Confirmation ) )
+		{
+			return;
+		}
+		int partsSize = this.mEvent.getPartsSize();
+		
+		if( 0 == partsSize )
+		{
+			return;
+		}
+		
+		int extension = this.mEvent.getIntPart( 5 );
+		
+		Device device = SystemController
+			.instance()
+			.getDevices()
+			.getStructure( extension );
+		
+		if( null == device )
+		{
+			device = new Device()
+				.setExtension( extension );
+
+			SystemController
+				.instance()
+				.getDevices()
+				.addStructure( extension, device );
+		}
+		
+		device
+			.setDeviceType( this.mEvent.getIntPart( 6 ) )
+			.setDeviceClass( this.mEvent.getIntPart( 7 ) )
+			.setDescription( this.mEvent.getStringPart( 8 ) )
+			.setUsername( this.mEvent.getStringPart( 9 ) )
+			.setIsAdministrator( this.mEvent.getIntPart( 10 ) )
+			.setIsAttendant( this.mEvent.getIntPart( 11 ) )
+			.setAttendantExtension( this.mEvent.getIntPart( 12 ) )
+			.setDayCOSFlags( this.mEvent.getIntPart( 13 ) )
+			.setNightCOSFlags( this.mEvent.getIntPart( 14 ) )
+			.setVoiceMailExt( this.mEvent.getIntPart( 15 ) )
+			.setMailboxNodeNumber( this.mEvent.getIntPart( 16 ) )
+			.setStnSpeedDialBinData( this.mEvent.getIntPart( 17 ) )
+			.setPhysicalDeviceType( this.mEvent.getIntPart( 18 ) )
+			.setAccountCodeType( this.mEvent.getIntPart( 19 ) )
+			.setAccountCodeValidatedFlag( this.mEvent.getIntPart( 20 ) );
 	}
 }

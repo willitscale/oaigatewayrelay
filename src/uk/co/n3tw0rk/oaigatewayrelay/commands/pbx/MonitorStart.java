@@ -1,6 +1,7 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.consts.MonitorTypes;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Node;
@@ -343,19 +344,6 @@ public class MonitorStart extends Command
 	/** Affected Extension */
 	protected int mAffectedExt;
 	
-	public static final int MONITOR_TYPE_CALL = 0x00;
-	public static final int MONITOR_TYPE_DEVICE = 0x01;
-	public static final int MONITOR_TYPE_CALLS_VIA_DEVICE = 0x02;
-	public static final int MONITOR_TYPE_ALL_STATIONS = 0x03;
-	public static final int MONITOR_TYPE_ALL_TRUNKS = 0x04;
-	public static final int MONITOR_TYPE_DEVICE_RESYNC = 0x05;
-	public static final int MONITOR_TYPE_ALL_STATIONS_RESYNC = 0x06;
-	public static final int MONITOR_TYPE_AGENT = 0x07;
-	public static final int MONITOR_TYPE_CALL_TERMINATION = 0x08;
-	public static final int MONITOR_TYPE_VOICE_MAIL = 0x09;
-	public static final int MONITOR_TYPE_PRIVATE_NETWORK = 0x0A;
-	public static final int MONITOR_TYPE_SYSTEM = 0x0B;
-	
 	protected String mMonitorOptions;
 	
 	protected int mMonitorType;
@@ -392,7 +380,7 @@ public class MonitorStart extends Command
 	{
 		return this.mMonitorType;
 	}
-	
+
 	@Override
 	public String buildCommand()
 	{
@@ -423,29 +411,29 @@ public class MonitorStart extends Command
 
 		switch( this.getMonitorType() )
 		{
-			case MONITOR_TYPE_CALL : {}
-			case MONITOR_TYPE_DEVICE : {}
-			case MONITOR_TYPE_CALLS_VIA_DEVICE : {}
-			case MONITOR_TYPE_ALL_STATIONS : 
+			case MonitorTypes.MONITOR_TYPE_CALL : {}
+			case MonitorTypes.MONITOR_TYPE_DEVICE : {}
+			case MonitorTypes.MONITOR_TYPE_CALLS_VIA_DEVICE : {}
+			case MonitorTypes.MONITOR_TYPE_ALL_STATIONS : 
 			{
 				allStationsConfirmation();
 				return;
 			}
-			case MONITOR_TYPE_ALL_TRUNKS : {}
-			case MONITOR_TYPE_DEVICE_RESYNC : {}
-			case MONITOR_TYPE_ALL_STATIONS_RESYNC :	{}
-			case MONITOR_TYPE_AGENT : {}
-			case MONITOR_TYPE_CALL_TERMINATION : {}
-			case MONITOR_TYPE_VOICE_MAIL : 	{}
-			case MONITOR_TYPE_PRIVATE_NETWORK : {}
-			case MONITOR_TYPE_SYSTEM :
+			case MonitorTypes.MONITOR_TYPE_ALL_TRUNKS : {}
+			case MonitorTypes.MONITOR_TYPE_DEVICE_RESYNC : {}
+			case MonitorTypes.MONITOR_TYPE_ALL_STATIONS_RESYNC :	{}
+			case MonitorTypes.MONITOR_TYPE_AGENT : {}
+			case MonitorTypes.MONITOR_TYPE_CALL_TERMINATION : {}
+			case MonitorTypes.MONITOR_TYPE_VOICE_MAIL : 	{}
+			case MonitorTypes.MONITOR_TYPE_PRIVATE_NETWORK : {}
+			case MonitorTypes.MONITOR_TYPE_SYSTEM :
 			{
 				systemConfirmation();
 				return;
 			}
 		}
 	}
-	
+
 	/**
 	 * 3,			Sequence ID
 	 * CF,			Confirmation
