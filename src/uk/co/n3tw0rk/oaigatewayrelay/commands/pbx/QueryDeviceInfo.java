@@ -11,73 +11,79 @@ import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
  * @author James Lockhart <james@n3tw0rk.co.uk>
  * @version 1.0
  * @since 28-12-2014
-
-QUERY DEVICE INFO – _QI
-NOTE: This command is available only in protocol versions 03.00 and later.
-USE: Queries general information about a device. The confirmation event for this service includes
-information on the class and type of the device being queried. In V09.0 and later, an application
-can use the _QI command to obtain the station’s Account Code Type and Account Code
-Validated values. This is used by the application to prompt a user for an account code when
-making an outgoing CO call.
-PHANTOM
-USE:
-When this command is executed on a phantom device, the confirmation returns a TPC device
-type of “TPC KEYSET” (0). The TPC device class will be “TPC_VOICE” (0). Because a
-phantom cannot come on line as a physical device, the TPC physical device type will be
-“TPC_PHYSICAL_DEVICE_TYPE_NONE” (0).
-When a phantom is an attendant, this command returns "Operator" (11) for the TPC device
-type. Otherwise, a TPC_KEYSET value (0) will be returned.
-PREMIUM FEATURE: Third-Party Call Control prior to V05.20; System OAI Events or Third-Party Call Control after
-V05.20
-SYNTAX: _QI,<InvokeID>,<Affected_Ext><CR>
-Where valid device types for <Affected_Ext> include a keyset, single-line set, modem (Axxess
-only), trunk, voice mail application, hunt/ACD group, or trunk group.
-CONFIRMATION
-(03.00 < V <
-05.10):
-<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
-<Device_Type>,<Device_Class>,<Description><CR><LF>
-CONFIRMATION
-(05.10 <= V <
-05.20):
-If <Affected_Ext> is a station device:
-<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
-<Device_Type>,<Device_Class>,<Description>,<Username>,
-<Is_An_Administrator>,<Is_An_Attendant>,<Attendant_Extension>,
-<Day_COS_Flags>,<Night_COS_Flags>,<Voice_Mail_Ext><CR><LF>
-If <Affected_Ext> is NOT a station device:
-<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
-<Device_Type>,<Device_Class>,<Description>,<Username><CR><LF>
-CONFIRMATION
-(05.20 <= V <
-06.00):
-If <Affected_Ext> is a station device:
-<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
-<Device_Type>,<Device_Class>,<Description>,<Username>,
-<Is_An_Administrator>,<Is_An_Attendant>,<Attendant_Extension>,
-<Day_COS_Flags>,<Night_COS_Flags>,<Voice_Mail_Ext>,
-<Mailbox_Node_Number><CR><LF>
-CONFIRMATION
-(06.00 <= V <
-07.00):
-If <Affected_Ext> is a station device:
-<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
-<Device_Type>,<Device_Class>,<Description>,<Username>,
-<Is_An_Administrator>,<Is_An_Attendant>,<Attendant_Extension>,
-<Day_COS_Flags>,<Night_COS_Flags>,<Voice_Mail_Ext>,
-<Mailbox_Node_Number>,<Stn_Speed_Dial_Bin_Data><CR><LF>
-If <Affected_Ext> is NOT a station device:
-<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
-<Device_Type>,<Device_Class>,<Description>,<Username><CR><LF>
-CONFIRMATION
-(07.00 <= V <
-08.10):
-If <Affected_Ext> is a station device:
-<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
-<Device_Type>,<Device_Class>,<Description>,<Username>,
-<Is_An_Administrator>,<Is_An_Attendant>,<Attendant_Extension>,
-<Day_COS_Flags>,<Night_COS_Flags>,<Voice_Mail_Ext>,
-<Mailbox_Node_Number>,<Stn_Speed_Dial_Bin_Data><CR><LF>
+ * 
+ * 	QUERY DEVICE INFO – _QI
+ * 
+ * 	NOTE: 
+ * 		This command is available only in protocol versions 03.00 and later.
+ * 	
+ * 	USE: 
+ * 		Queries general information about a device. The confirmation event for this service includes
+ * 		information on the class and type of the device being queried. In V09.0 and later, an application
+ * 		can use the _QI command to obtain the station’s Account Code Type and Account Code
+ * 		Validated values. This is used by the application to prompt a user for an account code when
+ * 		making an outgoing CO call.
+ * 
+ * PHANTOM USE:
+ * 		When this command is executed on a phantom device, the confirmation returns a TPC device
+ * 		type of “TPC KEYSET” (0). The TPC device class will be “TPC_VOICE” (0). Because a
+ * 		phantom cannot come on line as a physical device, the TPC physical device type will be
+ * 		“TPC_PHYSICAL_DEVICE_TYPE_NONE” (0).
+ * 		When a phantom is an attendant, this command returns "Operator" (11) for the TPC device
+ * 		type. Otherwise, a TPC_KEYSET value (0) will be returned.
+ * 
+ * 	PREMIUM FEATURE: 
+ * 		Third-Party Call Control prior to V05.20; System OAI Events or Third-Party Call Control after
+ * 
+ * 	V05.20 SYNTAX: 
+ * 		_QI,<InvokeID>,<Affected_Ext><CR>
+ * 
+ * 		Where valid device types for <Affected_Ext> include a keyset, single-line set, modem (Axxess
+ * 		only), trunk, voice mail application, hunt/ACD group, or trunk group.
+ * 
+ * CONFIRMATION (03.00 < V < * 05.10):
+ * 		<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
+ * 		<Device_Type>,<Device_Class>,<Description><CR><LF>
+ * 
+ * CONFIRMATION (05.10 <= V < 05.20):
+ * 		If <Affected_Ext> is a station device:
+ * 		<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
+ * 		<Device_Type>,<Device_Class>,<Description>,<Username>,
+ * 		<Is_An_Administrator>,<Is_An_Attendant>,<Attendant_Extension>,
+ * 		<Day_COS_Flags>,<Night_COS_Flags>,<Voice_Mail_Ext><CR><LF>
+ * 
+ * 		If <Affected_Ext> is NOT a station device:
+ * 		<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
+ * 		<Device_Type>,<Device_Class>,<Description>,<Username><CR><LF>
+ * 
+ * CONFIRMATION (05.20 <= V < 06.00):
+ * 		If <Affected_Ext> is a station device:
+ * 		<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
+ * 		<Device_Type>,<Device_Class>,<Description>,<Username>,
+ * 		<Is_An_Administrator>,<Is_An_Attendant>,<Attendant_Extension>,
+ * 		<Day_COS_Flags>,<Night_COS_Flags>,<Voice_Mail_Ext>,
+ * 		<Mailbox_Node_Number><CR><LF>
+ * 
+ * CONFIRMATION (06.00 <= V < 07.00):
+ * 		If <Affected_Ext> is a station device:
+ * 		<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
+ * 		<Device_Type>,<Device_Class>,<Description>,<Username>,
+ * 		<Is_An_Administrator>,<Is_An_Attendant>,<Attendant_Extension>,
+ * 		<Day_COS_Flags>,<Night_COS_Flags>,<Voice_Mail_Ext>,
+ * 		<Mailbox_Node_Number>,<Stn_Speed_Dial_Bin_Data><CR><LF>
+ * 
+ * 		If <Affected_Ext> is NOT a station device:
+ * 		<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
+ * 		<Device_Type>,<Device_Class>,<Description>,<Username><CR><LF>
+ * 
+ * CONFIRMATION (07.00 <= V < 08.10):
+ * 		If <Affected_Ext> is a station device:
+ * 		<Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
+ * 		<Device_Type>,<Device_Class>,<Description>,<Username>,
+ * 		<Is_An_Administrator>,<Is_An_Attendant>,<Attendant_Extension>,
+ * 		<Day_COS_Flags>,<Night_COS_Flags>,<Voice_Mail_Ext>,
+ * 		<Mailbox_Node_Number>,<Stn_Speed_Dial_Bin_Data><CR><LF>
+ * 
 If <Affected_Ext> is NOT a station device:
 <Sequence_Number>,CF,_QI,<InvokeID>,<Outcome>,<Affected_Ext>,
 <DeviceType>,<DeviceClass>,<Description>,<Username>,
@@ -381,6 +387,7 @@ public class QueryDeviceInfo extends Command
 		{
 			return;
 		}
+
 		int partsSize = this.mEvent.getPartsSize();
 		
 		if( 0 == partsSize )

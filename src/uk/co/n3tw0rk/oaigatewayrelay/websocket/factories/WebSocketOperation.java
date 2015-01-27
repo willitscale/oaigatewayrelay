@@ -2,7 +2,6 @@ package uk.co.n3tw0rk.oaigatewayrelay.websocket.factories;
 
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.abstraction.WebSocketResponse;
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.constants.OperationMap;
-import uk.co.n3tw0rk.oaigatewayrelay.websocket.responses.generic.ActionInvalid;
 import uk.co.n3tw0rk.oaigatewayrelay.websocket.responses.generic.ControllerInvalid;
 
 public class WebSocketOperation

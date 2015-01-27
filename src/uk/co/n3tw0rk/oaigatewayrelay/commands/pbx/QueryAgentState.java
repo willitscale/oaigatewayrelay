@@ -1,6 +1,7 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 
 /**
  * <strong>Query Agent State Class</strong>
@@ -134,8 +135,24 @@ public class QueryAgentState extends Command
 		return command += "," + this.getACDHuntGroup();
 	}
 
+	/**
+	 * <strong>Confirmation Method</strong>
+	 * 
+	 * @return void
+	 */
 	@Override
 	public void confirmation()
 	{
+		if( !( this.mEvent instanceof Confirmation ) )
+		{
+			return;
+		}
+
+		int partsSize = this.mEvent.getPartsSize();
+		
+		if( 0 == partsSize )
+		{
+			return;
+		}
 	}
 }

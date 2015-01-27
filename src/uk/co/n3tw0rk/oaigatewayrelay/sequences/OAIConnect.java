@@ -7,9 +7,9 @@ import uk.co.n3tw0rk.oaigatewayrelay.commands.pbx.MonitorStart;
 import uk.co.n3tw0rk.oaigatewayrelay.commands.pbx.QueryAgentState;
 import uk.co.n3tw0rk.oaigatewayrelay.commands.pbx.QueryDeviceInfo;
 import uk.co.n3tw0rk.oaigatewayrelay.commands.system.Connection;
+import uk.co.n3tw0rk.oaigatewayrelay.consts.MonitorTypes;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.Devices;
-import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
 import uk.co.n3tw0rk.oaigatewayrelay.threads.OAIAlive;
 import uk.co.n3tw0rk.oaigatewayrelay.utils.Config;
 
@@ -81,7 +81,7 @@ public class OAIConnect
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new MonitorStart()
 					.setAffectedExt( -1 )
-					.setMonitorType( MonitorStart.MONITOR_TYPE_ALL_STATIONS )
+					.setMonitorType( MonitorTypes.MONITOR_TYPE_ALL_STATIONS )
 					.setMonitorOptions( "A:FFFF,C:FFFF,F:FFFF" ) );
 				break;
 			}
@@ -90,7 +90,7 @@ public class OAIConnect
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new MonitorStart()
 					.setAffectedExt( -1 )
-					.setMonitorType( MonitorStart.MONITOR_TYPE_SYSTEM )
+					.setMonitorType( MonitorTypes.MONITOR_TYPE_SYSTEM )
 					.setMonitorOptions( "S:FFFF" ) );
 				break;
 			}

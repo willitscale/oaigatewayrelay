@@ -4,29 +4,20 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.LinkedList;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Event;
 import uk.co.n3tw0rk.oaigatewayrelay.buffers.PBXOutbound;
-import uk.co.n3tw0rk.oaigatewayrelay.commands.gateway.NodeAware;
-import uk.co.n3tw0rk.oaigatewayrelay.commands.pbx.MonitorStart;
-import uk.co.n3tw0rk.oaigatewayrelay.commands.pbx.QueryDeviceInfo;
 import uk.co.n3tw0rk.oaigatewayrelay.commands.system.Connection;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 import uk.co.n3tw0rk.oaigatewayrelay.events.miscellaneous.ResyncEnded;
 import uk.co.n3tw0rk.oaigatewayrelay.factories.EventFactory;
 import uk.co.n3tw0rk.oaigatewayrelay.sequences.OAIConnect;
 import uk.co.n3tw0rk.oaigatewayrelay.utils.Config;
-import uk.co.n3tw0rk.oaigatewayrelay.utils.OAIToolkit;
 
 public class OAI implements Runnable
 {
 	private final long RETRY_DELAY = 1000L;
-	private final long RESPONSE_TIMEOUT = 25; // The no operation runs every 20 seconds so 25 seconds should be more than enough for a socket timeout
-	
-	private int timeFromResponse = 0;
 
 	private BufferedOutputStream out = null;
 	private BufferedReader in = null;
@@ -93,8 +84,6 @@ public class OAI implements Runnable
 			this.in = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
 			this.out = new BufferedOutputStream( this.socket.getOutputStream() );
 			this.out.flush();
-
-			this.timeFromResponse = ( int )( System.currentTimeMillis() / 1000L );
 
 			System.out.println( "Listening" );
 			while( true )
