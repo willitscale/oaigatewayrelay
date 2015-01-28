@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.threads;
 
-import uk.co.n3tw0rk.websocketregistration.config.Config;
+import uk.co.n3tw0rk.oaigatewayrelay.utils.Config;
 import uk.co.n3tw0rk.websocketregistration.events.EventRegistration;
 import uk.co.n3tw0rk.websocketregistration.threads.ChannelWebSocketServer;
 
@@ -13,7 +13,7 @@ public class OAIApplication implements Runnable
 		
 		try
 		{
-			( new ChannelWebSocketServer( Config.SERVER_SOCKET, new EventRegistration() ) ).start();
+			( new ChannelWebSocketServer( Config.WS_HOST, Config.WS_PORT, new EventRegistration() ) ).start();
 		}
 		catch( Exception e )
 		{
