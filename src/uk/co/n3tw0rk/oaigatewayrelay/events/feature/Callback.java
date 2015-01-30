@@ -1,7 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.feature;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Feature;
-import uk.co.n3tw0rk.oaigatewayrelay.events.gateway.ConnectionStatusEvent;
 
 /**
  * <strong>Callback Class</strong>
@@ -107,6 +106,8 @@ import uk.co.n3tw0rk.oaigatewayrelay.events.gateway.ConnectionStatusEvent;
  */
 public class Callback extends Feature
 {
+	public final static String EVENT = "CB";
+
 	/** On/Off */
 	protected int mOnOff;
 	/** Affected_Ext */

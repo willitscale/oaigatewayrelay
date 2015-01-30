@@ -43,6 +43,8 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Feature;
  */
 public class CallInfo extends Feature
 {
+	public final static String EVENT = "CI";
+
 	/** Call_ID */
 	protected int mCallID;
 	/** Device_Ext */

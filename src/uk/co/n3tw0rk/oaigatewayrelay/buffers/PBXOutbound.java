@@ -7,8 +7,10 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
 
 public class PBXOutbound
 {
+	// TODO : Consider using ConcurrentLinkedQueue (does not support pop)
 	protected static LinkedList<String> mMessageQueue = new LinkedList<String>();
 	
+	// TODO : Consider using ConcurrentHashMap
 	protected static HashMap<Integer,Command> mCommandQueue = new HashMap<Integer,Command>();
 	
 	protected static final int MAXIMUM_INVOKE = 65535;
