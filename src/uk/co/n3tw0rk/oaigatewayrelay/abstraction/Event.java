@@ -77,6 +77,11 @@ public abstract class Event implements OAIPacket
 		return this.mMonCrossRefID;
 	}
 	
+	/**
+	 * 
+	 * @param eventString
+	 * @return
+	 */
 	public static String[] splitEvent( String eventString )
 	{
 		if( null == eventString || eventString.trim().isEmpty() )
@@ -84,6 +89,10 @@ public abstract class Event implements OAIPacket
 			return new String[]{};
 		}
 
+		/**
+		 * TODO : 	FACTOR IN THAT STRING DELIMITERS ARE | AND SHOULD BE SPLIT 
+		 * 			AROUND THIS IN CASE THE THE STRING CONTAINS A ,
+		 */
 		return eventString.split( "," );
 	}
 	

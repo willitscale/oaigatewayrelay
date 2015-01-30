@@ -62,5 +62,7 @@ public class NoOperation extends Command
 	@Override
 	public void confirmation()
 	{
+		/* Not sure if it's a good idea to use this as a node checking
+		 mechanism or simply relay on the Link Status Events */
 	}
 }
