@@ -1,4 +1,4 @@
-package uk.co.n3tw0rk.oaigatewayrelay.abstraction;
+package uk.co.n3tw0rk.oaigatewayrelay.abstraction.events;
 
 import uk.co.n3tw0rk.oaigatewayrelay.interfaces.OAIPacket;
 

@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.sequences;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
 import uk.co.n3tw0rk.oaigatewayrelay.buffers.PBXOutbound;
 import uk.co.n3tw0rk.oaigatewayrelay.commands.gateway.NodeAware;
 import uk.co.n3tw0rk.oaigatewayrelay.commands.pbx.MonitorStart;

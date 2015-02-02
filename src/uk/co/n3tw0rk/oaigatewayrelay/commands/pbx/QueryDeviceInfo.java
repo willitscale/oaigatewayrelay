@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;

@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Event;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Event;
 
 public class Confirmation extends Event
 {

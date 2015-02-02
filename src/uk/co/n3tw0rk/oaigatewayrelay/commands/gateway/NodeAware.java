@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.gateway;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
 
 /**
  * <strong>Node Aware Class</strong>

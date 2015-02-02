@@ -3,7 +3,7 @@ package uk.co.n3tw0rk.oaigatewayrelay.buffers;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
 
 public class PBXOutbound
 {

@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
 
 /**
  * <strong>No Operation Class</strong>
@@ -10,6 +10,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
  * @since 28-12-2014
  *
  * 	NO OPERATION – _NO
+ * 
  * 	USE: 
  * 		Allows the attached computer to verify that the System OAI link and system are operational.
  * 		The phone system simply replies back without performing any operation.

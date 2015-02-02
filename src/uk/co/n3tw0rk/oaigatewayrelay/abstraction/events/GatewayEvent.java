@@ -1,6 +1,5 @@
 package uk.co.n3tw0rk.oaigatewayrelay.abstraction.events;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Event;
 
 public abstract class GatewayEvent extends Event
 {

@@ -5,8 +5,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Command;
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Event;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Event;
 import uk.co.n3tw0rk.oaigatewayrelay.buffers.PBXOutbound;
 import uk.co.n3tw0rk.oaigatewayrelay.commands.system.Connection;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
