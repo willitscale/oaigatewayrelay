@@ -1,10 +1,9 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.AffectedExt;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.CallCommand;
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
 
 /**
- * 
  * <strong>Accept Offered Call Class</strong>
  * 
  * @author James Lockhart <james@n3tw0rk.co.uk>
@@ -100,24 +99,12 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
  * 			_AOC,249,100,*01,1,1
  * 			003,CF,_AOC,249,0,100,*01
  */
-public class AcceptOfferedCall extends AffectedExt
+public class AcceptOfferedCall extends CallCommand
 {
 	public static final String COMMAND = "_AOC";
-
-	protected String mCallID;
+	
 	protected int mProhibitImmediateConnect;
 	protected int mOverrideDND;
-	
-	public Command setCallID( String callID )
-	{
-		this.mCallID = callID;
-		return this;
-	}
-	
-	public String getCallID()
-	{
-		return this.mCallID;
-	}
 	
 	public Command setProhibitImmediateConnect( int prohibitImmediateConnect )
 	{
@@ -140,7 +127,6 @@ public class AcceptOfferedCall extends AffectedExt
 	{
 		return this.mOverrideDND;
 	}
-	
 
 	@Override
 	public String buildCommand()
@@ -164,10 +150,6 @@ public class AcceptOfferedCall extends AffectedExt
 	}
 
 	@Override
-	public void confirmation()
-	{
-		/* Not sure if it's a good idea to use this as a node checking
-		 mechanism or simply relay on the Link Status Events */
-	}
+	public void confirmation() {}
 }
 
