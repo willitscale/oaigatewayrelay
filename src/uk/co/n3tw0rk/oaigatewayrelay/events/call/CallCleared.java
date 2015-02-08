@@ -70,25 +70,6 @@ public class CallCleared extends Call
 	{
 		super( eventString );
 	}
-
-	/**
-	 * 0 <SEQUENCE_NUMBER>
-	 * 1 <EVENT>
-	 * 2 <Resync_Code>,
-	 * 3 <Mon_Cross_Ref_ID>
-	 * 4 <Call_ID>
-	 * 5 <Event_Cause>
-	 * 6 <Transferred_Call_ID>
-	 * 7 <Transfer_Destination>
-	 */
-	@Override
-	protected void parseEvent()
-	{
-		super.parseEvent();
-		this.setCallID( this.getIntPart( 4 ) );
-		this.setTransferredCallID( this.getIntPart( 5 ) );
-		this.setTransferDestination( this.getIntPart( 6 ) );
-	}
 	
 	public CallCleared setEventCause( int eventCause )
 	{
@@ -121,5 +102,24 @@ public class CallCleared extends Call
 	public int getTransferDestination()
 	{
 		return this.mTransferDestination;
+	}
+
+	/**
+	 * 0 <SEQUENCE_NUMBER>
+	 * 1 <EVENT>
+	 * 2 <Resync_Code>,
+	 * 3 <Mon_Cross_Ref_ID>
+	 * 4 <Call_ID>
+	 * 5 <Event_Cause>
+	 * 6 <Transferred_Call_ID>
+	 * 7 <Transfer_Destination>
+	 */
+	@Override
+	protected void parseEvent()
+	{
+		super.parseEvent();
+		this.setCallID( this.getIntPart( 4 ) );
+		this.setTransferredCallID( this.getIntPart( 5 ) );
+		this.setTransferDestination( this.getIntPart( 6 ) );
 	}
 }

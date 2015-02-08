@@ -1,7 +1,9 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Event;
 
 /**
  * <strong>Conferenced Class</strong>
@@ -79,9 +81,145 @@ public class Conferenced extends Call
 		super( event );
 	}
 
+	/** Subject Ext */
+	protected int mSubjectExt;
+	
+	/** Primary Call ID */
+	protected int mPrimaryCallID;
+	
+	/** Seconary Call ID */
+	protected int mSecondaryCallID;
+	
+	/** Conf Controller Ext */
+	protected int mConfControllerExt;
+	
+	/** Number of Parties */
+	protected int mNumberOfParties;
+	
+	/** Parties */
+	protected List<Party> mParties = new LinkedList<Party>();
+	
+	public class Party
+	{
+		public int mCallID;
+		public int mParty;
+		
+		public Party( int callID, int party )
+		{
+			this.mCallID = callID;
+			this.mParty = party;
+		}
+	}
+
+	public Conferenced setSubjectExt( int subjectExt )
+	{
+		this.mSubjectExt = subjectExt;
+		return this;
+	}
+	
+	public int getSubjectExt()
+	{
+		return this.mSubjectExt;
+	}
+	
+	public Conferenced setPrimaryCallID( int primaryCallID )
+	{
+		this.mPrimaryCallID = primaryCallID;
+		return this;
+	}
+	
+	public int getPrimaryCallID()
+	{
+		return this.mPrimaryCallID;
+	}
+	
+	public Conferenced setSecondaryCallID( int secondaryCallID )
+	{
+		this.mSecondaryCallID = secondaryCallID;
+		return this;
+	}
+	
+	public int getSecondaryCallID()
+	{
+		return this.mSecondaryCallID;
+	}
+	
+	public Conferenced setConfControllerExt( int confControllerExt )
+	{
+		this.mConfControllerExt = confControllerExt;
+		return this;
+	}
+	
+	public int getConfControllerExt()
+	{
+		return this.mConfControllerExt;
+	}
+	
+	public Conferenced setNumberOfParties( int numberOfParties )
+	{
+		this.mNumberOfParties = numberOfParties;
+		return this;
+	}
+	
+	public int getNumberOfParties()
+	{
+		return this.mNumberOfParties;
+	}
+	
+	public Conferenced addParty( Party party )
+	{
+		if( null != party )
+		{
+			this.mParties.add( party );
+		}
+
+		return this;
+	}
+	
+	public List<Party> getParties()
+	{
+		return this.mParties;
+	}
+	
+	/**
+	 * 0 <SEQUENCE_NUMBER>
+	 * 1 <EVENT>
+	 * 2 <Resync_Code>
+	 * 3 <Mon_Cross_Ref_ID>
+	 * 4 <Subject_Ext>
+	 * 5 <Primary_Call_ID>
+	 * 6 <Secondary_Call_ID>
+	 * 7 <Conf_Controller_Ext>
+	 * 8 <Number_Of_Parties>
+	 * #A <Party #N>
+	 * #B <Call_ID #N>,
+	 * n-2 <Local_Cnx_State>,
+	 * n-1 <Event_Cause>
+	 */
 	@Override
 	protected void parseEvent()
 	{
+		super.parseEvent();
+
+		this.setSubjectExt( this.getIntPart( 4 ) );
+		this.setPrimaryCallID( this.getIntPart( 5 ) );
+		this.setSecondaryCallID( this.getIntPart( 6 ) );
+		this.setConfControllerExt( this.getIntPart( 7 ) );
+		this.setNumberOfParties( this.getIntPart( 8 ) );
+
+		int partySize = ( this.getPartsSize() - 11 ) / 2;
+
+		if( partySize == this.getIntPart( 8 ) )
+		{
+			for( int i = 0; i < partySize * 2; i+=2 )
+			{
+				this.addParty( new Party( this.getIntPart( i ), 
+					this.getIntPart( i + 1 ) ) );
+			}
+		}
+
+		this.setLocalCnxState( this.getStringPart( this.getPartsSize() - 2 ) );
+		this.setEventCause( this.getIntPart( this.getPartsSize() - 1 ) );
 	}
 
 }

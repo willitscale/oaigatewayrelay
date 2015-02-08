@@ -5,6 +5,12 @@ public abstract class Call extends Event
 	/** Call ID */
 	protected int mCallID;
 	
+	/** Local Cnx State */
+	protected String mLocalCnxState;
+	
+	/** Event Cause */
+	protected int mEventCause;
+	
 	public Call( String eventParts )
 	{
 		super( eventParts );
@@ -13,6 +19,39 @@ public abstract class Call extends Event
 	public Call( String[] eventParts )
 	{
 		super( eventParts );
+	}
+	
+	public Call setCallID( int callID )
+	{
+		this.mCallID = callID;
+		return this;
+	}
+	
+	public int getCallID()
+	{
+		return this.mCallID;
+	}
+	
+	public Call setLocalCnxState( String localCnxState )
+	{
+		this.mLocalCnxState = localCnxState;
+		return this;
+	}
+	
+	public String getLocalCnxState()
+	{
+		return this.mLocalCnxState;
+	}
+	
+	public Call setEventCause( int eventCause )
+	{
+		this.mEventCause = eventCause;
+		return this;
+	}
+	
+	public int getEventCause()
+	{
+		return this.mEventCause;
 	}
 
 	/**
@@ -28,17 +67,6 @@ public abstract class Call extends Event
 		this.setEvent( this.getStringPart( 1 ) );
 		this.setResyncCode( this.getIntPart( 2 ) );
 		this.setMonCrossRefID( this.getIntPart( 3 ) );
-	}
-	
-	public Call setCallID( int callID )
-	{
-		this.mCallID = callID;
-		return this;
-	}
-	
-	public int getCallID()
-	{
-		return this.mCallID;
 	}
 
 }

@@ -93,7 +93,7 @@ public abstract class Event implements OAIPacket
 		 * TODO : 	FACTOR IN THAT STRING DELIMITERS ARE | AND SHOULD BE SPLIT 
 		 * 			AROUND THIS IN CASE THE THE STRING CONTAINS A ,
 		 */
-		return eventString.split( "," );
+		return eventString.split( ",(?=(?:(?:[^\"\']*[\"\']){2})*[^\"\']*$)" );
 	}
 	
 	public int getIntPart( int index )
