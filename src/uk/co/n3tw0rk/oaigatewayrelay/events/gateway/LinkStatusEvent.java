@@ -111,4 +111,9 @@ public class LinkStatusEvent extends GatewayEvent
 		this.setLinkStatus( this.getIntPart( 4 ) );
 		this.setReasonCode( this.getIntPart( 5 ) );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

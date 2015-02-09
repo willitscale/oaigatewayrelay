@@ -6,20 +6,29 @@ import uk.co.n3tw0rk.websocketregistration.threads.ChannelWebSocketServer;
 
 public class OAIApplication implements Runnable
 {
+	public static OAI mOAIThread;
+	
+	public static EventProcessor mEventProcessorThread;
+	
 	@Override
 	public void run()
 	{
-		( new Thread( new OAI() ) ).start();
-		
+		mOAIThread = new OAI();
+		mEventProcessorThread = new EventProcessor();
+
+		( new Thread( mOAIThread ) ).start();
+		( new Thread( mEventProcessorThread ) ).start();
+
 		try
 		{
-			( new ChannelWebSocketServer( Config.WS_HOST, Config.WS_PORT, new EventRegistration() ) ).start();
+			( new ChannelWebSocketServer( Config.WS_HOST, 
+				Config.WS_PORT, new EventRegistration() ) ).start();
 		}
 		catch( Exception e )
 		{
 			e.printStackTrace();
 		}
-		
+
 		this.indefinite();
 	}
 	

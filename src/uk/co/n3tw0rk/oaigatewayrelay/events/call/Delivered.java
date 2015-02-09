@@ -161,4 +161,9 @@ public class Delivered extends Call
 		super.parseEvent();
 		this.setCallID( this.getIntPart( 4 ) );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

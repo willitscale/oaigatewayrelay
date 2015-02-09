@@ -122,4 +122,9 @@ public class CallCleared extends Call
 		this.setTransferredCallID( this.getIntPart( 5 ) );
 		this.setTransferDestination( this.getIntPart( 6 ) );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

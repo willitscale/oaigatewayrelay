@@ -9,11 +9,23 @@ import uk.co.n3tw0rk.oaigatewayrelay.utils.Config;
 
 public class MySQLConnection
 {
-
+	private static MySQLConnection mInstance;
+	
+	public static MySQLConnection instance()
+	{
+		if( null == mInstance )
+		{
+			mInstance = new MySQLConnection();
+		}
+		
+		return mInstance;
+	}
+	
 	private Connection mysqlConnection = null;
+
 	private boolean queryExecuted;
 	
-	public MySQLConnection()
+	private MySQLConnection()
 	{
 		this.connect();
 	}
@@ -23,10 +35,13 @@ public class MySQLConnection
 	{
 		try
 		{
-			mysqlConnection = DriverManager.getConnection( String.format( 
+			String connectionString = String.format( 
 					"jdbc:%1$s://%2$s/%3$s?user=%4$s&password=%5$s%6$s", 
 					Config.DB_PROTOCOL, Config.DB_HOSTNAME, Config.DB_DATABASE, 
-					"root", "foo32PANTS", Config.DB_RECONNECT ? "&autoReconnect=true" : "" ) );
+					Config.DB_USERNAME, Config.DB_PASSWORD, Config.DB_RECONNECT ? "&autoReconnect=true" : "" );
+		
+			System.out.println( connectionString );
+			mysqlConnection = DriverManager.getConnection( connectionString );
 		}
 		catch( SQLException e )
 		{

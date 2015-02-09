@@ -53,4 +53,9 @@ public class Logoff extends AgentLog
 	{
 		super( event );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

@@ -44,4 +44,9 @@ public class WorkNotReady extends Agent
 	{
 		super( event );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

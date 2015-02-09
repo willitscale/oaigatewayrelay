@@ -222,4 +222,8 @@ public class Conferenced extends Call
 		this.setEventCause( this.getIntPart( this.getPartsSize() - 1 ) );
 	}
 
+	@Override
+	public void process()
+	{
+	}
 }

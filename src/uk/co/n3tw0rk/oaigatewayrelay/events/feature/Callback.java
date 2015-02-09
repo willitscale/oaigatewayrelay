@@ -235,4 +235,9 @@ public class Callback extends Feature
 		this.setAccountCode( this.getIntPart( 9 ) );
 		this.setOutsideNumber( this.getIntPart( 10 ) );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

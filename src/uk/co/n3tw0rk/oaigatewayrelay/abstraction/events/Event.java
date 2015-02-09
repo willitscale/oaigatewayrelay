@@ -131,4 +131,6 @@ public abstract class Event implements OAIPacket
 	{
 		return this.mEventParts.length;
 	}
+	
+	public abstract void process();
 }

@@ -45,4 +45,9 @@ public class NotReady extends Agent
 	{
 		super( event );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

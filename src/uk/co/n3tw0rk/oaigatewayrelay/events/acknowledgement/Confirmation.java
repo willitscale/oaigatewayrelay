@@ -58,5 +58,9 @@ public class Confirmation extends Event
 	{
 		return this.mCommand;
 	}
-	
+
+	@Override
+	public void process()
+	{
+	}
 }

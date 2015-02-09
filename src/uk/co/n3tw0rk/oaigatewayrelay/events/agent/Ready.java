@@ -46,5 +46,9 @@ public class Ready extends Agent
 	{
 		super( event );
 	}
-	
+
+	@Override
+	public void process()
+	{
+	}
 }

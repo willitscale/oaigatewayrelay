@@ -112,4 +112,9 @@ public class CallInfo extends Feature
 		this.setDeviceExt( this.getIntPart( 5 ) );
 		this.setAccountCode( this.getIntPart( 6 ) );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

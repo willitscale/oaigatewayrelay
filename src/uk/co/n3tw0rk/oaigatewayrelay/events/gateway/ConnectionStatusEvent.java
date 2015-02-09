@@ -163,4 +163,9 @@ public class ConnectionStatusEvent extends GatewayEvent
 		this.setPreviousNodeNumber( this.getIntPart( 5 ) );
 		this.setCurrentNodeNumber( this.getIntPart( 6 ) );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

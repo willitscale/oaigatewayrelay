@@ -112,4 +112,8 @@ public class ConnectionCleared extends Call
 		this.setEventCause( this.getIntPart( 8 ) );
 	}
 
+	@Override
+	public void process()
+	{
+	}
 }

@@ -52,4 +52,8 @@ public class ResyncEnded extends Event
 	{
 	}
 
+	@Override
+	public void process()
+	{
+	}
 }

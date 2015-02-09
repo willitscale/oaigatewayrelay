@@ -50,4 +50,9 @@ public class Logon extends Agent
 	{
 		super( event );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

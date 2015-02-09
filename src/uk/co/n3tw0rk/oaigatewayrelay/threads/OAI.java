@@ -7,8 +7,10 @@ import java.net.Socket;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Event;
+import uk.co.n3tw0rk.oaigatewayrelay.buffers.PBXInbound;
 import uk.co.n3tw0rk.oaigatewayrelay.buffers.PBXOutbound;
 import uk.co.n3tw0rk.oaigatewayrelay.commands.system.Connection;
+import uk.co.n3tw0rk.oaigatewayrelay.database.mysql.MySQLConnection;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 import uk.co.n3tw0rk.oaigatewayrelay.events.miscellaneous.ResyncEnded;
 import uk.co.n3tw0rk.oaigatewayrelay.factories.EventFactory;
@@ -102,11 +104,12 @@ public class OAI implements Runnable
 
 						if( 0 < parts.length )
 						{
+							int invokeID = 0;
 							Event event = EventFactory.getEvent( parts );
 
 							if( event instanceof Confirmation )
 							{
-								int invokeID = ( ( Confirmation ) event ).getInvokeID();
+								invokeID = ( ( Confirmation ) event ).getInvokeID();
 
 								Command command = PBXOutbound.getCommand( invokeID );
 								command.setEvent( event );
@@ -120,6 +123,35 @@ public class OAI implements Runnable
 							{
 								connectSequence.clearActiveCommand();
 							}
+							else
+							{
+								PBXInbound.addEvent( event );
+							}
+							
+							/*
+								CREATE TABLE `events` (
+								  `event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+								  `event_datetime` datetime DEFAULT NULL,
+								  `event_string` text,
+								  `event_code` varchar(3) DEFAULT NULL,
+								  `command_id` int(10) unsigned DEFAULT NULL,
+								  PRIMARY KEY (`event_id`)
+								) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+							 */
+							
+							String eventCode = "";
+							
+							if( null != event )
+							{
+								eventCode = event.getEvent();
+							}
+
+							MySQLConnection
+								.instance()
+								.executeQuery( "INSERT INTO `events` " +
+									"( event_datetime, event_string, event_code, command_id )" + 
+									" VALUES " + 
+									"( NOW(), \"" + tmpString + "\", \"" + eventCode + "\", " + invokeID + " )" );
 						}
 					}
 					else
