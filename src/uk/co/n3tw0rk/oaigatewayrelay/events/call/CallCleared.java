@@ -118,7 +118,7 @@ public class CallCleared extends Call
 	protected void parseEvent()
 	{
 		super.parseEvent();
-		this.setCallID( this.getIntPart( 4 ) );
+		this.setCallID( this.getStringPart( 4 ) );
 		this.setTransferredCallID( this.getIntPart( 5 ) );
 		this.setTransferDestination( this.getIntPart( 6 ) );
 	}

@@ -121,7 +121,21 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
  */
 public class Delivered extends Call
 {
-	public final static String EVENT = "CC";
+	public final static String EVENT = "DE";
+
+	protected int mAlertingInternalExt;
+	protected int mAlertingOutsideNumber;
+	protected String mAlertingDeviceType;
+	protected int mInternalCallingExt;
+	protected String mOutsideCallerName;
+	protected int mOutsideCallerNumber;
+	protected String mTrunkName;
+	protected int mTrunkOutsideNumber;
+	protected String mCallingDeviceType;
+	protected int mOriginallyCalledDev;
+	protected int mLastRedirectionExt;
+	protected int mAccountCode;
+	protected int mACDUCDGroup;
 	
 	public Delivered( String[] eventParts )
 	{
@@ -159,7 +173,7 @@ public class Delivered extends Call
 	protected void parseEvent()
 	{
 		super.parseEvent();
-		this.setCallID( this.getIntPart( 4 ) );
+		this.setCallID( this.getStringPart( 4 ) );
 	}
 
 	@Override

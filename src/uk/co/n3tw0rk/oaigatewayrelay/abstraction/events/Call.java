@@ -3,7 +3,7 @@ package uk.co.n3tw0rk.oaigatewayrelay.abstraction.events;
 public abstract class Call extends Event
 {
 	/** Call ID */
-	protected int mCallID;
+	protected String mCallID;
 	
 	/** Local Cnx State */
 	protected String mLocalCnxState;
@@ -21,13 +21,13 @@ public abstract class Call extends Event
 		super( eventParts );
 	}
 	
-	public Call setCallID( int callID )
+	public Call setCallID( String callID )
 	{
 		this.mCallID = callID;
 		return this;
 	}
 	
-	public int getCallID()
+	public String getCallID()
 	{
 		return this.mCallID;
 	}

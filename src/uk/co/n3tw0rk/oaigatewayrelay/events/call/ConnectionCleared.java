@@ -105,7 +105,7 @@ public class ConnectionCleared extends Call
 	protected void parseEvent()
 	{
 		super.parseEvent();
-		this.setCallID( this.getIntPart( 4 ) );
+		this.setCallID( this.getStringPart( 4 ) );
 		this.setClearedExt( this.getIntPart( 5 ) );
 		this.setTerminatingExt( this.getIntPart( 6 ) );
 		this.setLocalCnxState( this.getStringPart( 7 ) );
