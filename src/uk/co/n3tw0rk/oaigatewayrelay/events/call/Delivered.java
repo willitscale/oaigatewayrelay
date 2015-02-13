@@ -126,17 +126,166 @@ public class Delivered extends Call
 	protected int mAlertingInternalExt;
 	protected int mAlertingOutsideNumber;
 	protected String mAlertingDeviceType;
+
 	protected int mInternalCallingExt;
 	protected String mOutsideCallerName;
 	protected int mOutsideCallerNumber;
+
 	protected String mTrunkName;
 	protected int mTrunkOutsideNumber;
 	protected String mCallingDeviceType;
+
 	protected int mOriginallyCalledDev;
 	protected int mLastRedirectionExt;
 	protected int mAccountCode;
 	protected int mACDUCDGroup;
 	
+	public Delivered setAlertingInternalExt( int alertingInternalExt )
+	{
+		this.mAlertingInternalExt = alertingInternalExt;
+		return this;
+	}
+	
+	public int getAlertingInternalExt()
+	{
+		return this.mAlertingInternalExt;
+	}
+	
+	public Delivered setAlertingOutsideNumber( int alertingOutsideNumber )
+	{
+		this.mAlertingOutsideNumber = alertingOutsideNumber;
+		return this;
+	}
+	
+	public int setAlertingOutsideNumber()
+	{
+		return this.mAlertingOutsideNumber;
+	}
+	
+	public Delivered setAlertingDeviceType( String alertingDeviceType )
+	{
+		this.mAlertingDeviceType = alertingDeviceType;
+		return this;
+	}
+	
+	public String setAlertingDeviceType()
+	{
+		return this.mAlertingDeviceType;
+	}
+
+	public Delivered setInternalCallingExt( int internalCallingExt )
+	{
+		this.mInternalCallingExt = internalCallingExt;
+		return this;
+	}
+	
+	public int getInternalCallingExt()
+	{
+		return this.mInternalCallingExt;
+	}
+
+	public Delivered setOutsideCallerName( String outsideCallerName )
+	{
+		this.mOutsideCallerName = outsideCallerName;
+		return this;
+	}
+	
+	public String getOutsideCallerName()
+	{
+		return this.mOutsideCallerName;
+	}
+
+	public Delivered setOutsideCallerNumber( int outsideCallerNumber )
+	{
+		this.mOutsideCallerNumber = outsideCallerNumber;
+		return this;
+	}
+	
+	public int getOutsideCallerNumber()
+	{
+		return this.mOutsideCallerNumber;
+	}
+
+	public Delivered setTrunkName( String trunkName )
+	{
+		this.mTrunkName = trunkName;
+		return this;
+	}
+	
+	public String getTrunkName()
+	{
+		return this.mTrunkName;
+	}
+
+	public Delivered setTrunkOutsideNumber( int trunkOutsideNumber )
+	{
+		this.mTrunkOutsideNumber = trunkOutsideNumber;
+		return this;
+	}
+	
+	public int getTrunkOutsideNumber()
+	{
+		return this.mTrunkOutsideNumber;
+	}
+
+	public Delivered setCallingDeviceType( String callingDeviceType )
+	{
+		this.mCallingDeviceType = callingDeviceType;
+		return this;
+	}
+	
+	public String getCallingDeviceType()
+	{
+		return this.mCallingDeviceType;
+	}
+
+	public Delivered setOriginallyCalledDev( int originallyCalledDev )
+	{
+		this.mOriginallyCalledDev = originallyCalledDev;
+		return this;
+	}
+	
+	public int getOriginallyCalledDev()
+	{
+		return this.mOriginallyCalledDev;
+	}
+
+
+	public Delivered setLastRedirectionExt( int lastRedirectionExt )
+	{
+		this.mLastRedirectionExt = lastRedirectionExt;
+		return this;
+	}
+	
+	public int getLastRedirectionExt()
+	{
+		return this.mLastRedirectionExt;
+	}
+
+
+	public Delivered setAccountCode( int accountCode )
+	{
+		this.mAccountCode = accountCode;
+		return this;
+	}
+	
+	public int getAccountCode()
+	{
+		return this.mAccountCode;
+	}
+
+
+	public Delivered setACDUCDGroup( int aCDUCDGroup )
+	{
+		this.mACDUCDGroup = aCDUCDGroup;
+		return this;
+	}
+	
+	public int getACDUCDGroup()
+	{
+		return this.mACDUCDGroup;
+	}
+
 	public Delivered( String[] eventParts )
 	{
 		super( eventParts );
@@ -174,6 +323,20 @@ public class Delivered extends Call
 	{
 		super.parseEvent();
 		this.setCallID( this.getStringPart( 4 ) );
+		this.setAlertingInternalExt( this.getIntPart( 5 ) );
+		this.setAlertingOutsideNumber( this.getIntPart( 6 ) );
+		this.setAlertingDeviceType( this.getStringPart( 7 ) );
+		this.setInternalCallingExt( this.getIntPart( 8 ) );
+		this.setOutsideCallerName( this.getStringPart( 9 ) );
+		this.setTrunkName( this.getStringPart( 10 ) );
+		this.setTrunkOutsideNumber( this.getIntPart( 11 ) );
+		this.setCallingDeviceType( this.getStringPart( 12 ) );
+		this.setOriginallyCalledDev( this.getIntPart( 13 ) );
+		this.setLastRedirectionExt( this.getIntPart( 14 ) );
+		this.setAccountCode( this.getIntPart( 15 ) );
+		this.setLocalCnxState( this.getStringPart( 16 ) );
+		this.setEventCause( this.getIntPart( 17 ) );
+		this.setACDUCDGroup( this.getIntPart( 18 ) );
 	}
 
 	@Override
