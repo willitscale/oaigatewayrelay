@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.CallID;
 
 /**
  * <strong>Call Cleared Class</strong>
@@ -48,7 +48,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
  * 		Extension 105 terminates call 563.
  * 		001,CC,,<MON561>,563,36,,
  */
-public class CallCleared extends Call
+public class CallCleared extends CallID
 {
 	public final static String EVENT = "CC";
 

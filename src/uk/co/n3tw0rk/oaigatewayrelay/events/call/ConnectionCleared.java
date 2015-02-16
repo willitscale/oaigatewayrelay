@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.CallID;
 
 /**
  * <strong>Connection Cleared Class</strong>
@@ -48,7 +48,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
  * 		002,XC,,<MON100>,65789,101,101,,36
  * 		003,XC,,<MON100>,65789,100,101,N,36
  */
-public class ConnectionCleared extends Call
+public class ConnectionCleared extends CallID
 {
 	public final static String EVENT = "XC";
 

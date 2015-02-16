@@ -3,7 +3,7 @@ package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 import java.util.LinkedList;
 import java.util.List;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.CallID;
 
 /**
  * <strong>Conferenced Class</strong>
@@ -67,7 +67,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
  * 		017,CO,,<MON102>,102,223,,100,3,100,224,101,222,102,223,C,41
  * 
  */
-public class Conferenced extends Call
+public class Conferenced extends CallID
 {
 	public final static String EVENT = "CO";
 	

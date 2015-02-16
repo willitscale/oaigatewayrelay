@@ -1,27 +1,38 @@
 package uk.co.n3tw0rk.oaigatewayrelay.abstraction.events;
 
-public abstract class Call extends Event
+public abstract class CallID extends Event
 {
 	/** Call ID */
 	protected String mCallID;
 	
-	/** Local Cnx State */
+	/** 
+	 * 	Local Cnx State
+	 *  
+	 *	VALUE 	MEANING 	DESCRIPTION
+	 *	  N 	Null 		No connection to the call
+	 *	  I 	Initiate 	Dialtone connection
+	 *	  A 	Alerting 	Call is ringing at the device
+	 *	  C 	Connected 	Call is active at the device
+	 *	  H 	Hold 		Call is on-hold at the device
+	 *	  F 	Failed 		Device is listening to reorder tones
+	 *	  Q 	Queued 		Call is camped on to the device 
+	 */
 	protected String mLocalCnxState;
 	
 	/** Event Cause */
 	protected int mEventCause;
 	
-	public Call( String eventParts )
+	public CallID( String eventParts )
 	{
 		super( eventParts );
 	}
 
-	public Call( String[] eventParts )
+	public CallID( String[] eventParts )
 	{
 		super( eventParts );
 	}
 	
-	public Call setCallID( String callID )
+	public CallID setCallID( String callID )
 	{
 		this.mCallID = callID;
 		return this;
@@ -32,7 +43,7 @@ public abstract class Call extends Event
 		return this.mCallID;
 	}
 	
-	public Call setLocalCnxState( String localCnxState )
+	public CallID setLocalCnxState( String localCnxState )
 	{
 		this.mLocalCnxState = localCnxState;
 		return this;
@@ -43,7 +54,7 @@ public abstract class Call extends Event
 		return this.mLocalCnxState;
 	}
 	
-	public Call setEventCause( int eventCause )
+	public CallID setEventCause( int eventCause )
 	{
 		this.mEventCause = eventCause;
 		return this;

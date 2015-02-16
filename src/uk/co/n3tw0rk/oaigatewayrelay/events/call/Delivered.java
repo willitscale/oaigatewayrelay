@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.CallID;
 
 /**
  * <strong>Delivered Class</strong>
@@ -119,7 +119,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Call;
  * 		004,DE,,<MON97061>,@001,97061,9619000,E,100,,,,,I,9619000,,,A,22,
  * 		005,DE,,<MON100>,@001,97061,9619000,E,100,,,,,I,9619000,,,C,22,
  */
-public class Delivered extends Call
+public class Delivered extends CallID
 {
 	public final static String EVENT = "DE";
 

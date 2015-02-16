@@ -1,12 +1,12 @@
 package uk.co.n3tw0rk.oaigatewayrelay.abstraction;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Information<T extends Structure>
 {
-	protected HashMap<Integer,T> mStructures = new HashMap<Integer,T>();
-	protected LinkedList<Integer> mKeys = new LinkedList<Integer>();
+	protected ConcurrentHashMap<Integer,T> mStructures = new ConcurrentHashMap<Integer,T>();
+	protected ConcurrentLinkedQueue<Integer> mKeys = new ConcurrentLinkedQueue<Integer>();
 	
 	public void addStructure( int key, T struct )
 	{
@@ -24,7 +24,7 @@ public abstract class Information<T extends Structure>
 		return this.mStructures.size();
 	}
 	
-	public LinkedList<Integer> getKeys()
+	public ConcurrentLinkedQueue<Integer> getKeys()
 	{
 		return this.mKeys;
 	}

@@ -1,61 +1,81 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
 /**
+ * <strong>Query List Extended Class</strong>
  * 
- * @author M00SEMARKTWO
-
-QUERY LIST EXTENDED – _QX
-NOTE: Do not issue another command until this one completes.
-ALSO: This command is available in protocol versions 05.10 and later.
-USE: Provides lists of various types, depending on the specified list number.
-NOTE: This command should be used sparingly as it generates a lot of data which may stress
-the phone system. Currently, the phone system does not regulate how often this command can
-be issued.
-PREMIUM FEATURE: System OAI Events and/or Third-Party Call Control
-SYNTAX: _QX,<InvokeID>,<Affected_Ext>,<List_Type>,
-<Entity_Field_Mask>,<Response_Mode>,<Response_Size><CR>
-Where:
-• Affected_Ext: Specifies the system node, using the Node: format (e.g., 1:), any valid
-extension on the system node, or it can be blank. When the <Affected_Ext> parameter
-is blank and is sent to the Gateway, the Gateway either performs a query on all nodes or
-queries only one node depending on the query type. The Gateway queries every node
-when the <Affected_Ext> is empty and the query type is either stations (1), hunt groups
-(3), page zones (5), page ports (6), or a voice mail application list (12). All other list
-types query only one node.
-NOTE: Only protocol versions 05.10 and later support the node number followed by a
-colon.
-• List_Type: Indicates the type of list being queried (see the table on the following page).
-• Entity_Field_Mask: Returns a list of entities where each entity may contain several
-fields of information. This hexadecimal parameter specifies which fields System OAI
-includes/excludes from each entity in the list. A set bit indicates that the entity in the list
-includes a particular field, while a clear bit indicates the field is excluded. If the application
-does not specify this parameter, each entity will contain the default field (designated
-by * in the following table).
-NOTE: Default fields cannot be excluded, regardless of the <Entity_Field_Mask>
-value. 
-
-Table 34: QX – Entity_Field_Masks for List_Types
-<LIST_TYPE> <ENTITY_FIELD_MASK>
-VAL. DESCRIPTION BIT # FIELD HEX
-1
-Station List N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-2 <Attendant> 4
-3 <Is_An_Adminstrator> 8
-4 <Is_An_Attendant> 10
-5 <Day_COS_Flags> 20
-6 <Night_COS_Flags> 40
-7 <Voice_Mail_Extension> 80
-8 <Device_Type> 100
-9 <Mailbox_Node_Number>2 200
-10 <Physical_Device_Type>3 400
-2
-Trunk List N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-2 <Answer_Supervision_Type>5 4
-3
+ * @author James Lockhart <james@n3tw0rk.co.uk>
+ * @version 1.0
+ * @since 28-12-2014
+ * 
+ * 	QUERY LIST EXTENDED – _QX
+ * 
+ * 	NOTE: 
+ * 		Do not issue another command until this one completes.
+ * 
+ * 	ALSO: 
+ * 		This command is available in protocol versions 05.10 and later.
+ * 
+ * 	USE: 
+ * 		Provides lists of various types, depending on the specified list number.
+ * 
+ * 	NOTE: 
+ * 		This command should be used sparingly as it generates a lot of data which may stress
+ * 		the phone system. Currently, the phone system does not regulate how often this command can
+ * 		be issued.
+ * 
+ * 	PREMIUM FEATURE: 
+ * 		System OAI Events and/or Third-Party Call Control
+ * 
+ * 	SYNTAX: 
+ * 		_QX,<InvokeID>,<Affected_Ext>,<List_Type>,
+ * 		<Entity_Field_Mask>,<Response_Mode>,<Response_Size><CR>
+ * 
+ * 	Where:
+ * 		• Affected_Ext: Specifies the system node, using the Node: format (e.g., 1:), any valid
+ * 			extension on the system node, or it can be blank. When the <Affected_Ext> parameter
+ * 			is blank and is sent to the Gateway, the Gateway either performs a query on all nodes or
+ * 			queries only one node depending on the query type. The Gateway queries every node
+ * 			when the <Affected_Ext> is empty and the query type is either stations (1), hunt groups
+ * 			(3), page zones (5), page ports (6), or a voice mail application list (12). All other list
+ * 			types query only one node.
+ * 		NOTE: 
+ * 			Only protocol versions 05.10 and later support the node number followed by a
+ * 			colon.
+ * 		• List_Type: Indicates the type of list being queried (see the table on the following page).
+ * 		• Entity_Field_Mask: Returns a list of entities where each entity may contain several
+ * 			fields of information. This hexadecimal parameter specifies which fields System OAI
+ * 			includes/excludes from each entity in the list. A set bit indicates that the entity in the list
+ * 			includes a particular field, while a clear bit indicates the field is excluded. If the application
+ * 			does not specify this parameter, each entity will contain the default field (designated
+ * 			by * in the following table).
+ * 		NOTE: 
+ * 			Default fields cannot be excluded, regardless of the <Entity_Field_Mask>
+ * 			value.
+ * 
+ *  Table 34: 
+ *  	QX – Entity_Field_Masks for List_Types
+ *  
+ *  <LIST_TYPE> 		<ENTITY_FIELD_MASK>
+ *  VAL. 	DESCRIPTION 	BIT 	# 				FIELD 	HEX
+ *  1		Station List 	N/A 	<Extension>		1 		N/A
+ *  0 		<|Username|> 	1
+ *  1 		<|Description|> 2
+ *  2 		<Attendant> 	4
+ *  3 		<Is_An_Adminstrator> 8
+ *  4 		<Is_An_Attendant> 10
+ *  5 		<Day_COS_Flags> 20
+ *  6 		<Night_COS_Flags> 40
+ *  7 		<Voice_Mail_Extension> 80
+ *  8 		<Device_Type> 100
+ *  9 		<Mailbox_Node_Number>2 200
+ *  10 		<Physical_Device_Type>3 400
+ *  
+ *  2		Trunk List 		N/A 	<Extension>		1 		N/A
+ *  0 		<|Username|> 	1
+ *  1 		<|Description|> 2
+ *  2 <Answer_Supervision_Type>5 4
+ *  3
+ *  
 Hunt Group
 List
 N/A <Extension>1 N/A
@@ -568,6 +588,16 @@ _QX,1,,19,ffff,2,1
 |Chandler Node 1|,|192.168.0.000|,4000,||,0,1,30,V08.00,V08.000,3
 
  */
-public class QueryListExtended {
+public class QueryListExtended
+{
 
+	/*
+	 * _QX,
+	 * <InvokeID>,
+	 * <Affected_Ext>,
+	 * <List_Type>,
+	 * <Entity_Field_Mask>,
+	 * <Response_Mode>,
+	 * <Response_Size>
+	 */
 }
