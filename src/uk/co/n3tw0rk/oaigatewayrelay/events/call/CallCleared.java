@@ -1,6 +1,8 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.CallID;
+import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
 
 /**
  * <strong>Call Cleared Class</strong>
@@ -126,5 +128,8 @@ public class CallCleared extends CallID
 	@Override
 	public void process()
 	{
+		super.process();
+
+		Call call = SystemController.instance().getCalls().getStructure( this.getCallID() );
 	}
 }

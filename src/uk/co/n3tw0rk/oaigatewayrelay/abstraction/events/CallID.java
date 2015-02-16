@@ -1,5 +1,9 @@
 package uk.co.n3tw0rk.oaigatewayrelay.abstraction.events;
 
+import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
+import uk.co.n3tw0rk.oaigatewayrelay.data.Calls;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
+
 public abstract class CallID extends Event
 {
 	/** Call ID */
@@ -78,6 +82,25 @@ public abstract class CallID extends Event
 		this.setEvent( this.getStringPart( 1 ) );
 		this.setResyncCode( this.getIntPart( 2 ) );
 		this.setMonCrossRefID( this.getIntPart( 3 ) );
+	}
+	
+	@Override
+	public void process()
+	{
+		Calls calls = SystemController.instance().getCalls();
+		Call call = null;
+
+		if( !calls.exists( this.getCallID() ) )
+		{
+			call = new Call();
+			calls.addStructure( this.getCallID(), call );
+		}
+		else
+		{
+			call = calls.getStructure( this.getCallID() );
+		}
+
+		call.addEvent( this );
 	}
 
 }

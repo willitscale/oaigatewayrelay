@@ -5,16 +5,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Information<T extends Structure>
 {
-	protected ConcurrentHashMap<Integer,T> mStructures = new ConcurrentHashMap<Integer,T>();
-	protected ConcurrentLinkedQueue<Integer> mKeys = new ConcurrentLinkedQueue<Integer>();
+	protected ConcurrentHashMap<Object,T> mStructures = new ConcurrentHashMap<Object,T>();
+	protected ConcurrentLinkedQueue<Object> mKeys = new ConcurrentLinkedQueue<Object>();
 	
-	public void addStructure( int key, T struct )
+	public void addStructure( Object key, T struct )
 	{
 		this.mKeys.add( key );
 		this.mStructures.put( key, struct );
 	}
 	
-	public T getStructure( int key )
+	public T getStructure( Object key )
 	{
 		return this.mStructures.get( key );
 	}
@@ -24,8 +24,13 @@ public abstract class Information<T extends Structure>
 		return this.mStructures.size();
 	}
 	
-	public ConcurrentLinkedQueue<Integer> getKeys()
+	public ConcurrentLinkedQueue<Object> getKeys()
 	{
 		return this.mKeys;
+	}
+	
+	public boolean exists( String key )
+	{
+		return this.mStructures.containsKey( key );
 	}
 }
