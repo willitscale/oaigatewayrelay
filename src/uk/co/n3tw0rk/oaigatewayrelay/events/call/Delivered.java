@@ -2,7 +2,6 @@ package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.CallID;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
-import uk.co.n3tw0rk.oaigatewayrelay.data.Calls;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
 
 /**

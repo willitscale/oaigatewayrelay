@@ -17,6 +17,11 @@ public class Call extends Structure
 
 	protected int mAlertingNumber;
 	protected int mCallingNumber;
+
+	protected int mAlertingType;
+	protected int mCallingType;
+	
+	protected int mDuration;
 	
 	public Call setCallID( String callID )
 	{

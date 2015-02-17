@@ -90,10 +90,10 @@ public class Established extends CallID
 	public final static String EVENT = "ES";
 	
 	protected int mAnsweringInternalExt;
-	protected int mAnsweringOutsideNumber;
+	protected String mAnsweringOutsideNumber;
 	protected String mAnsweringDeviceType;
 	protected int mInternalCallingExt;
-	protected int mOutsideCallerNumber;
+	protected String mOutsideCallerNumber;
 	protected int mTrunkOutsideNumber;
 	protected String mCallingDeviceType;
 	protected int mOriginallyCalledDev;
@@ -110,13 +110,13 @@ public class Established extends CallID
 		return this.mAnsweringInternalExt;
 	}
 	
-	public Established setAnsweringOutsideNumber( int answeringOutsideNumber )
+	public Established setAnsweringOutsideNumber( String answeringOutsideNumber )
 	{
 		this.mAnsweringOutsideNumber = answeringOutsideNumber;
 		return this;
 	}
 	
-	public int getAnsweringOutsideNumber()
+	public String getAnsweringOutsideNumber()
 	{
 		return this.mAnsweringOutsideNumber;
 	}
@@ -143,13 +143,13 @@ public class Established extends CallID
 		return this.mInternalCallingExt;
 	}
 
-	public Established setOutsideCallerNumber( int outsideCallerNumber )
+	public Established setOutsideCallerNumber( String outsideCallerNumber )
 	{
 		this.mOutsideCallerNumber = outsideCallerNumber;
 		return this;
 	}
 	
-	public int getOutsideCallerNumber()
+	public String getOutsideCallerNumber()
 	{
 		return this.mOutsideCallerNumber;
 	}
@@ -233,10 +233,10 @@ public class Established extends CallID
 		super.parseEvent();
 		this.setCallID( this.getStringPart( 4 ) );
 		this.setAnsweringInternalExt( this.getIntPart( 5 ) );
-		this.setAnsweringOutsideNumber( this.getIntPart( 6 ) );
+		this.setAnsweringOutsideNumber( this.getStringPart( 6 ) );
 		this.setAnsweringDeviceType( this.getStringPart( 7 ) );
 		this.setInternalCallingExt( this.getIntPart( 8 ) );
-		this.setOutsideCallerNumber( this.getIntPart( 9 ) );
+		this.setOutsideCallerNumber( this.getStringPart( 9 ) );
 		this.setTrunkOutsideNumber( this.getIntPart( 10 ) );
 		this.setCallingDeviceType( this.getStringPart( 11 ) );
 		this.setOriginallyCalledDev( this.getIntPart( 12 ) );
