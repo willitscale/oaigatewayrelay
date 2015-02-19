@@ -59,7 +59,6 @@ public class Failed extends CallID
 	public final static String EVENT = "FA";
 
 	protected int mFailedExt;
-	
 	protected String mCalledNumber;
 	
 	public Failed( String[] eventParts )

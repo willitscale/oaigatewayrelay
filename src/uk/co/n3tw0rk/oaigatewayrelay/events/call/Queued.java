@@ -11,7 +11,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
  * @version 1.0
  * @since 17-02-2014
  * 
- * @see SYSTEM OAI SPECIFICATIONS MANUAL – Issue 9.0, April 2005 - Page 38
+ * @see SYSTEM OAI SPECIFICATIONS MANUAL – Issue 9.0, April 2005 - Pages 38-39
  * 
  * 	QUEUED – QU
  * 
@@ -76,7 +76,150 @@ import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
  */
 public class Queued extends CallID
 {
-	public final static String EVENT = "DE";
+	public final static String EVENT = "QU";
+	
+	protected int mQueuedExt;
+	protected int mInternalCallingExt;
+	protected String mOutsideCallerName;
+	protected String mOutsideCallerNumber;
+	protected String mTrunkName;
+	protected String mTrunkOutsideNumber;
+	protected String mCallingDeviceType;
+	protected int mOriginallyCalledDev;
+	protected int mLastRedirectionExt;
+	protected int mNumberQueued;
+	protected int mAccountCode;
+	
+	public Queued( String[] eventParts )
+	{
+		super( eventParts );
+	}
+
+	public Queued( String eventString )
+	{
+		super( eventString );
+	}
+	
+	public Queued setQueuedExt( int queuedExt )
+	{
+		this.mQueuedExt = queuedExt;
+		return this;
+	}
+	
+	public int getQueuedExt()
+	{
+		return this.mQueuedExt;
+	}
+	
+	public Queued setInternalCallingExt( int internalCallingExt )
+	{
+		this.mInternalCallingExt = internalCallingExt;
+		return this;
+	}
+	
+	public int getInternalCallingExt()
+	{
+		return this.mInternalCallingExt;
+	}
+	
+	public Queued setOutsideCallerName( String outsideCallerName )
+	{
+		this.mOutsideCallerName = outsideCallerName;
+		return this;
+	}
+	
+	public String getOutsideCallerName()
+	{
+		return this.mOutsideCallerName;
+	}
+	
+	public Queued setOutsideCallerNumber( String outsideCallerNumber )
+	{
+		this.mOutsideCallerNumber = outsideCallerNumber;
+		return this;
+	}
+	
+	public String getOutsideCallerNumber()
+	{
+		return this.mOutsideCallerNumber;
+	}
+	
+	public Queued setTrunkName( String trunkName )
+	{
+		this.mTrunkName = trunkName;
+		return this;
+	}
+	
+	public String getTrunkName()
+	{
+		return this.mTrunkName;
+	}
+	
+	public Queued setTrunkOutsideNumber( String trunkOutsideNumber )
+	{
+		this.mTrunkOutsideNumber = trunkOutsideNumber;
+		return this;
+	}
+	
+	public String getTrunkOutsideNumber()
+	{
+		return this.mTrunkOutsideNumber;
+	}
+	
+	public Queued setCallingDeviceType( String callingDeviceType )
+	{
+		this.mCallingDeviceType = callingDeviceType;
+		return this;
+	}
+	
+	public String getCallingDeviceType()
+	{
+		return this.mCallingDeviceType;
+	}
+	
+	public Queued setOriginallyCalledDev( int originallyCalledDev )
+	{
+		this.mOriginallyCalledDev = originallyCalledDev;
+		return this;
+	}
+	
+	public int getOriginallyCalledDev()
+	{
+		return this.mOriginallyCalledDev;
+	}
+	
+	public Queued setLastRedirectionExt( int lastRedirectionExt )
+	{
+		this.mLastRedirectionExt = lastRedirectionExt;
+		return this;
+	}
+	
+	public int getLastRedirectionExt()
+	{
+		return this.mLastRedirectionExt;
+	}
+	
+	public Queued setNumberQueued( int numberQueued )
+	{
+		this.mNumberQueued = numberQueued;
+		return this;
+	}
+	
+	public int getNumberQueued()
+	{
+		return this.mNumberQueued;
+	}
+	
+	public Queued setAccountCode( int accountCode )
+	{
+		this.mAccountCode = accountCode;
+		return this;
+	}
+	
+	public int getAccountCode()
+	{
+		return this.mAccountCode;
+	}
 	
 	/**
 	 * 0 <SEQUENCE_NUMBER>
@@ -84,30 +227,38 @@ public class Queued extends CallID
 	 * 2 <Resync_Code>,
 	 * 3 <Mon_Cross_Ref_ID>
 	 * 4 <Call_ID>
-	 * 
-	 * <Queued_Ext>
-	 * <Internal_Calling_Ext>
-	 * <Outside_Caller_Name>
-	 * <Outside_Caller_Number>
-	 * <Trunk_Name>
-	 * <Trunk_Outside_Number>
-	 * <Calling_Device_Type>
-	 * <Originally_Called_Dev>
-	 * <Last_Redirection_Ext>
-	 * <Number_Queued>
-	 * <Account_Code>
-	 * 
-	 * 7 <Local_Cnx_State>
-	 * 8 <Event_Cause>
+	 * 5 <Queued_Ext>
+	 * 6 <Internal_Calling_Ext>
+	 * 7 <Outside_Caller_Name>
+	 * 8 <Outside_Caller_Number>
+	 * 9 <Trunk_Name>
+	 * 10 <Trunk_Outside_Number>
+	 * 11 <Calling_Device_Type>
+	 * 12 <Originally_Called_Dev>
+	 * 13 <Last_Redirection_Ext>
+	 * 14 <Number_Queued>
+	 * 15 <Account_Code>
+	 * 16 <Local_Cnx_State>
+	 * 17 <Event_Cause>
 	 */
 	@Override
 	protected void parseEvent()
 	{
 		super.parseEvent();
 		this.setCallID( this.getStringPart( 4 ) );
-
-		this.setLocalCnxState( this.getStringPart( 7 ) );
-		this.setEventCause( this.getIntPart( 8 ) );
+		this.setQueuedExt( this.getIntPart( 5 ) );
+		this.setInternalCallingExt( this.getIntPart( 6 ) );
+		this.setOutsideCallerName( this.getStringPart( 7 ) );
+		this.setOutsideCallerNumber( this.getStringPart( 8 ) );
+		this.setTrunkName( this.getStringPart( 9 ) );
+		this.setTrunkOutsideNumber( this.getStringPart( 10 ) );
+		this.setCallingDeviceType( this.getStringPart( 11 ) );
+		this.setOriginallyCalledDev( this.getIntPart( 12 ) );
+		this.setLastRedirectionExt( this.getIntPart( 13 ) );
+		this.setNumberQueued( this.getIntPart( 14 ) );
+		this.setAccountCode( this.getIntPart( 15 ) );
+		this.setLocalCnxState( this.getStringPart( 16 ) );
+		this.setEventCause( this.getIntPart( 17 ) );
 	}
 
 	@Override
