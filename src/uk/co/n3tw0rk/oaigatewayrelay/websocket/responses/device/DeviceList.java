@@ -32,7 +32,7 @@ public class DeviceList extends WebSocketResponse
 		
 		Devices devices = SystemController.instance().getDevices();
 		
-		for( Integer key : devices.getKeys() )
+		for( Object key : devices.getKeys() )
 		{
 			this.mDevices.add( devices.getStructure( key ).getExtension() );
 		}

@@ -110,16 +110,22 @@ public class Callback extends Feature
 
 	/** On/Off */
 	protected int mOnOff;
+
 	/** Affected_Ext */
 	protected int mAffectedExt;
+
 	/** Target_Ext */
 	protected int mTargetExt;
+
 	/** Target_Username */
 	protected String mTargetUsername;
+
 	/** Target_PC_Description */
 	protected String mTargetPCDescription;
+
 	/** Account_Code */
 	protected int mAccountCode;
+
 	/** Outside_Number */
 	protected int mOutsideNumber;
 

@@ -113,7 +113,7 @@ public class OAIConnect
 	{
 		Devices devices = SystemController.instance().getDevices();
 		
-		for( int key : devices.getKeys() )
+		for( Object key : devices.getKeys() )
 		{
 			int extension = devices.getStructure( key ).getExtension();
 

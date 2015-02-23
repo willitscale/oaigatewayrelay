@@ -1,33 +1,50 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.feature;
 
 /**
+ * <strong>Callback Class</strong>
  * 
- * @author M00SEMARKTWO
-
-FEATURE STATUS – FE
-USE: Occurs when a keyset enables or disables a toggleable feature.
-MONITOR TYPE: Device (Requires the Feature Status <filter_list> bit enabled [bit 8])
-PREMIUM FEATURE: System OAI Events
-SYNTAX: When <Resync_Code> is not empty:
-FE,<Resync_Code>,<Mon_Cross_Ref_ID>,<Extension>,
-<Feature_Status_Mask><CR><LF>
-When <Resync_Code> is empty:
-FE,<Resync_Code>,<Mon_Cross_Ref_ID>,<Extension>,<Logical_Number>,
-<On/Off><CR><LF>
-Where:
-• Extension: Identifies the extension number of the station device.
-• Logical_Number: Identifies the feature logical number (see the following table). This
-parameter exists only when <Resync_Code> is empty.
-• On/Off: Indicates whether the feature has been enabled or disabled (1 = Enabled; 0 =
-Disabled). This parameter exists only when <Resync_Code> is empty.
-• Feature_Status_Mask: Specifies a bit mask where each bit in the hexadecimal number
-indicates whether a feature is enabled (1) or disabled (0). See the table on the following
-page for a list of feature codes and their associated bit numbers. This parameter is used
-only for resync-generated events (i.e., <Resync_Code> is not empty).
-NOTE: Currently, the maximum number of characters for the <Feature_Status_Mask>
-field is seven. This may, however, increase in the future.
-
-Table 13: Feature_Status_Masks
+ * @author James Lockhart <james@n3tw0rk.co.uk>
+ * @version 1.0
+ * @since 30-01-2015
+ * 
+ * @see SYSTEM OAI SPECIFICATIONS MANUAL – Issue 9.0, April 2005 - Pages 51-52
+ * 
+ * 	FEATURE STATUS – FE
+ * 
+ * 	USE: 
+ * 		Occurs when a keyset enables or disables a toggleable feature.
+ * 
+ * 	MONITOR TYPE: 
+ * 		Device (Requires the Feature Status <filter_list> bit enabled [bit 8])
+ * 
+ * 	PREMIUM FEATURE: 
+ * 		System OAI Events
+ * 
+ * 	SYNTAX: 
+ * 		When <Resync_Code> is not empty:
+ * 		FE,<Resync_Code>,<Mon_Cross_Ref_ID>,<Extension>,
+ * 		<Feature_Status_Mask><CR><LF>
+ * 
+ * 		When <Resync_Code> is empty:
+ * 		FE,<Resync_Code>,<Mon_Cross_Ref_ID>,<Extension>,<Logical_Number>,
+ * 		<On/Off><CR><LF>
+ * 
+ * 	Where:
+ * 		• Extension: Identifies the extension number of the station device.
+ * 		• Logical_Number: Identifies the feature logical number (see the following table). This
+ *	 		parameter exists only when <Resync_Code> is empty.
+ * 		• On/Off: Indicates whether the feature has been enabled or disabled (1 = Enabled; 0 =
+ * 			Disabled). This parameter exists only when <Resync_Code> is empty.
+ * 		• Feature_Status_Mask: Specifies a bit mask where each bit in the hexadecimal number
+ * 			indicates whether a feature is enabled (1) or disabled (0). See the table on the following
+ * 			page for a list of feature codes and their associated bit numbers. This parameter is used
+ * 			only for resync-generated events (i.e., <Resync_Code> is not empty).
+ * 	
+ * 	NOTE: 
+ * 		Currently, the maximum number of characters for the <Feature_Status_Mask>
+ * 		field is seven. This may, however, increase in the future.
+ * 
+ * 	Table 13: Feature_Status_Masks
 BIT # HEX FEATURE LOGICAL
 NUMBER
 DEFAULT
