@@ -3,7 +3,7 @@ package uk.co.n3tw0rk.oaigatewayrelay.events.feature;
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Feature;
 
 /**
- * <strong>Elapsed Time For CO Call</strong>
+ * <strong>Elapsed Time For CO Call Class</strong>
  * 
  * @author James Lockhart <james@n3tw0rk.co.uk>
  * @version 1.0
