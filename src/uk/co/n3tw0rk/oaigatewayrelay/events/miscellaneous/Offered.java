@@ -1,8 +1,15 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.miscellaneous;
 
 /**
+ * <strong>Offered Class</strong>
  * 
- * @author M00SEMARKTWO
+ * @author James Lockhart <james@n3tw0rk.co.uk>
+ * @version 1.0
+ * @since 05-03-2015
+ * 
+ * @see SYSTEM OAI SPECIFICATIONS MANUAL – Issue 9.0, April 2005 - Page 69
+ * 
+ * 	DISPLAY STATION CHANGE – DSC
 
 OFFERED – OF
 NOTE: This event is available only in protocol versions 07.00 and later.
