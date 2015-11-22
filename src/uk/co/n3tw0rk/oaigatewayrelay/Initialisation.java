@@ -31,7 +31,7 @@ public class Initialisation
 	{
 		Config.read();
 		Events.setEvent( new WebSocketEvents() );
-		MySQLConnection.instance();
+		//MySQLConnection.instance();
 	}
 	
 	public void init()

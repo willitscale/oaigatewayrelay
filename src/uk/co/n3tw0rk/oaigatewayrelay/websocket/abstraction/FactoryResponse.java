@@ -6,8 +6,7 @@ public class FactoryResponse
 	public Object mData;
 	public String mSession;
 	public int mStatus;
-	
-	
+
 	public FactoryResponse( String action, Object data, 
 		String session )
 	{

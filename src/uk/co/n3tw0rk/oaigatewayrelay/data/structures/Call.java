@@ -2,16 +2,16 @@ package uk.co.n3tw0rk.oaigatewayrelay.data.structures;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Structure;
 
-public class Call extends Structure
-{
+public class Call extends Structure {
+
 	protected String mCallID;
-	
+
 	protected int mAlertingAgent;
 	protected int mCallingAgent;
-	
+
 	protected int mAlertingDevice;
 	protected int mCallingDevice;
-	
+
 	protected int mAlertingTrunk;
 	protected int mCallingTrunk;
 
@@ -20,39 +20,77 @@ public class Call extends Structure
 
 	protected int mAlertingType;
 	protected int mCallingType;
-	
+
 	protected int mDuration;
-	
-	public Call setCallID( String callID )
-	{
+
+	/**
+	 * 
+	 * @param key
+	 */
+	public Call(String key) {
+		super(key);
+		this.mCallID = key;
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public String getKey() {
+		return this.mCallID;
+	}
+
+	/**
+	 * 
+	 * @param callID
+	 * @return
+	 */
+	public Call setCallID(String callID) {
 		this.mCallID = callID;
 		return this;
 	}
-	
-	public String getCallID()
-	{
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCallID() {
 		return this.mCallID;
 	}
-	
-	public Call setAlertingAgent( int alertingAgent )
-	{
+
+	/**
+	 * 
+	 * @param alertingAgent
+	 * @return
+	 */
+	public Call setAlertingAgent(int alertingAgent) {
 		this.mAlertingAgent = alertingAgent;
 		return this;
 	}
-	
-	public int getAlertingAgent()
-	{
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getAlertingAgent() {
 		return this.mAlertingAgent;
 	}
-	
-	public Call setCallingAgent( int callingAgent )
-	{
+
+	/**
+	 * 
+	 * @param callingAgent
+	 * @return
+	 */
+	public Call setCallingAgent(int callingAgent) {
 		this.mCallingAgent = callingAgent;
 		return this;
 	}
-	
-	public int getCallingAgent()
-	{
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getCallingAgent() {
 		return this.mCallingAgent;
 	}
 }

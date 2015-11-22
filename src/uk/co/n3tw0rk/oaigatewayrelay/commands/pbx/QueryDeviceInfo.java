@@ -1,7 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
-import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 
@@ -388,46 +387,32 @@ public class QueryDeviceInfo extends Command
 			return;
 		}
 
-		int partsSize = this.mEvent.getPartsSize();
+		int partsSize = parts();
 		
 		if( 0 == partsSize )
 		{
 			return;
 		}
 		
-		int extension = this.mEvent.getIntPart( 5 );
+		String extension = part( 5 );
 		
-		Device device = SystemController
-			.instance()
-			.getDevices()
-			.getStructure( extension );
-		
-		if( null == device )
-		{
-			device = new Device()
-				.setExtension( extension );
+		Device device = getDevice( extension );
 
-			SystemController
-				.instance()
-				.getDevices()
-				.addStructure( extension, device );
-		}
-		
 		device
-			.setDeviceType( this.mEvent.getIntPart( 6 ) )
-			.setDeviceClass( this.mEvent.getIntPart( 7 ) )
-			.setDescription( this.mEvent.getStringPart( 8 ) )
-			.setUsername( this.mEvent.getStringPart( 9 ) )
-			.setIsAdministrator( this.mEvent.getIntPart( 10 ) )
-			.setIsAttendant( this.mEvent.getIntPart( 11 ) )
-			.setAttendantExtension( this.mEvent.getIntPart( 12 ) )
-			.setDayCOSFlags( this.mEvent.getIntPart( 13 ) )
-			.setNightCOSFlags( this.mEvent.getIntPart( 14 ) )
-			.setVoiceMailExt( this.mEvent.getIntPart( 15 ) )
-			.setMailboxNodeNumber( this.mEvent.getIntPart( 16 ) )
-			.setStnSpeedDialBinData( this.mEvent.getIntPart( 17 ) )
-			.setPhysicalDeviceType( this.mEvent.getIntPart( 18 ) )
-			.setAccountCodeType( this.mEvent.getIntPart( 19 ) )
-			.setAccountCodeValidatedFlag( this.mEvent.getIntPart( 20 ) );
+			.setDeviceType( intPart( 6 ) )
+			.setDeviceClass( intPart( 7 ) )
+			.setDescription( part( 8 ) )
+			.setUsername( part( 9 ) )
+			.setIsAdministrator( intPart( 10 ) )
+			.setIsAttendant( intPart( 11 ) )
+			.setAttendantExtension( intPart( 12 ) )
+			.setDayCOSFlags( intPart( 13 ) )
+			.setNightCOSFlags( intPart( 14 ) )
+			.setVoiceMailExt( intPart( 15 ) )
+			.setMailboxNodeNumber( intPart( 16 ) )
+			.setStnSpeedDialBinData( intPart( 17 ) )
+			.setPhysicalDeviceType( intPart( 18 ) )
+			.setAccountCodeType( intPart( 19 ) )
+			.setAccountCodeValidatedFlag( intPart( 20 ) );
 	}
 }

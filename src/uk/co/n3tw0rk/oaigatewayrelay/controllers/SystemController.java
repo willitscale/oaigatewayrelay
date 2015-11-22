@@ -1,15 +1,8 @@
 package uk.co.n3tw0rk.oaigatewayrelay.controllers;
 
-import uk.co.n3tw0rk.oaigatewayrelay.data.Agents;
-import uk.co.n3tw0rk.oaigatewayrelay.data.Calls;
-import uk.co.n3tw0rk.oaigatewayrelay.data.Devices;
-import uk.co.n3tw0rk.oaigatewayrelay.data.Gateways;
-import uk.co.n3tw0rk.oaigatewayrelay.data.HuntGroups;
-import uk.co.n3tw0rk.oaigatewayrelay.data.Nodes;
-import uk.co.n3tw0rk.oaigatewayrelay.data.Trunks;
+import uk.co.n3tw0rk.oaigatewayrelay.data.*;
 
-public class SystemController
-{
+public class SystemController {
 	protected static SystemController mInstance;
 
 	protected Agents mAgents;
@@ -19,19 +12,18 @@ public class SystemController
 	protected HuntGroups mHuntGroups;
 	protected Nodes mNodes;
 	protected Trunks mTrunks;
+	protected Features mFeatures;
+	protected DNDs mDNDs;
 
-	public static SystemController instance()
-	{
-		if( null == mInstance )
-		{
+	public static SystemController instance() {
+		if (null == mInstance) {
 			mInstance = new SystemController();
 		}
-		
+
 		return mInstance;
 	}
-	
-	protected SystemController()
-	{
+
+	protected SystemController() {
 		this.mAgents = new Agents();
 		this.mCalls = new Calls();
 		this.mDevices = new Devices();
@@ -39,40 +31,43 @@ public class SystemController
 		this.mHuntGroups = new HuntGroups();
 		this.mNodes = new Nodes();
 		this.mTrunks = new Trunks();
+		this.mFeatures = new Features();
+		this.mDNDs = new DNDs();
 	}
-	
-	public Agents getAgents()
-	{
+
+	public Agents getAgents() {
 		return this.mAgents;
 	}
-	
-	public Calls getCalls()
-	{
+
+	public Calls getCalls() {
 		return this.mCalls;
 	}
-	
-	public Devices getDevices()
-	{
+
+	public Devices getDevices() {
 		return this.mDevices;
 	}
-	
-	public Gateways getGateways()
-	{
+
+	public Gateways getGateways() {
 		return this.mGateways;
 	}
-	
-	public HuntGroups getHuntGroups()
-	{
+
+	public HuntGroups getHuntGroups() {
 		return this.mHuntGroups;
 	}
-	
-	public Nodes getNodes()
-	{
+
+	public Nodes getNodes() {
 		return this.mNodes;
 	}
-	
-	public Trunks getTrunks()
-	{
+
+	public Trunks getTrunks() {
 		return this.mTrunks;
+	}
+
+	public Features getFeatures() {
+		return this.mFeatures;
+	}
+
+	public DNDs getDNDs() {
+		return this.mDNDs;
 	}
 }

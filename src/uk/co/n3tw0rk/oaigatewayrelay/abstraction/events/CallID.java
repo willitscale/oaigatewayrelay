@@ -2,7 +2,6 @@ package uk.co.n3tw0rk.oaigatewayrelay.abstraction.events;
 
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.Calls;
-import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
 
 public abstract class CallID extends Event
 {
@@ -88,19 +87,10 @@ public abstract class CallID extends Event
 	public void process()
 	{
 		Calls calls = SystemController.instance().getCalls();
-		Call call = null;
 
-		if( !calls.exists( this.getCallID() ) )
-		{
-			call = new Call();
-			calls.addStructure( this.getCallID(), call );
-		}
-		else
-		{
-			call = calls.getStructure( this.getCallID() );
-		}
-
-		call.addEvent( this );
+		calls
+			.getStructure( this.getCallID() )
+			.addEvent( this );
 	}
 
 }

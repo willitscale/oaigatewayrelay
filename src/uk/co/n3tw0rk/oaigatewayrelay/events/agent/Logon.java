@@ -1,6 +1,6 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.agent;
 
-import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Agent;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.AgentLog;
 
 /**
  * <strong>Logon Class</strong>
@@ -37,7 +37,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Agent;
  *		Agent number 2003 logs in to ACD hunt group 237 at extension 105.
  *		001,LN,,<MON105>,105,2003,|Jones, Bob|,237
  */
-public class Logon extends Agent
+public class Logon extends AgentLog
 {
 	public final static String EVENT = "LN";
 

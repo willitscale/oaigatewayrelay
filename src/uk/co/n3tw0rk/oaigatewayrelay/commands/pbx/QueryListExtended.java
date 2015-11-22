@@ -1,603 +1,783 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Agent;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Feature;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.DND;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.HuntGroup;
+import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
+
 /**
  * <strong>Query List Extended Class</strong>
  * 
  * @author James Lockhart <james@n3tw0rk.co.uk>
  * @version 1.0
  * @since 28-12-2014
- * 
- * 	QUERY LIST EXTENDED – _QX
- * 
- * 	NOTE: 
- * 		Do not issue another command until this one completes.
- * 
- * 	ALSO: 
- * 		This command is available in protocol versions 05.10 and later.
- * 
- * 	USE: 
- * 		Provides lists of various types, depending on the specified list number.
- * 
- * 	NOTE: 
- * 		This command should be used sparingly as it generates a lot of data which may stress
- * 		the phone system. Currently, the phone system does not regulate how often this command can
- * 		be issued.
- * 
- * 	PREMIUM FEATURE: 
- * 		System OAI Events and/or Third-Party Call Control
- * 
- * 	SYNTAX: 
- * 		_QX,<InvokeID>,<Affected_Ext>,<List_Type>,
- * 		<Entity_Field_Mask>,<Response_Mode>,<Response_Size><CR>
- * 
- * 	Where:
- * 		• Affected_Ext: Specifies the system node, using the Node: format (e.g., 1:), any valid
- * 			extension on the system node, or it can be blank. When the <Affected_Ext> parameter
- * 			is blank and is sent to the Gateway, the Gateway either performs a query on all nodes or
- * 			queries only one node depending on the query type. The Gateway queries every node
- * 			when the <Affected_Ext> is empty and the query type is either stations (1), hunt groups
- * 			(3), page zones (5), page ports (6), or a voice mail application list (12). All other list
- * 			types query only one node.
- * 		NOTE: 
- * 			Only protocol versions 05.10 and later support the node number followed by a
- * 			colon.
- * 		• List_Type: Indicates the type of list being queried (see the table on the following page).
- * 		• Entity_Field_Mask: Returns a list of entities where each entity may contain several
- * 			fields of information. This hexadecimal parameter specifies which fields System OAI
- * 			includes/excludes from each entity in the list. A set bit indicates that the entity in the list
- * 			includes a particular field, while a clear bit indicates the field is excluded. If the application
- * 			does not specify this parameter, each entity will contain the default field (designated
- * 			by * in the following table).
- * 		NOTE: 
- * 			Default fields cannot be excluded, regardless of the <Entity_Field_Mask>
- * 			value.
- * 
- *  Table 34: 
- *  	QX – Entity_Field_Masks for List_Types
- *  
- *  <LIST_TYPE> 		<ENTITY_FIELD_MASK>
- *  VAL. 	DESCRIPTION 	BIT 	# 				FIELD 	HEX
- *  1		Station List 	N/A 	<Extension>		1 		N/A
- *  0 		<|Username|> 	1
- *  1 		<|Description|> 2
- *  2 		<Attendant> 	4
- *  3 		<Is_An_Adminstrator> 8
- *  4 		<Is_An_Attendant> 10
- *  5 		<Day_COS_Flags> 20
- *  6 		<Night_COS_Flags> 40
- *  7 		<Voice_Mail_Extension> 80
- *  8 		<Device_Type> 100
- *  9 		<Mailbox_Node_Number>2 200
- *  10 		<Physical_Device_Type>3 400
- *  
- *  2		Trunk List 		N/A 	<Extension>		1 		N/A
- *  0 		<|Username|> 	1
- *  1 		<|Description|> 2
- *  2 <Answer_Supervision_Type>5 4
- *  3
- *  
-Hunt Group
-List
-N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-2 <Hunt_Group_Type> 4
-3 <Number_Of_Members> 8
-4 <Mailbox_Node_Number>2 10
-4
-Trunk Group
-List
-N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-2 <Number_Of_Members> 4
-5
-Page Zone
-List
-N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-2 <Number_Of_Members> 4
-6
-Page Port
-List
-N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-7
-Unassociated
-Voice
-Mailbox List2
-N/A <Mailbox_Number>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-
-8
-Feature List N/A <Feature_Code>1 N/A
-0 <Feature_Number> (Logical) 1
-1 <Feature_Name> 2
-2 <Is_Administrator_Feature> 4
-3 <Is_Directory_Feature> 8
-4 <Is_Diagnostic_Feature> 10
-5 <Is_Toggleable_Feature> 20
-9
-Speed-Dial
-Bin LIst
-N/A <Bin_Number>1 N/A
-0 <Bin_Contents> 1
-1 <|Bin_Name|> 2
-10
-DND Message
-List
-N/A <DND_Message_Number>1 N/A
-0 <|DND_Message_Text|> 1
-11
-Reminder
-Message List
-N/A <Reminder_Message_
-Number>1
-N/A
-0 <|Reminder_Message_Text|> 1
-12
-Voice Mail
-Application
-List
-N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-2 <Application_Type> 4
-13
-Private Networking
-
-Trunk List
-N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-14
-Private Networking
-
-Trunk Group
-List
-N/A <Extension>1 N/A
-0 <|Username|> 1
-1 <|Description|> 2
-2 <Number_Of_Members> 4
-15
-Off-Node
-Device List
-N/A <Node: Extension>1 N/A
-0 <Device_Type> 1
-1 <|Username|> 2
-2 <|Description|> 4
-3 <Mailbox_Node_Number> 8
-16 System COS
-Flag
-N/A <Flag_Number>1 N/A
-0 <|Description|> 1
-17 ACD Agent N/A <Agent_ID>1 N/A
-0 <|Description|> 1
-
-18
-Node Data4 N/A <Network_Node_Number> N/A
-0 <|Description|> 1
-1 <Networking_Enabled/Disabled> 2
-2 <Protocol_Version> 4
-3 <KSU_SW_Version> 8
-4 <Premium_Feature_Status> 10
-5 <Country_Code> 20
-6 <TCPIP_Indicator> 40
-7 <Voice_Mail_Status> 80
-8 <Max_Parties_in_Conference> 100
-19
-Network
-Information6 N/A <Network_Node_Number> N/A
-0 <|Node_Description|> 1
-1 <|IP_Address|> 2
-2 <TCP_Port> 4
-3 <|Redundant_IP_Address|> 8
-4 <Redundant_TCP_Port> 10
-5 <System_OAI_Sockets_Enabled> 20
-6 <Max_Supported_System_OAI_Soc
-kets>
-40
-7 <Protocol_Version> 80
-8 <KSU_SW_Version> 100
-9 <Premium_Feature_Status> 200
-
-1 Indicates the default value.
-2 Available in protocol V05.20 and later.
-3 Available in protocol V08.10 and later.
-4 Available in protocol V06.00 and later.
-5 Available in protocol V07.00 and later.
-6 Available in protocol V08.00 and later.
-NOTE: The list entity for each list type will always contain fields according to the order
-as shown in the table above and as described below in the specification of the entity
-parameter of the confirmation. For instance, the table above yields the ordering of the
-fields for a station list entity as follows: <Extension>, <Username>, <Description>,
-<Attendant>, <Is_An_Administrator>, <Is_An_Attendant>, <Day_COS_Flags>,
-<Night_COS_Flags>, <Voice_Mail_Extension>, <Device_Type>, and
-<Mailbox_Node_Number>. If certain fields are omitted from the entity, the order of the
-remaining fields is still maintained.
-
-• Response_Mode: Indicates how the queried information is returned. The options are:
-— Single Message Mode (1): The entire list is sent in a single message. This is useful
-when the amount of information is fairly small (e.g., DND and Reminder Messages
-have a small system limit).
-NOTE: Off-node device queries require Multiple Message Mode.
-— Multiple Message Mode (2): The list is generated in item groups. Each message
-will contain, at most, the number of items specified in <Response_Size> per message.
-Each item is dependent upon the type of list being generated.
-• Response_Size: Defines the maximum number of elements, up to the maximum number
-of system extensions, to be included in a response. This is required only when the
-<Response_Mode> has been specified as Multiple Message Mode.
-CONFIRMATION: <Sequence_Number>,CF,_QX,<InvokeID>,<Outcome>,<List_Type>,
-<Entity_Field_Mask>,<MSG_Indicator>,<Entity_Count>,<Entity 1>,
-<Entity 2>,...,<Entity N> <CR><LF>
-Where:
-• Entity_Field_Mask: Specifies which fields are contained in each list entity. See the previous
-table.
-NOTE: This field may or may not reflect the <Entity_Field_Mask> parameter specified
-in the command. If the <Entity_Field_Mask> parameter specifies extra bits (i.e., more
-bits than are defined for a particular list type), then this field is a truncated version of
-what was specified in the command (i.e., the extra bits are cleared).
-• MSG_Indicator: Indicates if this is the last message to expect (1 = Last Message; 0 =
-More To Follow).
-• Entity_Count: Specifies the number of entities to follow in the message, if the Multiple
-Message format is being used. This value is not larger than <Response_Size>.
-• Entity: Indicates information on the type of item being listed and is dependent upon the
-type of item listed, as detailed in the table on the following page.
-NOTE: Unless specified, all Extension fields (shown in Table 35) may be in normal format
-or, if enabled using the Expanded Extension (_XE) command (see
-page 119), the expanded extension format.
-
-Table 35: QX – Entity Values for List_Types
-<LIST_TYPE> [PROGRAM_LIST]
-VAL. DESCRIPTION FIELD(S) INDICATES
-1
-Station List <Extension> Extension of the station.
-<|Username|> Username assigned to the station.
-<|Description|> Description assigned to the station.
-<Attendant> Extension of the station’s attendant.
-<Is_An_Administrator> 0 = Station is NOT an administrator station.
-1 = Station is an administrator station.
-<Is_An_Attendant> 0 = Station is NOT an attendant.
-1 = Station is an attendant.
-<Day_COS_Flags> This value is in the form XXXX, where X is a hexadecimal
-number in the range 0-F. The least significant bit represents
-Day COS flag 1, and the most significant bit represents Day
-COS flag 16. A set bit indicates that the corresponding flag is
-enabled.
-<Night_COS_Flags> This value is in the form XXXX, where X is a hexadecimal
-number in the range 0-F. The least significant bit represents
-Night COS flag 1, and the most significant bit represents
-Night COS flag 16. A set bit indicates that the corresponding
-flag is enabled.
-<Voice_Mail_Extension> Voice mail extension of the station. If blank, the station has
-no voice mail extension.
-<Device_Type> 0 = Keyset
-1 = Single-Line Set
-11 = Operator
-26 = B-Channel Station Device
-29 = Modem*
-<Mailbox_Node_Number> (Available in protocol versions 05.20 and later.) The node
-containing the station’s associated mailbox. If zero, the station
-does not have an associated mailbox on any node.
-<Physical_Device_Type> (Available in protocol versions 08.10 and later.) The physical
-device connected to the phone system. See Table 31 on
-page 153 for a list of possible values.
-2
-Trunk List <Extension> Extension of the trunk.
-<|Username|> Username assigned to the trunk’s trunk group.
-<|Description|> PC description assigned to the trunk’s trunk group.
-<Answer_Supervision_Type> (Available in protocol versions 07.00 and later.)
-0 = No Answer Supervision Defined (DID)
-1 = Valid Call Timer
-2 = Polarity Reversal
-3 = Valid Call Timer with Polarity Reversal
-4 = Answer Recognition Timer
-5 = Off-Hook Debounce Timer
-6 = ISDN
-
-
-3
-Hunt Group
-List
-<Extension> Extension of the hunt group.
-<|Username|> Username assigned to the hunt group.
-<|Description|> Description assigned to the hunt group.
-<Hunt_Group_Type> 0 = UCD Hunt Group
-1 = ACD Hunt Group without ACD Agent IDs
-2 = ACD Hunt Group with ACD Agent IDs
-<Number_Of_Members> Total number of members or agent IDs for the Hunt Group.
-<Mailbox_Node_Number> (Available in protocol versions 05.20 and later.) The node
-containing the hunt group’s associated mailbox. If zero, the
-hunt group does not have an associated mailbox on any
-node.
-Extension lists count as one member, regardless of how
-many extensions are in the list.
-Each time an extension occurs in the hunt path, it counts as a
-member (e.g., if the hunt group has members of 1000, 1001,
-and 1000 again, they are counted as three members)
-4
-Trunk Group
-List
-<Extension> Extension of the trunk group pilot.
-<|Username|> Username assigned to the trunk group.
-<|Description|> Description assigned to the trunk group.
-<Number_Of_Members> Total number of members in the trunk group.
-5
-Page Zone
-List
-<Extension> Extension of the Page Zone.
-<|Username|> Username assigned to the Page Zone.
-<|Description|> Description assigned to the Page Zone.
-<Number_Of_Members> Total number of Page Zone members.
-6
-Page Port List <Extension> Extension of the Page Port.
-<|Username|> Username assigned to the Page Port.
-<|Description|> Description assigned to the Page Port.
-7
-Unassociated
-Voice Mailbox
-List
-<Extension> Mailbox number of the unassociated mailbox.
-<|Username|> Username assigned to the mailbox.
-<|Description|> Description assigned to the mailbox.
-8
-Feature List <Feature_Code> Access code for the feature.
-<Feature_Number> Logical number of the feature.
-<|Feature_Name|> Description assigned to the feature.
-<Is_Administrator_
-Feature>
-1 = Is an Administrator-Only Feature
-0 = Is NOT an Administrator-Only Feature
-<Is_Directory_Feature> 1 = Is a Directory Feature
-0 = Is NOT a Directory Feature
-<Is_Diagnostic_Feature> 1 = Is a Diagnostic Feature
-0 = Is NOT a Diagnostic Feature
-<Is_Toggleable_Feature> 1 = Is a Toggleable Feature
-0 = Is NOT a Toggleable Feature
-
-9
-Speed-Dial
-Bin List
-<Bin_Number> Number assigned to System Speed-Dial bin.
-<Bin_Contents> Number dialed as a result of speed-dial activation.
-<|Bin_Name|> Description given to the Speed-Dial bin.
-NOTE: If a speed-dial bin is empty (i.e., not programmed),
-the entry will not be sent. This prevents sending many empty
-entries to the application. Also, if the contents of the bin is a
-private number, only the bin number and bin name will actually
-be sent (i.e., the contents are not displayed). This keeps
-private numbers confidential.
-10
-DND Message
-List
-<DND_Message_Number> Number (1-20) assigned to the DND message.
-<|DND_Message_Text|> Text assigned to the DND message number.
-11
-Reminder
-Message List
-<Reminder_Message_ Number>
-Number (1-20) assigned to the Reminder message.
-<|Reminder_Message_ Text|> Text assigned to the Reminder message number.
-12
-Voice Mail
-Application
-List
-<Extension> Extension of the application.
-<|Username|> Username assigned to the application.
-<|Description|> Description assigned to the application.
-<Application_Type> 0 = Non-Subscriber Voice Mail
-1 = Message Notification Retrieval
-2 = Scheduled Timed-Based Application Routing (STAR)
-3 = Reserved
-4 = Reserved
-5 = Call Routing Announcement
-6 = Auto Attendant
-7 = Auto Attendant Recall
-8 = Record-A-Call
-13
-Private Networking
-Trunk
-List
-<Extension> Extension of the trunk.
-<|Username|> Username assigned to the trunk’s trunk group.
-<|Description|> PC description assigned to the trunk’s trunk group.
-14
-Private Networking
-Trunk
-Group List
-<Extension> Extension of the trunk group.
-<|Username|> Username assigned to the trunk group.
-<|Description|> Description assigned to the trunk group.
-<Number_Of_Members> Total number of members in the trunk group.
-
-15
-Off-Node
-Device List
-<Node:Extension> The off-node device number in expanded extension format.
-NOTE: This field is always in expanded extension format,
-regardless of the _XE command setting.
-<Device_Type> 0 = Non-Subscriber Voice Mail
-1 = Message Notification Retrieval
-2 = Scheduled Timed-Based Application Routing (STAR)
-3 = Reserved
-4 = Reserved
-5 = Call Routing Announcement
-6 = Auto Attendant
-7 = Auto Attendant Recall
-8 = Record-A-Call
-9 = Station
-10 = Hunt Group
-11 = Page Port
-12 = Page Zone
-13 = Unassociated Mailbox*
-99 = Unknown
-<|Username|> Username assigned to the station.
-<|Description|> PC description of the off-node device.
-<Mailbox_Node_Number> (Available in protocol versions 05.20 and later.) Indicates the
-node containing the device’s associated mailbox. If zero, the
-device does not have an associated mailbox on any node.
-16 System COS
-Flags
-<Flag_Number> The number of the system COS flag.
-<|Description|> Description assigned to the system COS flag.
-17 ACD Agent
-List
-<Agent_ID> The ID of the agent.
-<|Description|> Description assigned to the agent
-
-18
-Node Data* <Network_Node_Number> The number of the affected node.
-<|Description|> Description of the node.
-<Networking_Enabled/Disabled>
-0 = Networking is not enabled.
-1 = Networking is enabled.
-<Protocol_Version> The version of the protocol running on the node. This is in the
-form Vxx.yy where xx is the major version and yy is the revision
-number.
-<KSU_SW_Version> The software version running on the node. This is in the form
-Vxx.yy where xx is the major version and yy is the revision
-number.
-<Premium_Feature_
-Status>
-1 = Only System OAI events are enabled.
-2 = Only System OAI Third-Party Call Control commands are
-enabled.
-3 = Both System OAI events and Third-Party Call Control
-commands are enabled.
-<Country_Code> 1 = USA
-2 = Japan
-3 = United Kingdom
-4 = Indonesia
-5 = Mexico
-<TCPIP_Indicator> 0 = Node is communicating via RS232 (Axxess only) .
-1 = Node is communicating via TCP/IP.
-<Voice_Mail_Status> 0 = Not programmed
-1 = Programmed but down
-2 = Programmed and up
-
-19 Network
-Information**
-<Network_Node_Number> The node number to which the information applies.
-<|Node_Description|> The description assigned to the node. Note that this description
-is of the node responding to the query; so, it will not
-always match the description the node has programmed in
-Database Programming.
-<|IP_Address|> The IP address or hostname of the responding server. If
-blank, the node does not support direct TCP/IP.
-<TCP_Port> The TCP Port of the responding server. If blank, the server
-does not support direct TCP/IP, or the node responding to the
-query lacks the information.
-<|Redundant_IP_Address|> The IP address or hostname of the redundant CP Server. If
-blank, the node does not have a redundant server, or the
-node responding to the query lacks the information.
-<Redundant_TCP_Port> The TCP Port of the redundant CP Server. If blank, the node
-does not have a redundant server, or the node responding to
-the query lacks the information.
-<Enable_System_OAI_
-Sockets>
-0 = System OAI Sockets disabled (or the node does not support
-direct TCP/IP)
-1 = System OAI Sockets enabled
-If blank, the node responding to the query lacks the information.
-<Max_Supported_System_
-OAI_Sockets>
-The maximum supported System OAI connections the node
-supports. If zero, there is no connection limit. If blank, the
-node does not support System OAI sockets, or the node
-responding to the query lacks the information.
-<Protocol_Version> The System OAI protocol version the node supports. This
-field is in the form Vxx.yy where xx is the major version and
-yy is the revision number. If blank, the node responding to the
-query lacks the information.
-<KSU_SW_Version> The software version running on the node. This field is in the
-form Vxx.yyy where xx is the major version and yyy is the
-revision number. If blank, the node responding to the query
-lacks the information.
-<Premium_Feature_Status> 1 = Only System OAI events are enabled
-2 = Only Third-Party Call Control Commands are enabled
-3 = Both premium features are enabled
-
-* Available in protocol V06.00 and later.
-** Available in protocol V08.00 and later.
-NOTE: Text string fields (e.g., <Description>, <Username>, etc.) are delimited by vertical
-slashes (|).
-COMMON FAILURE
-OUTCOME VALUES:
-Invalid Device Identifier (9): The <Affected_Ext> parameter is specified but is invalid.
-Value_Out_Of_Range (31): The <List_Type> value specified is invalid, or single message
-mode has been specified and there is not enough space in the buffer for the number of entries
-that the query command can return.
-DESKTOP OAI: _Q
-GATEWAY IMPACTS: Gateway version 4.0 or later is required to return the network information.
-
-EXAMPLES: A list of all stations is queried with single response mode and with the following fields in each
-Entity: Extension, Username, Description.
-_QX,<InvokeID>,,1,3,1
-001,CF,_QX,<InvokeID>,0,1,003,1,10,100,|John D.|,|Doe, John|,101,
-|Sally S.|,|Smith, Sally|,102,|Charlie B.|,|Brown, Charlie|,
-103,|Bugs B.|,|Bunny, Bugs|,104,|Elmer F.|,|Fudd, Elmer|,105,
-|Wiley C.|,|Coyote, Wiley|,106,|Mickey M.|,|Mouse, Mickey|,107,
-|Jimmini C.|,|Cricket, Jimminie|,108,|Kris K.|,|Kringle, Kris|,
-109,|Clarke C.|,|Kent, Clarke|
-A list of all stations is queried with multiple response mode and with the following fields in
-each Entity: Extension, Username, Description. Each response may contain up to four entries.
-_QX,<InvokeID>,,1,3,2,4
-001,CF,_QX,<InvokeID>,0,1,003,0,4,100,|John D.|,|Doe, John|,101,
-|Sally S.|,|Smith, Sally|,102,|Charlie B.|,|Brown, Charlie|,
-103,|Bugs B.|,|Bunny, Bugs|
-002,CF,_QX,<InvokeID>,0,1,003,0,4,104,|Elmer F.|,|Fudd, Elmer|,
-105,|Wiley C.|,|Coyote, Wiley|,106,|Mickey M.|,|Mouse, Mickey|,
-107,|Jimmeni C.|,|Cricket, Jimmenie|
-003,CF,_QX,<InvokeID>,0,1,003,1,2,108,|Kris K.|,|Kringle, Kris|,
-109,|Clarke C.|,|Kent, Clarke|
-Query for all node information single response (connection to a node).
-_QX,<Invoke_ID>,,18,FFFF,1
-001,CF,_QX,<InvokeID>,0,18,FF,1,0001,1,|Node 1|,1,V06.00,V06.000,
-3,1,0,0
-Query for all node information single response (connection to a Gateway).
-_QX,<Invoke_ID>,,18,FFFF,1
-001,CF,_QX,<InvokeID>,0,18,FF,1,0003,1,|Node 1|
-,1,V06.00,V06.000,3,1,0,0,2,|Node 2|,1,V06.00,V06.000,3,1,1,1,3,
-|Node 3|,1,V06.00,V06.000,3,1,0,0
-Query for all node information multiple response (connection to a node).
-_QX,<Invoke_ID>,,18,FFFF,2,2
-001,CF,_QX,<InvokeID>,0,18,FF,0,0001,1,|Node 1|,
-1,V06.00,V06.000,3,1,0,0
-Query for all node information multiple response (connection to a Gateway).
-_QX,<Invoke_ID>,,18,FFFF,2,2
-001,CF,_QX,<InvokeID>,0,18,FF,0,0002,1,|Node 1|,
-1,V06.00,V06.000,3,1,0,2,|Node 2|,1,V06.00,V06.000,3,1,1,0
-002,CF,_QX,<Invoke_ID>,0,18,FF,1,0001,3,|Node 3|,1,
-V06.00,V06.000,3,1,0,0
-Query for node associated with 1000 for Premium Feature Status only.
-_QX,<Invoke_ID>,1000,18,10,1
-001,CF,_QX,<InvokeID>,0,18,10,1,0001,1,3
-Query for node 2 for OAI protocol level and TCP/IP indicator.
-_QX,<Invoke_ID>,2:,18,44,1
-001,CF,_QX,<InvokeID>,0,18,44,1,0001,2,V06.00,1
-Query info about trunks.
-_QX,45,,2,7,1
-003,CF,_QX,45,0,2,1,2,8,94202,|Trunk 94202|,|94202|,2,94301,
-|DID Trunk 94301|,|94301|,0
-Query info about the network.
-_QX,1,,19,ffff,2,1
-002,CF,_QX,1,0,19,3FF,1,0001,1,
-|Chandler Node 1|,|192.168.0.000|,4000,||,0,1,30,V08.00,V08.000,3
-
  */
-public class QueryListExtended
+public class QueryListExtended extends Command
 {
+	/** Command */
+	public final static String COMMAND = "_QX";
 
-	/*
-	 * _QX,
-	 * <InvokeID>,
-	 * <Affected_Ext>,
-	 * <List_Type>,
-	 * <Entity_Field_Mask>,
-	 * <Response_Mode>,
-	 * <Response_Size>
+    public final static int ENTITY_OFFSET = 9;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex
+     * 1 		Station List 		N/A 		<Extension> 				N/A
+     * 								0 			<|Username|> 				1
+     * 								1  			<|Description|> 			2
+     * 								2  			<Attendant> 				4
+     * 								3  			<Is_An_Adminstrator> 		8
+     * 								4  			<Is_An_Attendant> 			10
+     * 								5  			<Day_COS_Flags> 			20
+     * 								6  			<Night_COS_Flags> 			40
+     * 								7  			<Voice_Mail_Extension> 		80
+     * 								8  			<Device_Type> 				100
+     * 								9 			<Mailbox_Node_Number> 		200
+     * 								10 			<Physical_Device_Type>   	400
+     */
+    public final static int LIST_TYPE_STATION_LIST = 0x01;
+
+    public final static int MASK_STATION_LIST_USER = 0x001;
+    public final static int MASK_STATION_LIST_DESC = 0x002;
+    public final static int MASK_STATION_LIST_ATTEND = 0x004;
+    public final static int MASK_STATION_LIST_IS_ADMIN = 0x008;
+    public final static int MASK_STATION_LIST_IS_ATTEND = 0x010;
+    public final static int MASK_STATION_LIST_DAY_FLAGS = 0x020;
+    public final static int MASK_STATION_LIST_NIGHT_FLAGS = 0x040;
+    public final static int MASK_STATION_LIST_VOICE_MAIL = 0x080;
+    public final static int MASK_STATION_LIST_DEVICE_TYPE = 0x100;
+    public final static int MASK_STATION_LIST_MAILBOX_NODE = 0x200;
+    public final static int MASK_STATION_LIST_PHYSICAL_DEVICE = 0x400;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex
+     * 2 		Trunk List 			N/A 		<Extension>					N/A
+     *                              0 			<|Username|> 				1
+     *                              1 			<|Description|> 			2
+     *                              2 			<Answer_Supervision_Type> 	4
+     */
+    public final static int LIST_TYPE_TRUNK_LIST = 0x02;
+
+    public final static int MASK_TRUNK_LIST_USER = 0x001;
+    public final static int MASK_TRUNK_LIST_DESC = 0x002;
+    public final static int MASK_TRUNK_LIST_ANS_SUPERVISION = 0x004;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex
+     * 3 		Hunt Group List 	N/A 		<Extension> 				N/A
+     *                              0 			<|Username|> 				1
+     *                              1 			<|Description|> 			2
+     *                              2 			<Hunt_Group_Type> 			4
+     *                              3 			<Number_Of_Members> 		8
+     *                              4 			<Mailbox_Node_Number> 		10
+     */
+    public final static int LIST_TYPE_HUNT_GROUP_LIST = 0x03;
+
+    public final static int MASK_HUNT_GROUP_LIST_USER = 0x001;
+    public final static int MASK_HUNT_GROUP_LIST_DESC = 0x002;
+    public final static int MASK_HUNT_GROUP_LIST_HUNT_GROUP = 0x004;
+    public final static int MASK_HUNT_GROUP_LIST_MEMBERS = 0x008;
+    public final static int MASK_HUNT_GROUP_LIST_MAILBOX = 0x010;
+
+    /** 
+     * Val. 	Description 		Bit # 		Field 						Hex
+     * 4 		Trunk Group List 	N/A 		<Extension>					N/A
+     *                              0 			<|Username|> 				1
+     *                              1 			<|Description|> 			2
+     *                              2 			<Number_Of_Members> 		4
+     */
+    public final static int LIST_TYPE_TRUNK_GROUP_LIST = 0x04;
+
+    public final static int MASK_HUNT_TRUNK_LIST_USER = 0x001;
+    public final static int MASK_HUNT_TRUNK_LIST_DESC = 0x002;
+    public final static int MASK_HUNT_TRUNK_LIST_MEMBERS = 0x004;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 5 		Page Zone List 		N/A 		<Extension> 				N/A
+     *                              0 			<|Username|>                1
+     *                              1 			<|Description|>             2
+     *                              2 			<Number_Of_Members>         4
+     */
+    public final static int LIST_TYPE_PAGE_ZONE_LIST = 0x05;
+
+    public final static int MASK_PAGE_ZONE_LIST_USER = 0x001;
+    public final static int MASK_PAGE_ZONE_LIST_DESC = 0x002;
+    public final static int MASK_PAGE_ZONE_LIST_MEMBERS = 0x004;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 6        Page Port List      N/A         <Extension>                 N/A
+     * 								0 			<|Username|>                1
+     * 								1 			<|Description|>             2
+     */
+    public final static int LIST_TYPE_PAGE_PORT_LIST = 0x06;
+
+    public final static int MASK_PAGE_PORT_LIST_USER = 0x001;
+    public final static int MASK_PAGE_PORT_LIST_DESC = 0x002;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 7 		Unassociated Voice 	N/A 		<Mailbox_Number>			N/A
+     *          Mailbox List
+     *                              0           <|Username|>                1
+     *                              1           <|Description|>             2
+     */
+    public final static int LIST_TYPE_VOICE_MAILBOX_LIST = 0x06;
+
+    public final static int MASK_VOICE_MAILBOX_LIST_USER = 0x001;
+    public final static int MASK_VOICE_MAILBOX_LIST_DESC = 0x002;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 8        Feature List        N/A         <Feature_Code>              N/A
+     *                              0           <Feature_Number> (Logical)  1
+     *                              1           <Feature_Name>              2
+     *                              2           <Is_Administrator_Feature>  4
+     *                              3           <Is_Directory_Feature>      8
+     *                              4           <Is_Diagnostic_Feature>     10
+     *                              5           <Is_Toggleable_Feature>     20
+     */
+    public final static int LIST_TYPE_FEATURE_LIST = 0x08;
+
+    public final static int MASK_FEATURE_LIST_FEAT_NUM = 0x001;
+    public final static int MASK_FEATURE_LIST_FEAT_NAME = 0x002;
+    public final static int MASK_FEATURE_LIST_IS_ADMIN = 0x004;
+    public final static int MASK_FEATURE_LIST_IS_DIR = 0x008;
+    public final static int MASK_FEATURE_LIST_IS_DIAG = 0x010;
+    public final static int MASK_FEATURE_LIST_IS_TOGGLE = 0x020;
+
+    /** 
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 9        Speed-Dial Bin List N/A         <Bin_Number>                N/A
+     *                               0          <Bin_Contents>              1
+     *                               1          <|Bin_Name|>                2
+     */
+    public final static int LIST_TYPE_SPEED_DIAL_LIST = 0x09;
+
+    public final static int MASK_SPEED_DIAL_LIST_CONTENTS = 0x001;
+    public final static int MASK_SPEED_DIAL_LIST_NAME = 0x002;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 10       DND Message List    N/A         <DND_Message_Number>        N/A
+     *                              0           <|DND_Message_Text|>        1
+     */
+    public final static int LIST_TYPE_DND_LIST = 0x0A;
+
+    public final static int MASK_DND_LIST_MESSAGE = 0x001;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 11       Reminder Message    N/A         <Reminder_Message_Number>   N/A
+     *          List 
+     *                               0          <|Reminder_Message_Text|>   1
+     */
+    public final static int LIST_TYPE_REMINDER_LIST = 0x0B;
+
+    public final static int MASK_REMINDER_LIST_MESSAGE = 0x001;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 12       Voice Mail          N/A         <Extension>                 N/A
+     *          Application List
+     *                              0           <|Username|>                1
+     *                              1           <|Description|>             2
+     *                              2           <Application_Type>          4
+     */
+    public final static int LIST_TYPE_VOICE_MAIL_APPLICATION_LIST = 0x0C;
+
+    public final static int MASK_VOICE_MAIL_APPLICATION_LIST_USER = 0x001;
+    public final static int MASK_VOICE_MAIL_APPLICATION_LIST_DESC = 0x002;
+    public final static int MASK_VOICE_MAIL_APPLICATION_LIST_APP_TYPE = 0x004;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 13       Private Networking  N/A         <Extension>                 N/A
+     *          Trunk List
+     *                              0           <|Username|>                1
+     *                              1           <|Description|>             2
+     */
+    public final static int LIST_TYPE_PRIVATE_NETWORKING_TRUNK_LIST = 0x0D;
+
+    public final static int MASK_PRIVATE_NETWORKING_TRUNK_LIST_USER = 0x001;
+    public final static int MASK_PRIVATE_NETWORKING_TRUNK_LIST_DESC = 0x002;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 14       Private Networking  N/A         <Extension>                 N/A
+     *          Trunk Group List
+     *                              0           <|Username|>                1
+     *                              1           <|Description|>             2
+     *                              2           <Number_Of_Members>         4
+     */
+    public final static int LIST_TYPE_PRIVATE_NETWORKING_TRUNK_GROUP_LIST = 0x0E;
+
+    public final static int MASK_PRIVATE_NETWORKING_TRUNK_GROUP_LIST_USER = 0x001;
+    public final static int MASK_PRIVATE_NETWORKING_TRUNK_GROUP_LIST_DESC = 0x002;
+    public final static int MASK_PRIVATE_NETWORKING_TRUNK_GROUP_LIST_MEMBERS = 0x004;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 15       Off-Node Device     N/A         <Node: Extension>           N/A
+     *          List 
+     *                              0           <Device_Type>               1
+     *                              1           <|Username|>                2
+     *                              2           <|Description|>             4
+     *                              3           <Mailbox_Node_Number>       8
+     */
+    public final static int LIST_TYPE_OFF_NODE_DEVICE_LIST = 0x0F;
+
+    public final static int MASK_OFF_NODE_DEVICE_LIST_DEV_TYPE = 0x001;
+    public final static int MASK_OFF_NODE_DEVICE_LIST_USER = 0x002;
+    public final static int MASK_OFF_NODE_DEVICE_LIST_DESC = 0x004;
+    public final static int MASK_OFF_NODE_DEVICE_LIST_MAILBOX = 0x008;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 16       System COS Flag     N/A         <Flag_Number>               N/A
+     *                              0           <|Description|>             1
+     */
+    public final static int LIST_TYPE_SYSTEM_COS_FLAG = 0x10;
+
+    public final static int MASK_SYSTEM_COS_FLAG_DESC = 0x001;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex
+     * 17       ACD Agent           N/A         <Agent_ID>                  N/A
+     * 	                            0           <|Description|>             1
+     */
+    public final static int LIST_TYPE_ACD_AGENT = 0x11;
+
+    public final static int MASK_ACD_AGENT_DESC = 0x01;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 18       Node Data           N/A         <Network_Node_Number>       N/A
+     *                              0           <|Description|>             1
+     *                              1           <Networking_Enabled/Disabled> 2
+     *                              2           <Protocol_Version>          4
+     *                              3           <KSU_SW_Version>            8
+     *                              4           <Premium_Feature_Status>    10
+     *                              5           <Country_Code>              20
+     *                              6           <TCPIP_Indicator>           40
+     *                              7           <Voice_Mail_Status>         80
+     *                              8           <Max_Parties_in_Conference> 100
+     */
+    public final static int LIST_TYPE_NODE_DATA = 0x12;
+
+    public final static int MASK_NODE_DATA_DESC = 0x001;
+    public final static int MASK_NODE_DATA_NET_EN = 0x002;
+    public final static int MASK_NODE_DATA_PROTOCOL = 0x004;
+    public final static int MASK_NODE_DATA_KSU_SW = 0x008;
+    public final static int MASK_NODE_DATA_PREM = 0x010;
+    public final static int MASK_NODE_DATA_COUNTRY = 0x020;
+    public final static int MASK_NODE_DATA_TCPIP = 0x040;
+    public final static int MASK_NODE_DATA_VOICE_MAIL = 0x080;
+    public final static int MASK_NODE_DATA_MAX_PARTIES = 0x100;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 19       Network Information N/A         <Network_Node_Number>       N/A
+     *                              0           <|Node_Description|>        1
+     *                              1           <|IP_Address|>              2
+     *                              2           <TCP_Port>                  4
+     *                              3           <|Redundant_IP_Address|>    8
+     *                              4           <Redundant_TCP_Port>        10
+     *                              5           <System_OAI_Sockets_Enabled> 20
+     *                              6           <Max_Supported_System_OAI_Sockets> 40
+     *                              7           <Protocol_Version>          80
+     *                              8           <KSU_SW_Version>            100
+     *                              9           <Premium_Feature_Status>    200
+     */
+    public final static int LIST_TYPE_NETWORK_INFORMATION = 0x13;
+
+    public final static int MASK_NETWORK_INFORMATION_NODE_DESC = 0x001;
+    public final static int MASK_NETWORK_INFORMATION_IP = 0x002;
+    public final static int MASK_NETWORK_INFORMATION_TCP = 0x004;
+    public final static int MASK_NETWORK_INFORMATION_REDUNDANT_IP = 0x008;
+    public final static int MASK_NETWORK_INFORMATION_REDUNDANT_TCP = 0x010;
+    public final static int MASK_NETWORK_INFORMATION_SOCKETS_ENABLED = 0x020;
+    public final static int MASK_NETWORK_INFORMATION_MAX_SOCKETS = 0x040;
+    public final static int MASK_NETWORK_INFORMATION_PROTOCOL = 0x080;
+    public final static int MASK_NETWORK_INFORMATION_KSU_SW = 0x100;
+    public final static int MASK_NETWORK_INFORMATION_PREM = 0x200;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 20       IPRC and            N/A         <Extension>                 N/A
+     *          IP Connections
+     *                              0           <|Username|>                1
+     *                              1           <|Description|>             2
+     */
+    public final static int LIST_TYPE_IPRC_AND_IP_CONNECTIONS = 0x14;
+
+    public final static int MASK_IPRC_AND_IP_CONNECTIONS_USER = 0x001;
+    public final static int MASK_IPRC_AND_IP_CONNECTIONS_DESC = 0x002;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 21       User                N/A         <Main_Extension>            N/A
+     *                              0           <|First_Name|>              1
+     *                              1           <|Last_Name|>               2
+     *                              2           <|Email_Address|>           4
+     *                              3           <|Login|>                   8
+     *                              4           <Is_Personal_Call_Routing_Enabled> 10
+     *                              5           <Mobile_Email_Address>      20
+     */
+    public final static int LIST_TYPE_USER = 0x15;
+
+    public final static int MASK_USER_FIRST_NAME = 0x001;
+    public final static int MASK_USER_LAST_NAME = 0x002;
+    public final static int MASK_USER_EMAIL_ADDRESS = 0x004;
+    public final static int MASK_USER_LOGIN = 0x008;
+    public final static int MASK_USER_IS_PER_ROUTING = 0x010;
+    public final static int MASK_USER_MOB_EMAIL = 0x020;
+
+    /**
+     * Val. 	Description 		Bit # 		Field 						Hex   
+     * 22       Assistant List      N/A         <Extension>                 N/A
+     *                              0           <|Username|>                1
+     *                              1           <|Description|>             2
+     *                              2           <Device_Type>               4
+     */
+    public final static int LIST_TYPE_ASSISTANT_LIST = 0x16;
+
+    public final static int MASK_ASSISTANT_LIST_USER = 0x001;
+    public final static int MASK_ASSISTANT_LIST_DESC = 0x002;
+    public final static int MASK_ASSISTANT_LIST_DEV_TYPE = 0x004;
+
+	
+	/** Affected Extension */
+	protected int mAffectedExt = 0;
+	
+	/** List Type */
+	protected int mListType = 0;
+	
+	/** Entity Field Mask */
+	protected int mEntityFieldMask = 0;
+
+	/** Response Mode */
+	protected int mResponseMode = 1;
+
+	/** Response Size */
+	protected int mResponseSize = 1;
+	
+	/**
+	 * 
+	 * @param affectedExt
+	 * @return
 	 */
+	public QueryListExtended setAffectedExt( int affectedExt )
+	{
+		this.mAffectedExt = affectedExt;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getAffectedExt()
+	{
+		return this.mAffectedExt;
+	}
+
+	/**
+	 * 
+	 * @param listType
+	 * @return
+	 */
+	public QueryListExtended setListType( int listType )
+	{
+		this.mListType = listType;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getListType()
+	{
+		return this.mListType;
+	}
+
+	/**
+	 * 
+	 * @param entityFieldMask
+	 * @return
+	 */
+	public QueryListExtended setEntityFieldMask( int entityFieldMask )
+	{
+		this.mEntityFieldMask = entityFieldMask;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getEntityFieldMask()
+	{
+		return this.mEntityFieldMask;
+	}
+
+	/**
+	 * 
+	 * @param responseMode
+	 * @return
+	 */
+	public QueryListExtended setResponseMode( int responseMode )
+	{
+		this.mResponseMode = responseMode;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getResponseMode()
+	{
+		return this.mResponseMode;
+	}
+
+	/**
+	 * 
+	 * @param responseSize
+	 * @return
+	 */
+	public QueryListExtended setResponseSize( int responseSize )
+	{
+		this.mResponseSize = responseSize;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getResponseSize()
+	{
+		return this.mResponseSize;
+	}
+
+	@Override
+	public String buildCommand()
+	{
+        // _QX,<InvokeID>,<Affected_Ext>,<List_Type>,<Entity_Field_Mask>,
+        // <Response_Mode>,<Response_Size><CR>
+		
+		String command = COMMAND + "," + this.getInvokeID() + ",";
+
+        // Affected_Ext
+        // Specifies the system node, using the Node: format (e.g., 1:), any valid
+        // extension on the system node, or it can be blank.
+		if( 0 < this.getAffectedExt() )
+		{
+			command += this.getAffectedExt();
+		}
+		command += ",";
+
+        // List_Type
+        // Indicates the type of list being queried
+		if( 0 < this.getListType() ) 
+		{
+			command += this.getListType();
+		}
+		command += ",";
+
+        // Entity_Field_Mask
+        // Returns a list of entities where each entity may contain several fields
+        // of information.
+		if( 0 < this.getEntityFieldMask() )
+		{
+			command += Integer.toHexString( this.getEntityFieldMask() );
+		}
+
+        // Response_Mode
+        // Single Message Mode (1): The entire list is sent in a single message.
+        // Multiple Message Mode (2): The list is generated in item groups.
+		command += "," + this.getResponseMode();
+
+        // Response_Size
+        // Defines the maximum number of elements, up to the maximum number
+        // of system extensions, to be included in a response.
+		command += "," + this.getResponseSize();
+
+		return command;
+	}
+
+	/**
+	 * 
+	 */
+	public boolean hasCompleted()
+	{
+		return ( this.mEvent instanceof Confirmation );
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public void confirmation()
+	{
+		if( !( this.mEvent instanceof Confirmation ) )
+		{
+			return;
+		}
+
+        int offset = ENTITY_OFFSET;
+        int segments = segmentCount();
+        int count = segmentCount() * entityCount();
+
+        for (int i = offset; i < offset+count; i += segments)
+        {
+            switch (ListType())
+            {
+                // 1 Station List
+                case LIST_TYPE_STATION_LIST:
+                {
+                	parseStation(i);
+                    break;
+                }
+
+                // 2 Trunk List
+                case LIST_TYPE_TRUNK_LIST:
+                {
+                	parseTrunk(i);
+                	break;
+                }
+                
+                // 3 Hunt Group List
+                case LIST_TYPE_HUNT_GROUP_LIST:
+                {
+                	parseHuntGroup(i);
+                    break;
+                }
+
+                // 8 Feature List 
+                case LIST_TYPE_FEATURE_LIST:
+                {
+                	parseFeature(i);
+                	break;
+                }
+
+                // 10 DND Message List
+                case LIST_TYPE_DND_LIST:
+                {
+                	parseDND(i);
+                    break;
+                }
+
+                // 17 ACD Agent List
+                case LIST_TYPE_ACD_AGENT:
+                {
+                	parseAgent(i);
+                    break;
+                }
+            }
+        }
+	}
+	
+    public int ListType()
+    {
+        return intPart(5);
+    }
+
+    public int entityFieldMask()
+    {
+        return Integer
+        	.valueOf(part(6), 16)
+        	.intValue();
+    }
+
+    public int msgIndicator()
+    {
+        return intPart(7);
+    }
+
+    public int entityCount()
+    {
+        return intPart(8);
+    }
+
+    public int segmentCount()
+    {
+        return (parts() - ENTITY_OFFSET) /
+            entityCount();
+    }
+    
+    public void parseFeature(int index)
+    {
+        String featureCode = part(index++);
+
+        Feature feature = getFeature(featureCode);
+
+        int mask = entityFieldMask();
+
+        if (MASK_FEATURE_LIST_FEAT_NUM == (MASK_FEATURE_LIST_FEAT_NUM & mask))
+        {
+        	feature.setFeatureNumber(part(index++));
+        }
+
+        if (MASK_FEATURE_LIST_FEAT_NAME == (MASK_FEATURE_LIST_FEAT_NAME & mask))
+        {
+        	feature.setFeatureName(part(index++));
+        }
+
+        if (MASK_FEATURE_LIST_IS_ADMIN == (MASK_FEATURE_LIST_IS_ADMIN & mask))
+        {
+        	feature.setIsAdministratorFeature(intPart(index++));
+        }
+
+        if (MASK_FEATURE_LIST_IS_DIR == (MASK_FEATURE_LIST_IS_DIR & mask))
+        {
+        	feature.setIsDirectoryFeature(intPart(index++));
+        }
+
+        if (MASK_FEATURE_LIST_IS_DIAG == (MASK_FEATURE_LIST_IS_DIAG & mask))
+        {
+        	feature.setIsDiagnosticFeature(intPart(index++));
+        }
+
+        if (MASK_FEATURE_LIST_IS_TOGGLE == (MASK_FEATURE_LIST_IS_TOGGLE & mask))
+        {
+        	feature.setIsToggleableFeature(intPart(index++));
+        }
+    }
+
+    public void parseDND(int index)
+    {
+        String dnd = part(index++);
+
+        DND model = getDND(dnd);
+
+        int mask = entityFieldMask();
+
+        if (MASK_DND_LIST_MESSAGE == (MASK_DND_LIST_MESSAGE & mask))
+        {
+            model.setMessageText(part(index++));
+        }
+    }
+
+    public void parseHuntGroup(int index)
+    {
+        String huntGroupID = part(index++);
+
+        HuntGroup huntGroup = getHuntGroup(huntGroupID);
+
+        int mask = entityFieldMask();
+
+        if (MASK_HUNT_GROUP_LIST_USER == (MASK_HUNT_GROUP_LIST_USER & mask))
+        {
+        	huntGroup.setUsername(part(index++));
+        }
+
+        if (MASK_HUNT_GROUP_LIST_DESC == (MASK_HUNT_GROUP_LIST_DESC & mask))
+        {
+        	huntGroup.setDescription(part(index++));
+        }
+
+        if (MASK_HUNT_GROUP_LIST_HUNT_GROUP == (MASK_HUNT_GROUP_LIST_HUNT_GROUP & mask))
+        {
+        	huntGroup.setGroupType(intPart(index++));
+        }
+
+        if (MASK_HUNT_GROUP_LIST_MEMBERS == (MASK_HUNT_GROUP_LIST_MEMBERS & mask))
+        {
+        	huntGroup.setNumberOfMembers(intPart(index++));
+        }
+
+        if (MASK_HUNT_GROUP_LIST_MAILBOX == (MASK_HUNT_GROUP_LIST_MAILBOX & mask))
+        {
+        	huntGroup.setMailboxNodeNumber(intPart(index++));
+        }
+    }
+
+    public void parseAgent(int index)
+    {
+        String agentID = part(index++);
+
+        Agent agent = getAgent(agentID);
+        
+        int mask = entityFieldMask();
+
+        if (MASK_ACD_AGENT_DESC == (MASK_ACD_AGENT_DESC & mask))
+        {
+        	agent.setDescription(part(index++));
+        }
+    }
+
+    public void parseStation(int index)
+    {
+        String extension = part(index++);
+
+        Device device = getDevice(extension);
+
+        int mask = entityFieldMask();
+
+        if (MASK_STATION_LIST_USER == (MASK_STATION_LIST_USER & mask))
+        {
+        	device.setUsername(part(index++));
+        }
+
+        if (MASK_STATION_LIST_DESC == (MASK_STATION_LIST_DESC & mask))
+        {
+        	device.setDescription(part(index++));
+        }
+
+        if (MASK_STATION_LIST_ATTEND == (MASK_STATION_LIST_ATTEND & mask))
+        {
+        	device.setAttendantExtension(intPart(index++));
+        }
+
+        if (MASK_STATION_LIST_IS_ADMIN == (MASK_STATION_LIST_IS_ADMIN & mask))
+        {
+        	device.setIsAdministrator(intPart(index++));
+        }
+
+        if (MASK_STATION_LIST_IS_ATTEND == (MASK_STATION_LIST_IS_ATTEND & mask))
+        {
+        	device.setIsAttendant(intPart(index++));
+        }
+
+        if (MASK_STATION_LIST_DAY_FLAGS == (MASK_STATION_LIST_DAY_FLAGS & mask))
+        {
+        	device.setDayCOSFlags(intPart(index++));
+        }
+
+        if (MASK_STATION_LIST_NIGHT_FLAGS == (MASK_STATION_LIST_NIGHT_FLAGS & mask))
+        {
+        	device.setNightCOSFlags(intPart(index++));
+        }
+
+        if (MASK_STATION_LIST_VOICE_MAIL == (MASK_STATION_LIST_VOICE_MAIL & mask))
+        {
+        	device.setVoiceMailExt(intPart(index++));
+        }
+
+        if (MASK_STATION_LIST_DEVICE_TYPE == (MASK_STATION_LIST_DEVICE_TYPE & mask))
+        {
+        	device.setDeviceType(intPart(index++));
+        }
+
+        if (MASK_STATION_LIST_MAILBOX_NODE == (MASK_STATION_LIST_MAILBOX_NODE & mask))
+        {
+        	device.setMailboxNodeNumber(intPart(index++));
+        }
+
+        if (MASK_STATION_LIST_PHYSICAL_DEVICE == (MASK_STATION_LIST_PHYSICAL_DEVICE & mask))
+        {
+        	device.setPhysicalDeviceType(intPart(index++));
+        }
+	}
+    
+    public void parseTrunk(int index)
+    {
+    	
+    }
 }

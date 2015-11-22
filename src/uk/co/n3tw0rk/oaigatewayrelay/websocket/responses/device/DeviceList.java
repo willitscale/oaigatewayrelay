@@ -10,7 +10,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.websocket.constants.OperationMap;
 
 public class DeviceList extends WebSocketResponse
 {
-	public List<Integer> mDevices;
+	public List<String> mDevices;
 
 	public DeviceList( Object data, String session )
 	{
@@ -28,7 +28,7 @@ public class DeviceList extends WebSocketResponse
 	@Override
 	public void process( Object data )
 	{
-		this.mDevices = new LinkedList<Integer>();
+		this.mDevices = new LinkedList<String>();
 		
 		Devices devices = SystemController.instance().getDevices();
 		

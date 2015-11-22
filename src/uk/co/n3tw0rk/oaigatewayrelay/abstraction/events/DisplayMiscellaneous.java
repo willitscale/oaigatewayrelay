@@ -52,4 +52,9 @@ public abstract class DisplayMiscellaneous extends Miscellaneous
 		this.setSubjectExt( this.getIntPart( 4 ) );
 		this.setDisplayControlType( this.getIntPart( 5 ) );
 	}
+
+	@Override
+	public void process()
+	{
+	}
 }

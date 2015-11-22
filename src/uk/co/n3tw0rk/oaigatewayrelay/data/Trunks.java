@@ -3,4 +3,13 @@ package uk.co.n3tw0rk.oaigatewayrelay.data;
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Information;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Trunk;
 
-public class Trunks extends Information<Trunk> {}
+public class Trunks extends Information<Trunk> {
+
+	/**
+	 * 
+	 */
+	@Override
+	public Trunk getNew(Object key) {
+		return new Trunk(key.toString());
+	}
+}

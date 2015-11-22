@@ -1,10 +1,7 @@
 package uk.co.n3tw0rk.oaigatewayrelay.commands.pbx;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands.Command;
-import uk.co.n3tw0rk.oaigatewayrelay.consts.MonitorTypes;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
-import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
-import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Node;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 
 /**
@@ -339,7 +336,47 @@ import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 public class MonitorStart extends Command
 {
 	/** Command */
-	public static final String COMMAND = "_MS";
+	public final static String COMMAND = "_MS";
+
+    /**
+     * Value <Monitor_Type> Valid Forms of <Affected_ID> 
+     */
+
+    // 0 Call – Call monitoring on specified call. Valid Call ID (cannot use expanded format).
+    public final static int MONITOR_TYPE_CALL = 0x00;
+
+    // 1 Device – Device monitoring on specified device. Valid device (see page 25).
+    public final static int MONITOR_TYPE_DEVICE = 0x01;
+
+    // 2 Calls Via Device – Call via Device monitoring on specified device. Valid Hunt Group device.
+    public final static int MONITOR_TYPE_CALL_VIA_DEVICE = 0x02;
+
+    // 3 All Stations (Device-Type Monitoring) on all stations. Not used.
+    public final static int MONITOR_TYPE_ALL_STATIONS = 0x03;
+
+    // 4 All Trunks (Device-Type Monitoring) on all trunks. Not used.
+    public final static int MONITOR_TYPE_ALL_TRUNKS = 0x04;
+
+    // 5 Device with Resync – Device monitoring on specified device. Valid device (see page 25).
+    public final static int MONITOR_TYPE_DEVICE_WITH_RESYNC = 0x05;
+
+    // 6 All Stations with Resync – Device monitoring on all stations. Not used.
+    public final static int MONITOR_TYPE_ALL_STATIONS_WITH_RESYNC = 0x06;
+
+    // 7 Agent ID – Creates a device-type monitor wherever the agent logs in. Valid Agent ID.
+    public final static int MONITOR_TYPE_AGENT_ID = 0x07;
+
+    // 8 Call Termination. Not used. Commands
+    public final static int MONITOR_TYPE_CALL_TERMINATED = 0x08;
+
+    // 9 All Voice Mail Applications – Device-type monitor. Not used.
+    public final static int MONITOR_TYPE_ALL_VOICE_MAIL_APPLICATIONS = 0x09;
+
+    // 10 All Private Network Trunks. Reserved for future use.
+    public final static int MONITOR_TYPE_ALL_PRIVATE_NETWORK_TRUNKS = 0xA0;
+
+    // 11 System – System monitor. Not used
+    public final static int MONITOR_TYPE_SYSTEM = 0xA1;
 	
 	/** Affected Extension */
 	protected int mAffectedExt;
@@ -348,34 +385,61 @@ public class MonitorStart extends Command
 	
 	protected int mMonitorType;
 
+	/**
+	 * 
+	 * @param affectedExt
+	 * @return
+	 */
 	public MonitorStart setAffectedExt( int affectedExt )
 	{
 		this.mAffectedExt = affectedExt;
 		return this;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getAffectedExt()
 	{
 		return this.mAffectedExt;
 	}
 	
+	/**
+	 * 
+	 * @param monitorOptions
+	 * @return
+	 */
 	public MonitorStart setMonitorOptions( String monitorOptions )
 	{
 		this.mMonitorOptions = monitorOptions;
 		return this;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getMonitorOptions()
 	{
 		return this.mMonitorOptions;
 	}
 	
+	/**
+	 * 
+	 * @param monitorType
+	 * @return
+	 */
 	public MonitorStart setMonitorType( int monitorType )
 	{
 		this.mMonitorType = monitorType;
 		return this;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getMonitorType()
 	{
 		return this.mMonitorType;
@@ -384,23 +448,39 @@ public class MonitorStart extends Command
 	@Override
 	public String buildCommand()
 	{
+        // _MS,<InvokeID>,<Affected_ID>,<Monitor_Type>,<Filter_List><CR>
 		String command = COMMAND + "," + this.getInvokeID() + ",";
 
+        // Affected_ID
+        // Indicates a phone, hunt/ACD group, modem (Axxess only), trunk group,
+        // trunk, voice mail application, or agent ID. 
 		if( 0 < this.getAffectedExt() )
 		{
 			command += this.getAffectedExt();
 		}
-		
-		command += "," + this.getMonitorType() + "," + getMonitorOptions();
+
+        // Monitor_Type
+        // Identifies the requested monitor type (default is “1”), 
+		// which can be one of the values identified in the following table.
+		command += "," + this.getMonitorType();
+
+        // Filter_List
+		command += "," + getMonitorOptions();
 
 		return command;
 	}
 
+	/**
+	 * 
+	 */
 	public boolean hasCompleted()
 	{
 		return ( this.mEvent instanceof Confirmation );
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void confirmation()
 	{
@@ -411,22 +491,22 @@ public class MonitorStart extends Command
 
 		switch( this.getMonitorType() )
 		{
-			case MonitorTypes.MONITOR_TYPE_CALL : {}
-			case MonitorTypes.MONITOR_TYPE_DEVICE : {}
-			case MonitorTypes.MONITOR_TYPE_CALLS_VIA_DEVICE : {}
-			case MonitorTypes.MONITOR_TYPE_ALL_STATIONS : 
+			case MONITOR_TYPE_CALL : {}
+			case MONITOR_TYPE_DEVICE : {}
+			case MONITOR_TYPE_CALL_VIA_DEVICE : {}
+			case MONITOR_TYPE_ALL_STATIONS : 
 			{
 				allStationsConfirmation();
 				return;
 			}
-			case MonitorTypes.MONITOR_TYPE_ALL_TRUNKS : {}
-			case MonitorTypes.MONITOR_TYPE_DEVICE_RESYNC : {}
-			case MonitorTypes.MONITOR_TYPE_ALL_STATIONS_RESYNC :	{}
-			case MonitorTypes.MONITOR_TYPE_AGENT : {}
-			case MonitorTypes.MONITOR_TYPE_CALL_TERMINATION : {}
-			case MonitorTypes.MONITOR_TYPE_VOICE_MAIL : 	{}
-			case MonitorTypes.MONITOR_TYPE_PRIVATE_NETWORK : {}
-			case MonitorTypes.MONITOR_TYPE_SYSTEM :
+			case MONITOR_TYPE_ALL_TRUNKS : {}
+			case MONITOR_TYPE_DEVICE_WITH_RESYNC : {}
+			case MONITOR_TYPE_ALL_STATIONS_WITH_RESYNC :	{}
+			case MONITOR_TYPE_AGENT_ID : {}
+			case MONITOR_TYPE_CALL_TERMINATED : {}
+			case MONITOR_TYPE_ALL_VOICE_MAIL_APPLICATIONS : {}
+			case MONITOR_TYPE_ALL_PRIVATE_NETWORK_TRUNKS : {}
+			case MONITOR_TYPE_SYSTEM :
 			{
 				systemConfirmation();
 				return;
@@ -461,7 +541,7 @@ public class MonitorStart extends Command
 	
 	public void allStationsConfirmation()
 	{
-		int partsSize = this.mEvent.getPartsSize();
+		int partsSize = parts();
 		
 		if( 0 == partsSize )
 		{
@@ -469,7 +549,7 @@ public class MonitorStart extends Command
 		}
 		
 		int stationSize = ( ( partsSize - 9 ) / 2 );
-		int reportedStationSize = this.mEvent.getIntPart( 5 );
+		int reportedStationSize = intPart( 5 );
 		
 		if( stationSize != reportedStationSize )
 		{
@@ -480,13 +560,10 @@ public class MonitorStart extends Command
 		
 		for( int i = 6; i < partsSize - 3; i += 2 )
 		{
-			int monCrossRefID = this.mEvent.getIntPart( i );
-			int extension = this.mEvent.getIntPart( i + 1 );
-
 			system
 				.getDevices()
-				.addStructure( monCrossRefID, 
-					new Device().setExtension( extension ) );
+				.getStructure(part( i + 1 ))
+				.setMonCrossRefID(intPart( i ));
 		}
 	}
 	
@@ -528,13 +605,10 @@ public class MonitorStart extends Command
 		
 		for( int i = 6; i < partsSize - 1; i += 2 )
 		{
-			int monCrossRefID = this.mEvent.getIntPart( i );
-			int extension = this.mEvent.getIntPart( i + 1 );
-
 			system
 				.getNodes()
-				.addStructure( monCrossRefID, 
-					new Node().setNodeNumber( extension ) );
+				.getStructure(part( i + 1 ))
+				.setMonCrossRefID(intPart( i ));
 		}
 	}
 }

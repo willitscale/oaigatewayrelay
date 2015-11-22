@@ -26,6 +26,14 @@ public class WebSocketEvents extends Event
 		{
 			System.out.println( "session:" + session );
 			System.out.println( "data:" + data );
+			
+			// Connect using the following URL ws://localhost:8089
+			// Data will arrive in the following format:
+			// {
+			//		controller:"device",
+			//		action:"monitor",
+			//		data:"start"
+			// }
 			operation = gson.fromJson( data, WebSocketOperation.class );
 		}
 		catch( Exception exception )

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import uk.co.n3tw0rk.oaigatewayrelay.utils.Config;
+import uk.co.n3tw0rk.oaigatewayrelay.utils.Logger;
 
 public class MySQLConnection
 {
@@ -101,9 +102,9 @@ public class MySQLConnection
 	{
 		if( Config.DEBUGGING )
 		{
-			System.out.println( "SQLException: " + e.getMessage() );
-			System.out.println( "SQLState: " + e.getSQLState() );
-			System.out.println( "VendorError: " + e.getErrorCode() );
+			Logger.console( "SQLException: " + e.getMessage(), Logger.ERROR_LEVEL );
+			Logger.console( "SQLState: " + e.getSQLState(), Logger.ERROR_LEVEL );
+			Logger.console( "VendorError: " + e.getErrorCode(), Logger.ERROR_LEVEL );
 		}
 	}
 

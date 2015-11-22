@@ -188,9 +188,9 @@ public class FeatureStatus extends Feature
 		}
 		
 		
-		this.setCallID( this.getStringPart( 4 ) );
-		this.setAffectedExt( this.getIntPart( 5 ) );
-		this.setNumberOfElapsedSeconds( this.getIntPart( 6 ) );
+		//this.setCallID( this.getStringPart( 4 ) );
+		//this.setAffectedExt( this.getIntPart( 5 ) );
+		//this.setNumberOfElapsedSeconds( this.getIntPart( 6 ) );
 		
 	}
 

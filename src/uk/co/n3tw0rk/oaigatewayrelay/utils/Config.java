@@ -14,19 +14,23 @@ public class Config
 {
 	public final static String requiredConfigVariables[] = { 
 		"version", 
+		
 		"debugging", 
+		
 		"db_protocol", 
 		"db_hostname",
 		"db_database", 
 		"db_reconnect", 
 		"db_username", 
 		"db_password", 
+		
 		"pbx_host", 
 		"pbx_port", 
 		"pbx_name", 
 		"pbx_pass", 
 		"pbx_type", 
 		"pbx_noop", 
+		
 		"ws_type",
 		"ws_host", 
 		"ws_port" };
