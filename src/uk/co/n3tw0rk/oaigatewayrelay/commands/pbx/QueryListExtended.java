@@ -6,6 +6,8 @@ import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Agent;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Feature;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.DND;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.HuntGroup;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Node;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Trunk;
 import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
 
 /**
@@ -465,6 +467,9 @@ public class QueryListExtended extends Command
 		return this.mResponseSize;
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public String buildCommand()
 	{
@@ -579,15 +584,30 @@ public class QueryListExtended extends Command
                 	parseAgent(i);
                     break;
                 }
+                
+                // 18 Node Data
+                case LIST_TYPE_NODE_DATA:
+                {
+                	parseNodes(i);
+                	break;
+                }
             }
         }
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
     public int ListType()
     {
         return intPart(5);
     }
 
+    /**
+     * 
+     * @return
+     */
     public int entityFieldMask()
     {
         return Integer
@@ -595,22 +615,38 @@ public class QueryListExtended extends Command
         	.intValue();
     }
 
+    /**
+     * 
+     * @return
+     */
     public int msgIndicator()
     {
         return intPart(7);
     }
 
+    /**
+     * 
+     * @return
+     */
     public int entityCount()
     {
         return intPart(8);
     }
 
+    /**
+     * 
+     * @return
+     */
     public int segmentCount()
     {
         return (parts() - ENTITY_OFFSET) /
             entityCount();
     }
     
+    /**
+     * 
+     * @param index
+     */
     public void parseFeature(int index)
     {
         String featureCode = part(index++);
@@ -650,6 +686,10 @@ public class QueryListExtended extends Command
         }
     }
 
+    /**
+     * 
+     * @param index
+     */
     public void parseDND(int index)
     {
         String dnd = part(index++);
@@ -664,6 +704,10 @@ public class QueryListExtended extends Command
         }
     }
 
+    /**
+     * 
+     * @param index
+     */
     public void parseHuntGroup(int index)
     {
         String huntGroupID = part(index++);
@@ -698,6 +742,10 @@ public class QueryListExtended extends Command
         }
     }
 
+    /**
+     * 
+     * @param index
+     */
     public void parseAgent(int index)
     {
         String agentID = part(index++);
@@ -712,6 +760,10 @@ public class QueryListExtended extends Command
         }
     }
 
+    /**
+     * 
+     * @param index
+     */
     public void parseStation(int index)
     {
         String extension = part(index++);
@@ -776,8 +828,89 @@ public class QueryListExtended extends Command
         }
 	}
     
+    /**
+     * 
+     * @param index
+     */
     public void parseTrunk(int index)
     {
-    	
+        String extension = part(index++);
+
+        Trunk trunk = getTrunk(extension);
+
+        int mask = entityFieldMask();
+
+        if (MASK_TRUNK_LIST_USER == (MASK_TRUNK_LIST_USER & mask))
+        {
+        	trunk.setUsername(part(index++));
+        }
+
+        if (MASK_TRUNK_LIST_DESC == (MASK_TRUNK_LIST_DESC & mask))
+        {
+        	trunk.setDescription(part(index++));
+        }
+
+        if (MASK_TRUNK_LIST_ANS_SUPERVISION == (MASK_TRUNK_LIST_ANS_SUPERVISION & mask))
+        {
+        	trunk.setAnswerSupervisionType(intPart(index++));
+        }
+    }
+    
+    /**
+     * 
+     * @param index
+     */
+    public void parseNodes(int index)
+    {
+        String nodeNumber = part(index++);
+
+        Node node = getNode(nodeNumber);
+
+        int mask = entityFieldMask();
+
+        if (MASK_NODE_DATA_DESC == (MASK_NODE_DATA_DESC & mask))
+        {
+        	node.setDescription(part(index++));
+        }
+
+        if (MASK_NODE_DATA_NET_EN == (MASK_NODE_DATA_NET_EN & mask))
+        {
+        	node.setNetworkingEnabledDisabled(intPart(index++));
+        }
+
+        if (MASK_NODE_DATA_PROTOCOL == (MASK_NODE_DATA_PROTOCOL & mask))
+        {
+        	node.setProtocolVersion(part(index++));
+        }
+
+        if (MASK_NODE_DATA_KSU_SW == (MASK_NODE_DATA_KSU_SW & mask))
+        {
+        	node.setKSUSWVersion(part(index++));
+        }
+
+        if (MASK_NODE_DATA_PREM == (MASK_NODE_DATA_PREM & mask))
+        {
+        	node.setPremiumFeatureStatus(intPart(index++));
+        }
+
+        if (MASK_NODE_DATA_COUNTRY == (MASK_NODE_DATA_COUNTRY & mask))
+        {
+        	node.setCountryCode(intPart(index++));
+        }
+
+        if (MASK_NODE_DATA_TCPIP == (MASK_NODE_DATA_TCPIP & mask))
+        {
+        	node.setTCPIPIndicator(intPart(index++));
+        }
+
+        if (MASK_NODE_DATA_VOICE_MAIL == (MASK_NODE_DATA_VOICE_MAIL & mask))
+        {
+        	node.setVoiceMailStatus(intPart(index++));
+        }
+
+        if (MASK_NODE_DATA_MAX_PARTIES == (MASK_NODE_DATA_MAX_PARTIES & mask))
+        {
+        	node.setMaxPartiesInConference(intPart(index++));
+        }
     }
 }

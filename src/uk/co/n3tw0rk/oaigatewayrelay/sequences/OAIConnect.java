@@ -103,6 +103,7 @@ public class OAIConnect
 				break;
 			}
 
+			// Get all the hunt groups
 			case STAGE_QUERY_HUNT_GROUPS :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new QueryListExtended()
@@ -112,6 +113,7 @@ public class OAIConnect
 				break;
 			}
 
+			// Get all agent information
 			case STAGE_QUERY_AGENTS :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new QueryListExtended()
@@ -120,6 +122,7 @@ public class OAIConnect
 				break;
 			}
 
+			// Get the available DND states
 			case STAGE_QUERY_DNDS :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new QueryListExtended()
@@ -128,6 +131,7 @@ public class OAIConnect
 				break;
 			}
 
+			// Get the information about the available features
 			case STAGE_QUERY_FEATURES :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new QueryListExtended()
@@ -141,6 +145,7 @@ public class OAIConnect
 				break;
 			}
 
+			// Get the information about the trunks
 			case STAGE_QUERY_TRUNKS :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new QueryListExtended()
@@ -151,6 +156,7 @@ public class OAIConnect
 				break;
 			}
 			
+			// Get the information about the nodes
 			case STAGE_QUERY_NODES :
 			{
 				this.mActiveCommand = PBXOutbound.addCommand( new QueryListExtended()

@@ -7,13 +7,17 @@ import uk.co.n3tw0rk.oaigatewayrelay.data.structures.DND;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Feature;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.HuntGroup;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Node;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Trunk;
 import uk.co.n3tw0rk.oaigatewayrelay.interfaces.OAIPacket;
 import uk.co.n3tw0rk.oaigatewayrelay.utils.OAIToolkit;
 
 /**
+ * <strong>Command</strong>
  * 
- * @author M00SEMARKTWO
- *
+ * @author James Lockhart <james@n3tw0rk.co.uk>
+ * @version 1.0
+ * @since 23-11-2015
  */
 public abstract class Command implements OAIPacket {
 	protected int mInvokeID;
@@ -154,6 +158,24 @@ public abstract class Command implements OAIPacket {
 	public HuntGroup getHuntGroup(String huntGroupID) {
 		return SystemController.instance().getHuntGroups()
 				.getStructure(huntGroupID);
+	}
+
+	/**
+	 * 
+	 * @param nodeNumber
+	 * @return
+	 */
+	public Node getNode(String nodeNumber) {
+		return SystemController.instance().getNodes().getStructure(nodeNumber);
+	}
+
+	/**
+	 * 
+	 * @param extension
+	 * @return
+	 */
+	public Trunk getTrunk(String extension) {
+		return SystemController.instance().getTrunks().getStructure(extension);
 	}
 
 	/**
