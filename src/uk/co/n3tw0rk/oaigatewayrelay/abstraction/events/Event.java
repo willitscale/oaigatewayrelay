@@ -1,67 +1,117 @@
 package uk.co.n3tw0rk.oaigatewayrelay.abstraction.events;
 
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.OAIDataInterpolator;
 import uk.co.n3tw0rk.oaigatewayrelay.interfaces.OAIPacket;
 
 /**
+ * <strong>Event</strong>
  * 
- * @author M00SEMARKTWO
- *
+ * @author James Lockhart <james@n3tw0rk.co.uk>
+ * @version 1.0
+ * @since 24-11-2015
  */
-public abstract class Event implements OAIPacket {
+public abstract class Event extends OAIDataInterpolator implements OAIPacket {
+	/** */
 	protected String mEvent;
 
+	/** */
 	protected int mResyncCode;
 
+	/** */
 	protected int mMonCrossRefID;
 
+	/** */
 	protected int mSequence;
 
+	/** */
 	protected String[] mEventParts;
 
+	/**
+	 * 
+	 * @param eventParts
+	 */
 	public Event(String[] eventParts) {
 		this.mEventParts = eventParts;
 		this.parseEvent();
 	}
 
+	/**
+	 * 
+	 * @param eventString
+	 */
 	public Event(String eventString) {
 		this.mEventParts = splitEvent(eventString);
 		this.parseEvent();
 	}
 
-	protected abstract void parseEvent();
-
+	/**
+	 * 
+	 * @param sequence
+	 * @return
+	 */
 	public Event setSequence(int sequence) {
 		this.mSequence = sequence;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getSequence() {
 		return this.mSequence;
 	}
 
+	/**
+	 * 
+	 * @param event
+	 * @return
+	 */
 	public Event setEvent(String event) {
 		this.mEvent = event;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getEvent() {
 		return this.mEvent;
 	}
 
+	/**
+	 * 
+	 * @param resyncCode
+	 * @return
+	 */
 	public Event setResyncCode(int resyncCode) {
 		this.mResyncCode = resyncCode;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getResyncCode() {
 		return this.mResyncCode;
 	}
 
+	/**
+	 * 
+	 * @param monCrossRefID
+	 * @return
+	 */
 	public Event setMonCrossRefID(int monCrossRefID) {
 		this.mMonCrossRefID = monCrossRefID;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getMonCrossRefID() {
 		return this.mMonCrossRefID;
 	}
@@ -87,6 +137,11 @@ public abstract class Event implements OAIPacket {
 		return eventString.split(delimiter);
 	}
 
+	/**
+	 * 
+	 * @param index
+	 * @return
+	 */
 	public int getIntPart(int index) {
 		if (0 <= index && this.mEventParts.length > index) {
 			try {
@@ -102,6 +157,11 @@ public abstract class Event implements OAIPacket {
 		return -1;
 	}
 
+	/**
+	 * 
+	 * @param index
+	 * @return
+	 */
 	public String getStringPart(int index) {
 		if (0 <= index && this.mEventParts.length > index) {
 			return this.mEventParts[index];
@@ -110,9 +170,21 @@ public abstract class Event implements OAIPacket {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getPartsSize() {
 		return this.mEventParts.length;
 	}
 
+	/**
+	 * 
+	 */
 	public abstract void process();
+
+	/**
+	 * 
+	 */
+	protected abstract void parseEvent();
 }

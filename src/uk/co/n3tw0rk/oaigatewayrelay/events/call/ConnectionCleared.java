@@ -119,8 +119,10 @@ public class ConnectionCleared extends CallID
 	{
 		super.process();
 
-		Call call = SystemController.instance().getCalls().getStructure( this.getCallID() );
+		String callID = this.getCallID();
+		
+		Call call = getCall( callID );
 
-		call.setCallID( this.getCallID() );
+		call.setCallID( callID );
 	}
 }

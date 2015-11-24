@@ -69,6 +69,14 @@ public abstract class Information<T extends Structure> {
 	/**
 	 * 
 	 * @param key
+	 */
+	public T pop(Object key) {
+		return this.mStructures.remove(key);
+	}
+	
+	/**
+	 * 
+	 * @param key
 	 * @return
 	 */
 	public abstract T getNew(Object key);

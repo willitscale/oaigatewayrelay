@@ -1,8 +1,10 @@
 package uk.co.n3tw0rk.oaigatewayrelay.abstraction.commands;
 
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.OAIDataInterpolator;
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Event;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Agent;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.DND;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Feature;
@@ -19,7 +21,7 @@ import uk.co.n3tw0rk.oaigatewayrelay.utils.OAIToolkit;
  * @version 1.0
  * @since 23-11-2015
  */
-public abstract class Command implements OAIPacket {
+public abstract class Command extends OAIDataInterpolator implements OAIPacket {
 	protected int mInvokeID;
 
 	protected Event mEvent;
@@ -111,71 +113,6 @@ public abstract class Command implements OAIPacket {
 		}
 
 		return this.mEvent.getPartsSize();
-	}
-
-	/**
-	 * 
-	 * @param extension
-	 * @return
-	 */
-	public Device getDevice(String extension) {
-		return SystemController.instance().getDevices().getStructure(extension);
-	}
-
-	/**
-	 * 
-	 * @param agentID
-	 * @return
-	 */
-	public Agent getAgent(String agentID) {
-		return SystemController.instance().getAgents().getStructure(agentID);
-	}
-
-	/**
-	 * 
-	 * @param featureCode
-	 * @return
-	 */
-	public Feature getFeature(String featureCode) {
-		return SystemController.instance().getFeatures()
-				.getStructure(featureCode);
-	}
-
-	/**
-	 * 
-	 * @param dndCode
-	 * @return
-	 */
-	public DND getDND(String dndCode) {
-		return SystemController.instance().getDNDs().getStructure(dndCode);
-	}
-
-	/**
-	 * 
-	 * @param huntGroup
-	 * @return
-	 */
-	public HuntGroup getHuntGroup(String huntGroupID) {
-		return SystemController.instance().getHuntGroups()
-				.getStructure(huntGroupID);
-	}
-
-	/**
-	 * 
-	 * @param nodeNumber
-	 * @return
-	 */
-	public Node getNode(String nodeNumber) {
-		return SystemController.instance().getNodes().getStructure(nodeNumber);
-	}
-
-	/**
-	 * 
-	 * @param extension
-	 * @return
-	 */
-	public Trunk getTrunk(String extension) {
-		return SystemController.instance().getTrunks().getStructure(extension);
 	}
 
 	/**
