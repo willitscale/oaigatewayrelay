@@ -180,8 +180,10 @@ public class Originated extends CallID
 	{
 		super.process();
 
-		Call call = SystemController.instance().getCalls().getStructure( this.getCallID() );
-
-		call.setCallID( this.getCallID() );
+		String callID = this.getCallID();
+		
+		getCall(callID)
+			.addEvent(this);
+			
 	}
 }

@@ -1,6 +1,9 @@
 package uk.co.n3tw0rk.oaigatewayrelay.data.structures;
 
+import java.util.LinkedList;
+
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Structure;
+import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.Event;
 
 /**
  * <strong>Call</strong>
@@ -11,24 +14,44 @@ import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Structure;
  */
 public class Call extends Structure {
 
+	/** */
 	protected String mCallID;
 
-	protected int mAlertingAgent;
-	protected int mCallingAgent;
+	/** */
+	protected String mAlertingAgent;
 
-	protected int mAlertingDevice;
-	protected int mCallingDevice;
+	/** */
+	protected String mCallingAgent;
 
-	protected int mAlertingTrunk;
-	protected int mCallingTrunk;
+	/** */
+	protected String mAlertingDevice;
 
-	protected int mAlertingNumber;
-	protected int mCallingNumber;
+	/** */
+	protected String mCallingDevice;
 
-	protected int mAlertingType;
-	protected int mCallingType;
+	/** */
+	protected String mAlertingTrunk;
 
+	/** */
+	protected String mCallingTrunk;
+
+	/** */
+	protected String mAlertingNumber;
+
+	/** */
+	protected String mCallingNumber;
+
+	/** */
+	protected String mAlertingType;
+
+	/** */
+	protected String mCallingType;
+
+	/** */
 	protected int mDuration;
+
+	/** */
+	protected LinkedList<Event> mEvents = new LinkedList<Event>();
 
 	/**
 	 * 
@@ -70,8 +93,8 @@ public class Call extends Structure {
 	 * @param alertingAgent
 	 * @return
 	 */
-	public Call setAlertingAgent(int alertingAgent) {
-		this.mAlertingAgent = alertingAgent;
+	public Call setAlertingAgent(String alertingAgent) {
+		mAlertingAgent = alertingAgent;
 		return this;
 	}
 
@@ -79,8 +102,8 @@ public class Call extends Structure {
 	 * 
 	 * @return
 	 */
-	public int getAlertingAgent() {
-		return this.mAlertingAgent;
+	public String getAlertingAgent() {
+		return mAlertingAgent;
 	}
 
 	/**
@@ -88,8 +111,8 @@ public class Call extends Structure {
 	 * @param callingAgent
 	 * @return
 	 */
-	public Call setCallingAgent(int callingAgent) {
-		this.mCallingAgent = callingAgent;
+	public Call setCallingAgent(String callingAgent) {
+		mCallingAgent = callingAgent;
 		return this;
 	}
 
@@ -97,7 +120,197 @@ public class Call extends Structure {
 	 * 
 	 * @return
 	 */
-	public int getCallingAgent() {
-		return this.mCallingAgent;
+	public String getCallingAgent() {
+		return mCallingAgent;
+	}
+
+	/**
+	 * 
+	 * @param alertingDevice
+	 * @return
+	 */
+	public Call setAlertingDevice(String alertingDevice) {
+		mAlertingDevice = alertingDevice;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAlertingDevice() {
+		return mAlertingDevice;
+	}
+
+	/**
+	 * 
+	 * @param callingDevice
+	 * @return
+	 */
+	public Call setCallingDevice(String callingDevice) {
+		mCallingDevice = callingDevice;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCallingDevice() {
+		return mCallingDevice;
+	}
+
+	/**
+	 * 
+	 * @param mAlertingTrunk
+	 * @return
+	 */
+	public Call setAlertingTrunk(String alertingTrunk) {
+		mAlertingTrunk = alertingTrunk;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAlertingTrunk() {
+		return mAlertingTrunk;
+	}
+
+	/**
+	 * 
+	 * @param callingTrunk
+	 * @return
+	 */
+	public Call setCallingTrunk(String callingTrunk) {
+		mCallingTrunk = callingTrunk;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCallingTrunk() {
+		return mCallingTrunk;
+	}
+
+	/**
+	 * 
+	 * @param alertingNumber
+	 * @return
+	 */
+	public Call setAlertingNumber(String alertingNumber) {
+		mAlertingNumber = alertingNumber;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAlertingNumber() {
+		return mAlertingNumber;
+	}
+
+	/**
+	 * 
+	 * @param callingNumber
+	 * @return
+	 */
+	public Call setCallingNumber(String callingNumber) {
+		mCallingNumber = callingNumber;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCallingNumber() {
+		return mCallingNumber;
+	}
+
+	/**
+	 * 
+	 * @param alertingType
+	 * @return
+	 */
+	public Call setAlertingType(String alertingType) {
+		mAlertingType = alertingType;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAlertingType() {
+		return mAlertingType;
+	}
+
+	/**
+	 * 
+	 * @param callingType
+	 * @return
+	 */
+	public Call setCallingType(String callingType) {
+		mCallingType = callingType;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCallingType() {
+		return mCallingType;
+	}
+
+	/**
+	 * 
+	 * @param duration
+	 * @return
+	 */
+	public Call setDuration(String duration) {
+		if (null == duration) {
+			return this;
+		}
+		return setDuration(Integer.parseInt(duration));
+	}
+
+	/**
+	 * 
+	 * @param duration
+	 * @return
+	 */
+	public Call setDuration(int duration) {
+		mDuration = duration;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getDuration() {
+		return mDuration;
+	}
+
+	/**
+	 * 
+	 */
+	public Call addEvent(Event evt) {
+		mEvents.add(evt);
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public LinkedList<Event> getEvents() {
+		return mEvents;
 	}
 }

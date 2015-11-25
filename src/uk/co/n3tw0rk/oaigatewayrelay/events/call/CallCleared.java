@@ -130,6 +130,8 @@ public class CallCleared extends CallID
 	{
 		super.process();
 
-		Call call = SystemController.instance().getCalls().getStructure( this.getCallID() );
+		String callID = this.getCallID();
+		
+		getCall(callID);
 	}
 }

@@ -1,6 +1,7 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.CallID;
+import uk.co.n3tw0rk.oaigatewayrelay.consts.CallingDeviceTypes;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
 
@@ -142,6 +143,8 @@ public class Delivered extends CallID
 	protected int mAccountCode;
 	protected int mACDUCDGroup;
 	
+	protected Call mCall;
+	
 	public Delivered setAlertingInternalExt( int alertingInternalExt )
 	{
 		this.mAlertingInternalExt = alertingInternalExt;
@@ -170,7 +173,7 @@ public class Delivered extends CallID
 		return this;
 	}
 	
-	public String setAlertingDeviceType()
+	public String getAlertingDeviceType()
 	{
 		return this.mAlertingDeviceType;
 	}
@@ -346,9 +349,51 @@ public class Delivered extends CallID
 	{
 		super.process();
 
-		String callID = this.getCallID();
-		
-		getCall(callID);
-		
+		mCall = getCall(this.getCallID());
+
+        // Bind the call to the appropriate devices/agents
+        if (0 == CallingDeviceTypes.EXTERNAL.compareTo(getAlertingDeviceType()))
+        {
+            if (0 == CallingDeviceTypes.INTERNAL.compareTo(getCallingDeviceType()))
+            {
+            	processOutboundCall();
+            }
+            else
+            {
+            	processExternalCall();
+            }
+        }
+        else
+        {
+            if (0 == CallingDeviceTypes.EXTERNAL.compareTo(getCallingDeviceType()))
+            {
+            	processInboundCall();
+            }
+            else
+            {
+            	processInternalCall();
+            }
+        }
 	}
+
+    // External ----> Internal
+    protected void processInboundCall()
+    {
+
+    }
+
+    // Internal ----> External
+    protected void processOutboundCall()
+    {
+    }
+
+    // Internal ----> Internal
+    protected void processInternalCall()
+    {
+    }
+
+    // External ----> External
+    protected void processExternalCall()
+    {
+    }
 }
