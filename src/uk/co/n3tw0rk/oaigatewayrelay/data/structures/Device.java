@@ -1,5 +1,8 @@
 package uk.co.n3tw0rk.oaigatewayrelay.data.structures;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.Structure;
 
 /**
@@ -64,6 +67,12 @@ public class Device extends Structure {
 	/** */
 	protected int mAccountCodeValidatedFlag;
 
+	/** */
+	protected List<String> mCalls = new LinkedList<String>();
+
+	/** */
+	protected String mCall;
+	
 	/**
 	 * 
 	 * @param key
@@ -587,5 +596,50 @@ public class Device extends Structure {
 	 */
 	public int getAccountCodeValidatedFlag() {
 		return this.mAccountCodeValidatedFlag;
+	}
+
+	public Device addCall(String call) {
+		if (!this.mCalls.contains(call)) {
+			this.mCalls.add(call);
+		}
+		return this;
+	}
+
+	/**
+	 * 
+	 * @param call
+	 * @return
+	 */
+	public Device removeCall(String call) {
+		if (this.mCalls.contains(call)) {
+			this.mCalls.remove(call);
+		}
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getCalls() {
+		return this.mCalls;
+	}
+
+	/**
+	 * 
+	 * @param call
+	 * @return
+	 */
+	public Device setCall(String call) {
+		this.mCall = call;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCall() {
+		return this.mCall;
 	}
 }

@@ -17,12 +17,11 @@ import uk.co.n3tw0rk.oaigatewayrelay.events.acknowledgement.Confirmation;
  * @version 1.0
  * @since 28-12-2014
  */
-public class QueryListExtended extends Command
-{
+public class QueryListExtended extends Command {
 	/** Command */
 	public final static String COMMAND = "_QX";
 
-    public final static int ENTITY_OFFSET = 9;
+	public final static int ENTITY_OFFSET = 9;
 
     /**
      * Val. 	Description 		Bit # 		Field 						Hex
@@ -351,13 +350,12 @@ public class QueryListExtended extends Command
     public final static int MASK_ASSISTANT_LIST_DESC = 0x002;
     public final static int MASK_ASSISTANT_LIST_DEV_TYPE = 0x004;
 
-	
 	/** Affected Extension */
 	protected int mAffectedExt = 0;
-	
+
 	/** List Type */
 	protected int mListType = 0;
-	
+
 	/** Entity Field Mask */
 	protected int mEntityFieldMask = 0;
 
@@ -366,24 +364,22 @@ public class QueryListExtended extends Command
 
 	/** Response Size */
 	protected int mResponseSize = 1;
-	
+
 	/**
 	 * 
 	 * @param affectedExt
 	 * @return
 	 */
-	public QueryListExtended setAffectedExt( int affectedExt )
-	{
+	public QueryListExtended setAffectedExt(int affectedExt) {
 		this.mAffectedExt = affectedExt;
 		return this;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getAffectedExt()
-	{
+	public int getAffectedExt() {
 		return this.mAffectedExt;
 	}
 
@@ -392,18 +388,16 @@ public class QueryListExtended extends Command
 	 * @param listType
 	 * @return
 	 */
-	public QueryListExtended setListType( int listType )
-	{
+	public QueryListExtended setListType(int listType) {
 		this.mListType = listType;
 		return this;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getListType()
-	{
+	public int getListType() {
 		return this.mListType;
 	}
 
@@ -412,18 +406,16 @@ public class QueryListExtended extends Command
 	 * @param entityFieldMask
 	 * @return
 	 */
-	public QueryListExtended setEntityFieldMask( int entityFieldMask )
-	{
+	public QueryListExtended setEntityFieldMask(int entityFieldMask) {
 		this.mEntityFieldMask = entityFieldMask;
 		return this;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getEntityFieldMask()
-	{
+	public int getEntityFieldMask() {
 		return this.mEntityFieldMask;
 	}
 
@@ -432,18 +424,16 @@ public class QueryListExtended extends Command
 	 * @param responseMode
 	 * @return
 	 */
-	public QueryListExtended setResponseMode( int responseMode )
-	{
+	public QueryListExtended setResponseMode(int responseMode) {
 		this.mResponseMode = responseMode;
 		return this;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getResponseMode()
-	{
+	public int getResponseMode() {
 		return this.mResponseMode;
 	}
 
@@ -452,18 +442,16 @@ public class QueryListExtended extends Command
 	 * @param responseSize
 	 * @return
 	 */
-	public QueryListExtended setResponseSize( int responseSize )
-	{
+	public QueryListExtended setResponseSize(int responseSize) {
 		this.mResponseSize = responseSize;
 		return this;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getResponseSize()
-	{
+	public int getResponseSize() {
 		return this.mResponseSize;
 	}
 
@@ -471,46 +459,44 @@ public class QueryListExtended extends Command
 	 * 
 	 */
 	@Override
-	public String buildCommand()
-	{
-        // _QX,<InvokeID>,<Affected_Ext>,<List_Type>,<Entity_Field_Mask>,
-        // <Response_Mode>,<Response_Size><CR>
-		
+	public String buildCommand() {
+		// _QX,<InvokeID>,<Affected_Ext>,<List_Type>,<Entity_Field_Mask>,
+		// <Response_Mode>,<Response_Size><CR>
+
 		String command = COMMAND + "," + this.getInvokeID() + ",";
 
-        // Affected_Ext
-        // Specifies the system node, using the Node: format (e.g., 1:), any valid
-        // extension on the system node, or it can be blank.
-		if( 0 < this.getAffectedExt() )
-		{
+		// Affected_Ext
+		// Specifies the system node, using the Node: format (e.g., 1:), any
+		// valid
+		// extension on the system node, or it can be blank.
+		if (0 < this.getAffectedExt()) {
 			command += this.getAffectedExt();
 		}
 		command += ",";
 
-        // List_Type
-        // Indicates the type of list being queried
-		if( 0 < this.getListType() ) 
-		{
+		// List_Type
+		// Indicates the type of list being queried
+		if (0 < this.getListType()) {
 			command += this.getListType();
 		}
 		command += ",";
 
-        // Entity_Field_Mask
-        // Returns a list of entities where each entity may contain several fields
-        // of information.
-		if( 0 < this.getEntityFieldMask() )
-		{
-			command += Integer.toHexString( this.getEntityFieldMask() );
+		// Entity_Field_Mask
+		// Returns a list of entities where each entity may contain several
+		// fields
+		// of information.
+		if (0 < this.getEntityFieldMask()) {
+			command += Integer.toHexString(this.getEntityFieldMask());
 		}
 
-        // Response_Mode
-        // Single Message Mode (1): The entire list is sent in a single message.
-        // Multiple Message Mode (2): The list is generated in item groups.
+		// Response_Mode
+		// Single Message Mode (1): The entire list is sent in a single message.
+		// Multiple Message Mode (2): The list is generated in item groups.
 		command += "," + this.getResponseMode();
 
-        // Response_Size
-        // Defines the maximum number of elements, up to the maximum number
-        // of system extensions, to be included in a response.
+		// Response_Size
+		// Defines the maximum number of elements, up to the maximum number
+		// of system extensions, to be included in a response.
 		command += "," + this.getResponseSize();
 
 		return command;
@@ -519,398 +505,335 @@ public class QueryListExtended extends Command
 	/**
 	 * 
 	 */
-	public boolean hasCompleted()
-	{
-		return ( this.mEvent instanceof Confirmation );
+	public boolean hasCompleted() {
+		return (this.mEvent instanceof Confirmation);
 	}
 
 	/**
 	 * 
 	 */
 	@Override
-	public void confirmation()
-	{
-		if( !( this.mEvent instanceof Confirmation ) )
-		{
+	public void confirmation() {
+		if (!(this.mEvent instanceof Confirmation)) {
 			return;
 		}
 
-        int offset = ENTITY_OFFSET;
-        int segments = segmentCount();
-        int count = segmentCount() * entityCount();
+		int offset = ENTITY_OFFSET;
+		int segments = segmentCount();
+		int count = segmentCount() * entityCount();
 
-        for (int i = offset; i < offset+count; i += segments)
-        {
-            switch (ListType())
-            {
-                // 1 Station List
-                case LIST_TYPE_STATION_LIST:
-                {
-                	parseStation(i);
-                    break;
-                }
+		for (int i = offset; i < offset + count; i += segments) {
+			switch (ListType()) {
+			// 1 Station List
+			case LIST_TYPE_STATION_LIST: {
+				parseStation(i);
+				break;
+			}
 
-                // 2 Trunk List
-                case LIST_TYPE_TRUNK_LIST:
-                {
-                	parseTrunk(i);
-                	break;
-                }
-                
-                // 3 Hunt Group List
-                case LIST_TYPE_HUNT_GROUP_LIST:
-                {
-                	parseHuntGroup(i);
-                    break;
-                }
+			// 2 Trunk List
+			case LIST_TYPE_TRUNK_LIST: {
+				parseTrunk(i);
+				break;
+			}
 
-                // 8 Feature List 
-                case LIST_TYPE_FEATURE_LIST:
-                {
-                	parseFeature(i);
-                	break;
-                }
+			// 3 Hunt Group List
+			case LIST_TYPE_HUNT_GROUP_LIST: {
+				parseHuntGroup(i);
+				break;
+			}
 
-                // 10 DND Message List
-                case LIST_TYPE_DND_LIST:
-                {
-                	parseDND(i);
-                    break;
-                }
+			// 8 Feature List
+			case LIST_TYPE_FEATURE_LIST: {
+				parseFeature(i);
+				break;
+			}
 
-                // 17 ACD Agent List
-                case LIST_TYPE_ACD_AGENT:
-                {
-                	parseAgent(i);
-                    break;
-                }
-                
-                // 18 Node Data
-                case LIST_TYPE_NODE_DATA:
-                {
-                	parseNodes(i);
-                	break;
-                }
-            }
-        }
+			// 10 DND Message List
+			case LIST_TYPE_DND_LIST: {
+				parseDND(i);
+				break;
+			}
+
+			// 17 ACD Agent List
+			case LIST_TYPE_ACD_AGENT: {
+				parseAgent(i);
+				break;
+			}
+
+			// 18 Node Data
+			case LIST_TYPE_NODE_DATA: {
+				parseNodes(i);
+				break;
+			}
+			}
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-    public int ListType()
-    {
-        return intPart(5);
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public int entityFieldMask()
-    {
-        return Integer
-        	.valueOf(part(6), 16)
-        	.intValue();
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public int msgIndicator()
-    {
-        return intPart(7);
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public int entityCount()
-    {
-        return intPart(8);
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public int segmentCount()
-    {
-        return (parts() - ENTITY_OFFSET) /
-            entityCount();
-    }
-    
-    /**
-     * 
-     * @param index
-     */
-    public void parseFeature(int index)
-    {
-        String featureCode = part(index++);
-
-        Feature feature = getFeature(featureCode);
-
-        int mask = entityFieldMask();
-
-        if (MASK_FEATURE_LIST_FEAT_NUM == (MASK_FEATURE_LIST_FEAT_NUM & mask))
-        {
-        	feature.setFeatureNumber(part(index++));
-        }
-
-        if (MASK_FEATURE_LIST_FEAT_NAME == (MASK_FEATURE_LIST_FEAT_NAME & mask))
-        {
-        	feature.setFeatureName(part(index++));
-        }
-
-        if (MASK_FEATURE_LIST_IS_ADMIN == (MASK_FEATURE_LIST_IS_ADMIN & mask))
-        {
-        	feature.setIsAdministratorFeature(intPart(index++));
-        }
-
-        if (MASK_FEATURE_LIST_IS_DIR == (MASK_FEATURE_LIST_IS_DIR & mask))
-        {
-        	feature.setIsDirectoryFeature(intPart(index++));
-        }
-
-        if (MASK_FEATURE_LIST_IS_DIAG == (MASK_FEATURE_LIST_IS_DIAG & mask))
-        {
-        	feature.setIsDiagnosticFeature(intPart(index++));
-        }
-
-        if (MASK_FEATURE_LIST_IS_TOGGLE == (MASK_FEATURE_LIST_IS_TOGGLE & mask))
-        {
-        	feature.setIsToggleableFeature(intPart(index++));
-        }
-    }
-
-    /**
-     * 
-     * @param index
-     */
-    public void parseDND(int index)
-    {
-        String dnd = part(index++);
-
-        DND model = getDND(dnd);
-
-        int mask = entityFieldMask();
-
-        if (MASK_DND_LIST_MESSAGE == (MASK_DND_LIST_MESSAGE & mask))
-        {
-            model.setMessageText(part(index++));
-        }
-    }
-
-    /**
-     * 
-     * @param index
-     */
-    public void parseHuntGroup(int index)
-    {
-        String huntGroupID = part(index++);
-
-        HuntGroup huntGroup = getHuntGroup(huntGroupID);
-
-        int mask = entityFieldMask();
-
-        if (MASK_HUNT_GROUP_LIST_USER == (MASK_HUNT_GROUP_LIST_USER & mask))
-        {
-        	huntGroup.setUsername(part(index++));
-        }
-
-        if (MASK_HUNT_GROUP_LIST_DESC == (MASK_HUNT_GROUP_LIST_DESC & mask))
-        {
-        	huntGroup.setDescription(part(index++));
-        }
-
-        if (MASK_HUNT_GROUP_LIST_HUNT_GROUP == (MASK_HUNT_GROUP_LIST_HUNT_GROUP & mask))
-        {
-        	huntGroup.setGroupType(intPart(index++));
-        }
-
-        if (MASK_HUNT_GROUP_LIST_MEMBERS == (MASK_HUNT_GROUP_LIST_MEMBERS & mask))
-        {
-        	huntGroup.setNumberOfMembers(intPart(index++));
-        }
-
-        if (MASK_HUNT_GROUP_LIST_MAILBOX == (MASK_HUNT_GROUP_LIST_MAILBOX & mask))
-        {
-        	huntGroup.setMailboxNodeNumber(intPart(index++));
-        }
-    }
-
-    /**
-     * 
-     * @param index
-     */
-    public void parseAgent(int index)
-    {
-        String agentID = part(index++);
-
-        Agent agent = getAgent(agentID);
-        
-        int mask = entityFieldMask();
-
-        if (MASK_ACD_AGENT_DESC == (MASK_ACD_AGENT_DESC & mask))
-        {
-        	agent.setDescription(part(index++));
-        }
-    }
-
-    /**
-     * 
-     * @param index
-     */
-    public void parseStation(int index)
-    {
-        String extension = part(index++);
-
-        Device device = getDevice(extension);
-
-        int mask = entityFieldMask();
-
-        if (MASK_STATION_LIST_USER == (MASK_STATION_LIST_USER & mask))
-        {
-        	device.setUsername(part(index++));
-        }
-
-        if (MASK_STATION_LIST_DESC == (MASK_STATION_LIST_DESC & mask))
-        {
-        	device.setDescription(part(index++));
-        }
-
-        if (MASK_STATION_LIST_ATTEND == (MASK_STATION_LIST_ATTEND & mask))
-        {
-        	device.setAttendantExtension(intPart(index++));
-        }
-
-        if (MASK_STATION_LIST_IS_ADMIN == (MASK_STATION_LIST_IS_ADMIN & mask))
-        {
-        	device.setIsAdministrator(intPart(index++));
-        }
-
-        if (MASK_STATION_LIST_IS_ATTEND == (MASK_STATION_LIST_IS_ATTEND & mask))
-        {
-        	device.setIsAttendant(intPart(index++));
-        }
-
-        if (MASK_STATION_LIST_DAY_FLAGS == (MASK_STATION_LIST_DAY_FLAGS & mask))
-        {
-        	device.setDayCOSFlags(intPart(index++));
-        }
-
-        if (MASK_STATION_LIST_NIGHT_FLAGS == (MASK_STATION_LIST_NIGHT_FLAGS & mask))
-        {
-        	device.setNightCOSFlags(intPart(index++));
-        }
-
-        if (MASK_STATION_LIST_VOICE_MAIL == (MASK_STATION_LIST_VOICE_MAIL & mask))
-        {
-        	device.setVoiceMailExt(intPart(index++));
-        }
-
-        if (MASK_STATION_LIST_DEVICE_TYPE == (MASK_STATION_LIST_DEVICE_TYPE & mask))
-        {
-        	device.setDeviceType(intPart(index++));
-        }
-
-        if (MASK_STATION_LIST_MAILBOX_NODE == (MASK_STATION_LIST_MAILBOX_NODE & mask))
-        {
-        	device.setMailboxNodeNumber(intPart(index++));
-        }
-
-        if (MASK_STATION_LIST_PHYSICAL_DEVICE == (MASK_STATION_LIST_PHYSICAL_DEVICE & mask))
-        {
-        	device.setPhysicalDeviceType(intPart(index++));
-        }
+	public int ListType() {
+		return intPart(5);
 	}
-    
-    /**
-     * 
-     * @param index
-     */
-    public void parseTrunk(int index)
-    {
-        String extension = part(index++);
 
-        Trunk trunk = getTrunk(extension);
+	/**
+	 * 
+	 * @return
+	 */
+	public int entityFieldMask() {
+		return Integer.valueOf(part(6), 16).intValue();
+	}
 
-        int mask = entityFieldMask();
+	/**
+	 * 
+	 * @return
+	 */
+	public int msgIndicator() {
+		return intPart(7);
+	}
 
-        if (MASK_TRUNK_LIST_USER == (MASK_TRUNK_LIST_USER & mask))
-        {
-        	trunk.setUsername(part(index++));
-        }
+	/**
+	 * 
+	 * @return
+	 */
+	public int entityCount() {
+		return intPart(8);
+	}
 
-        if (MASK_TRUNK_LIST_DESC == (MASK_TRUNK_LIST_DESC & mask))
-        {
-        	trunk.setDescription(part(index++));
-        }
+	/**
+	 * 
+	 * @return
+	 */
+	public int segmentCount() {
+		return (parts() - ENTITY_OFFSET) / entityCount();
+	}
 
-        if (MASK_TRUNK_LIST_ANS_SUPERVISION == (MASK_TRUNK_LIST_ANS_SUPERVISION & mask))
-        {
-        	trunk.setAnswerSupervisionType(intPart(index++));
-        }
-    }
-    
-    /**
-     * 
-     * @param index
-     */
-    public void parseNodes(int index)
-    {
-        String nodeNumber = part(index++);
+	/**
+	 * 
+	 * @param index
+	 */
+	public void parseFeature(int index) {
+		String featureCode = part(index++);
 
-        Node node = getNode(nodeNumber);
+		Feature feature = getFeature(featureCode);
 
-        int mask = entityFieldMask();
+		int mask = entityFieldMask();
 
-        if (MASK_NODE_DATA_DESC == (MASK_NODE_DATA_DESC & mask))
-        {
-        	node.setDescription(part(index++));
-        }
+		if (MASK_FEATURE_LIST_FEAT_NUM == (MASK_FEATURE_LIST_FEAT_NUM & mask)) {
+			feature.setFeatureNumber(part(index++));
+		}
 
-        if (MASK_NODE_DATA_NET_EN == (MASK_NODE_DATA_NET_EN & mask))
-        {
-        	node.setNetworkingEnabledDisabled(intPart(index++));
-        }
+		if (MASK_FEATURE_LIST_FEAT_NAME == (MASK_FEATURE_LIST_FEAT_NAME & mask)) {
+			feature.setFeatureName(part(index++));
+		}
 
-        if (MASK_NODE_DATA_PROTOCOL == (MASK_NODE_DATA_PROTOCOL & mask))
-        {
-        	node.setProtocolVersion(part(index++));
-        }
+		if (MASK_FEATURE_LIST_IS_ADMIN == (MASK_FEATURE_LIST_IS_ADMIN & mask)) {
+			feature.setIsAdministratorFeature(intPart(index++));
+		}
 
-        if (MASK_NODE_DATA_KSU_SW == (MASK_NODE_DATA_KSU_SW & mask))
-        {
-        	node.setKSUSWVersion(part(index++));
-        }
+		if (MASK_FEATURE_LIST_IS_DIR == (MASK_FEATURE_LIST_IS_DIR & mask)) {
+			feature.setIsDirectoryFeature(intPart(index++));
+		}
 
-        if (MASK_NODE_DATA_PREM == (MASK_NODE_DATA_PREM & mask))
-        {
-        	node.setPremiumFeatureStatus(intPart(index++));
-        }
+		if (MASK_FEATURE_LIST_IS_DIAG == (MASK_FEATURE_LIST_IS_DIAG & mask)) {
+			feature.setIsDiagnosticFeature(intPart(index++));
+		}
 
-        if (MASK_NODE_DATA_COUNTRY == (MASK_NODE_DATA_COUNTRY & mask))
-        {
-        	node.setCountryCode(intPart(index++));
-        }
+		if (MASK_FEATURE_LIST_IS_TOGGLE == (MASK_FEATURE_LIST_IS_TOGGLE & mask)) {
+			feature.setIsToggleableFeature(intPart(index++));
+		}
+	}
 
-        if (MASK_NODE_DATA_TCPIP == (MASK_NODE_DATA_TCPIP & mask))
-        {
-        	node.setTCPIPIndicator(intPart(index++));
-        }
+	/**
+	 * 
+	 * @param index
+	 */
+	public void parseDND(int index) {
+		String dnd = part(index++);
 
-        if (MASK_NODE_DATA_VOICE_MAIL == (MASK_NODE_DATA_VOICE_MAIL & mask))
-        {
-        	node.setVoiceMailStatus(intPart(index++));
-        }
+		DND model = getDND(dnd);
 
-        if (MASK_NODE_DATA_MAX_PARTIES == (MASK_NODE_DATA_MAX_PARTIES & mask))
-        {
-        	node.setMaxPartiesInConference(intPart(index++));
-        }
-    }
+		int mask = entityFieldMask();
+
+		if (MASK_DND_LIST_MESSAGE == (MASK_DND_LIST_MESSAGE & mask)) {
+			model.setMessageText(part(index++));
+		}
+	}
+
+	/**
+	 * 
+	 * @param index
+	 */
+	public void parseHuntGroup(int index) {
+		String huntGroupID = part(index++);
+
+		HuntGroup huntGroup = getHuntGroup(huntGroupID);
+
+		int mask = entityFieldMask();
+
+		if (MASK_HUNT_GROUP_LIST_USER == (MASK_HUNT_GROUP_LIST_USER & mask)) {
+			huntGroup.setUsername(part(index++));
+		}
+
+		if (MASK_HUNT_GROUP_LIST_DESC == (MASK_HUNT_GROUP_LIST_DESC & mask)) {
+			huntGroup.setDescription(part(index++));
+		}
+
+		if (MASK_HUNT_GROUP_LIST_HUNT_GROUP == (MASK_HUNT_GROUP_LIST_HUNT_GROUP & mask)) {
+			huntGroup.setGroupType(intPart(index++));
+		}
+
+		if (MASK_HUNT_GROUP_LIST_MEMBERS == (MASK_HUNT_GROUP_LIST_MEMBERS & mask)) {
+			huntGroup.setNumberOfMembers(intPart(index++));
+		}
+
+		if (MASK_HUNT_GROUP_LIST_MAILBOX == (MASK_HUNT_GROUP_LIST_MAILBOX & mask)) {
+			huntGroup.setMailboxNodeNumber(intPart(index++));
+		}
+	}
+
+	/**
+	 * 
+	 * @param index
+	 */
+	public void parseAgent(int index) {
+		String agentID = part(index++);
+
+		Agent agent = getAgent(agentID);
+
+		int mask = entityFieldMask();
+
+		if (MASK_ACD_AGENT_DESC == (MASK_ACD_AGENT_DESC & mask)) {
+			agent.setDescription(part(index++));
+		}
+	}
+
+	/**
+	 * 
+	 * @param index
+	 */
+	public void parseStation(int index) {
+		String extension = part(index++);
+
+		Device device = getDevice(extension);
+
+		int mask = entityFieldMask();
+
+		if (MASK_STATION_LIST_USER == (MASK_STATION_LIST_USER & mask)) {
+			device.setUsername(part(index++));
+		}
+
+		if (MASK_STATION_LIST_DESC == (MASK_STATION_LIST_DESC & mask)) {
+			device.setDescription(part(index++));
+		}
+
+		if (MASK_STATION_LIST_ATTEND == (MASK_STATION_LIST_ATTEND & mask)) {
+			device.setAttendantExtension(intPart(index++));
+		}
+
+		if (MASK_STATION_LIST_IS_ADMIN == (MASK_STATION_LIST_IS_ADMIN & mask)) {
+			device.setIsAdministrator(intPart(index++));
+		}
+
+		if (MASK_STATION_LIST_IS_ATTEND == (MASK_STATION_LIST_IS_ATTEND & mask)) {
+			device.setIsAttendant(intPart(index++));
+		}
+
+		if (MASK_STATION_LIST_DAY_FLAGS == (MASK_STATION_LIST_DAY_FLAGS & mask)) {
+			device.setDayCOSFlags(intPart(index++));
+		}
+
+		if (MASK_STATION_LIST_NIGHT_FLAGS == (MASK_STATION_LIST_NIGHT_FLAGS & mask)) {
+			device.setNightCOSFlags(intPart(index++));
+		}
+
+		if (MASK_STATION_LIST_VOICE_MAIL == (MASK_STATION_LIST_VOICE_MAIL & mask)) {
+			device.setVoiceMailExt(intPart(index++));
+		}
+
+		if (MASK_STATION_LIST_DEVICE_TYPE == (MASK_STATION_LIST_DEVICE_TYPE & mask)) {
+			device.setDeviceType(intPart(index++));
+		}
+
+		if (MASK_STATION_LIST_MAILBOX_NODE == (MASK_STATION_LIST_MAILBOX_NODE & mask)) {
+			device.setMailboxNodeNumber(intPart(index++));
+		}
+
+		if (MASK_STATION_LIST_PHYSICAL_DEVICE == (MASK_STATION_LIST_PHYSICAL_DEVICE & mask)) {
+			device.setPhysicalDeviceType(intPart(index++));
+		}
+	}
+
+	/**
+	 * 
+	 * @param index
+	 */
+	public void parseTrunk(int index) {
+		String extension = part(index++);
+
+		Trunk trunk = getTrunk(extension);
+
+		int mask = entityFieldMask();
+
+		if (MASK_TRUNK_LIST_USER == (MASK_TRUNK_LIST_USER & mask)) {
+			trunk.setUsername(part(index++));
+		}
+
+		if (MASK_TRUNK_LIST_DESC == (MASK_TRUNK_LIST_DESC & mask)) {
+			trunk.setDescription(part(index++));
+		}
+
+		if (MASK_TRUNK_LIST_ANS_SUPERVISION == (MASK_TRUNK_LIST_ANS_SUPERVISION & mask)) {
+			trunk.setAnswerSupervisionType(intPart(index++));
+		}
+	}
+
+	/**
+	 * 
+	 * @param index
+	 */
+	public void parseNodes(int index) {
+		String nodeNumber = part(index++);
+
+		Node node = getNode(nodeNumber);
+
+		int mask = entityFieldMask();
+
+		if (MASK_NODE_DATA_DESC == (MASK_NODE_DATA_DESC & mask)) {
+			node.setDescription(part(index++));
+		}
+
+		if (MASK_NODE_DATA_NET_EN == (MASK_NODE_DATA_NET_EN & mask)) {
+			node.setNetworkingEnabledDisabled(intPart(index++));
+		}
+
+		if (MASK_NODE_DATA_PROTOCOL == (MASK_NODE_DATA_PROTOCOL & mask)) {
+			node.setProtocolVersion(part(index++));
+		}
+
+		if (MASK_NODE_DATA_KSU_SW == (MASK_NODE_DATA_KSU_SW & mask)) {
+			node.setKSUSWVersion(part(index++));
+		}
+
+		if (MASK_NODE_DATA_PREM == (MASK_NODE_DATA_PREM & mask)) {
+			node.setPremiumFeatureStatus(intPart(index++));
+		}
+
+		if (MASK_NODE_DATA_COUNTRY == (MASK_NODE_DATA_COUNTRY & mask)) {
+			node.setCountryCode(intPart(index++));
+		}
+
+		if (MASK_NODE_DATA_TCPIP == (MASK_NODE_DATA_TCPIP & mask)) {
+			node.setTCPIPIndicator(intPart(index++));
+		}
+
+		if (MASK_NODE_DATA_VOICE_MAIL == (MASK_NODE_DATA_VOICE_MAIL & mask)) {
+			node.setVoiceMailStatus(intPart(index++));
+		}
+
+		if (MASK_NODE_DATA_MAX_PARTIES == (MASK_NODE_DATA_MAX_PARTIES & mask)) {
+			node.setMaxPartiesInConference(intPart(index++));
+		}
+	}
 }

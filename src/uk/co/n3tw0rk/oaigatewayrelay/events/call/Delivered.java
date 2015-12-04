@@ -1,9 +1,12 @@
 package uk.co.n3tw0rk.oaigatewayrelay.events.call;
 
 import uk.co.n3tw0rk.oaigatewayrelay.abstraction.events.CallID;
+import uk.co.n3tw0rk.oaigatewayrelay.consts.CallDirection;
 import uk.co.n3tw0rk.oaigatewayrelay.consts.CallingDeviceTypes;
 import uk.co.n3tw0rk.oaigatewayrelay.controllers.SystemController;
 import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Device;
+import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Trunk;
 
 /**
  * <strong>Delivered Class</strong>
@@ -122,278 +125,384 @@ import uk.co.n3tw0rk.oaigatewayrelay.data.structures.Call;
  * 		004,DE,,<MON97061>,@001,97061,9619000,E,100,,,,,I,9619000,,,A,22,
  * 		005,DE,,<MON100>,@001,97061,9619000,E,100,,,,,I,9619000,,,C,22,
  */
-public class Delivered extends CallID
-{
+public class Delivered extends CallID {
 	public final static String EVENT = "DE";
 
-	protected int mAlertingInternalExt;
-	protected int mAlertingOutsideNumber;
+	protected String mAlertingInternalExt;
+	protected String mAlertingOutsideNumber;
 	protected String mAlertingDeviceType;
 
-	protected int mInternalCallingExt;
+	protected String mInternalCallingExt;
 	protected String mOutsideCallerName;
-	protected int mOutsideCallerNumber;
+	protected String mOutsideCallerNumber;
 
 	protected String mTrunkName;
-	protected int mTrunkOutsideNumber;
+	protected String mTrunkOutsideNumber;
 	protected String mCallingDeviceType;
 
-	protected int mOriginallyCalledDev;
-	protected int mLastRedirectionExt;
-	protected int mAccountCode;
-	protected int mACDUCDGroup;
-	
+	protected String mOriginallyCalledDev;
+	protected String mLastRedirectionExt;
+	protected String mAccountCode;
+	protected String mACDUCDGroup;
+
+	/** */
 	protected Call mCall;
-	
-	public Delivered setAlertingInternalExt( int alertingInternalExt )
-	{
+
+	/**
+	 * 
+	 * @param alertingInternalExt
+	 * @return
+	 */
+	public Delivered setAlertingInternalExt(String alertingInternalExt) {
 		this.mAlertingInternalExt = alertingInternalExt;
 		return this;
 	}
-	
-	public int getAlertingInternalExt()
-	{
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAlertingInternalExt() {
 		return this.mAlertingInternalExt;
-	}
-	
-	public Delivered setAlertingOutsideNumber( int alertingOutsideNumber )
-	{
-		this.mAlertingOutsideNumber = alertingOutsideNumber;
-		return this;
-	}
-	
-	public int setAlertingOutsideNumber()
-	{
-		return this.mAlertingOutsideNumber;
-	}
-	
-	public Delivered setAlertingDeviceType( String alertingDeviceType )
-	{
-		this.mAlertingDeviceType = alertingDeviceType;
-		return this;
-	}
-	
-	public String getAlertingDeviceType()
-	{
-		return this.mAlertingDeviceType;
-	}
-
-	public Delivered setInternalCallingExt( int internalCallingExt )
-	{
-		this.mInternalCallingExt = internalCallingExt;
-		return this;
-	}
-	
-	public int getInternalCallingExt()
-	{
-		return this.mInternalCallingExt;
-	}
-
-	public Delivered setOutsideCallerName( String outsideCallerName )
-	{
-		this.mOutsideCallerName = outsideCallerName;
-		return this;
-	}
-	
-	public String getOutsideCallerName()
-	{
-		return this.mOutsideCallerName;
-	}
-
-	public Delivered setOutsideCallerNumber( int outsideCallerNumber )
-	{
-		this.mOutsideCallerNumber = outsideCallerNumber;
-		return this;
-	}
-	
-	public int getOutsideCallerNumber()
-	{
-		return this.mOutsideCallerNumber;
-	}
-
-	public Delivered setTrunkName( String trunkName )
-	{
-		this.mTrunkName = trunkName;
-		return this;
-	}
-	
-	public String getTrunkName()
-	{
-		return this.mTrunkName;
-	}
-
-	public Delivered setTrunkOutsideNumber( int trunkOutsideNumber )
-	{
-		this.mTrunkOutsideNumber = trunkOutsideNumber;
-		return this;
-	}
-	
-	public int getTrunkOutsideNumber()
-	{
-		return this.mTrunkOutsideNumber;
-	}
-
-	public Delivered setCallingDeviceType( String callingDeviceType )
-	{
-		this.mCallingDeviceType = callingDeviceType;
-		return this;
-	}
-	
-	public String getCallingDeviceType()
-	{
-		return this.mCallingDeviceType;
-	}
-
-	public Delivered setOriginallyCalledDev( int originallyCalledDev )
-	{
-		this.mOriginallyCalledDev = originallyCalledDev;
-		return this;
-	}
-	
-	public int getOriginallyCalledDev()
-	{
-		return this.mOriginallyCalledDev;
-	}
-
-
-	public Delivered setLastRedirectionExt( int lastRedirectionExt )
-	{
-		this.mLastRedirectionExt = lastRedirectionExt;
-		return this;
-	}
-	
-	public int getLastRedirectionExt()
-	{
-		return this.mLastRedirectionExt;
-	}
-
-
-	public Delivered setAccountCode( int accountCode )
-	{
-		this.mAccountCode = accountCode;
-		return this;
-	}
-	
-	public int getAccountCode()
-	{
-		return this.mAccountCode;
-	}
-
-
-	public Delivered setACDUCDGroup( int aCDUCDGroup )
-	{
-		this.mACDUCDGroup = aCDUCDGroup;
-		return this;
-	}
-	
-	public int getACDUCDGroup()
-	{
-		return this.mACDUCDGroup;
-	}
-
-	public Delivered( String[] eventParts )
-	{
-		super( eventParts );
-	}
-
-	public Delivered( String eventString )
-	{
-		super( eventString );
 	}
 
 	/**
-	 * 0 <SEQUENCE_NUMBER>
-	 * 1 <EVENT>
-	 * 2 <Resync_Code>,
-	 * 3 <Mon_Cross_Ref_ID>
-	 * 4 <Call_ID>
-	 * 5 <Alerting_Internal_Ext>
-	 * 6 <Alerting_Outside_Number>
-	 * 7 <Alerting_Device_Type>
-	 * 8 <Internal_Calling_Ext>
-	 * 9 <Outside_Caller_Name>
-	 * 10 <Outside_Caller_Number>
-	 * 11 <Trunk_Name>
-	 * 12 <Trunk_Outside_Number>
-	 * 13 <Calling_Device_Type>
-	 * 14 <Originally_Called_Dev>
-	 * 15 <Last_Redirection_Ext>
-	 * 16 <Account_Code>
-	 * 17 <Local_Cnx_State>
-	 * 18 <Event_Cause>
-	 * 19 <ACD/UCD_Group>
+	 * 
+	 * @param alertingOutsideNumber
+	 * @return
+	 */
+	public Delivered setAlertingOutsideNumber(String alertingOutsideNumber) {
+		this.mAlertingOutsideNumber = alertingOutsideNumber;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAlertingOutsideNumber() {
+		return this.mAlertingOutsideNumber;
+	}
+
+	/**
+	 * 
+	 * @param alertingDeviceType
+	 * @return
+	 */
+	public Delivered setAlertingDeviceType(String alertingDeviceType) {
+		this.mAlertingDeviceType = alertingDeviceType;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAlertingDeviceType() {
+		return this.mAlertingDeviceType;
+	}
+
+	/**
+	 * 
+	 * @param internalCallingExt
+	 * @return
+	 */
+	public Delivered setInternalCallingExt(String internalCallingExt) {
+		this.mInternalCallingExt = internalCallingExt;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getInternalCallingExt() {
+		return this.mInternalCallingExt;
+	}
+
+	/**
+	 * 
+	 * @param outsideCallerName
+	 * @return
+	 */
+	public Delivered setOutsideCallerName(String outsideCallerName) {
+		this.mOutsideCallerName = outsideCallerName;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOutsideCallerName() {
+		return this.mOutsideCallerName;
+	}
+
+	/**
+	 * 
+	 * @param outsideCallerNumber
+	 * @return
+	 */
+	public Delivered setOutsideCallerNumber(String outsideCallerNumber) {
+		this.mOutsideCallerNumber = outsideCallerNumber;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOutsideCallerNumber() {
+		return this.mOutsideCallerNumber;
+	}
+
+	/**
+	 * 
+	 * @param trunkName
+	 * @return
+	 */
+	public Delivered setTrunkName(String trunkName) {
+		this.mTrunkName = trunkName;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getTrunkName() {
+		return this.mTrunkName;
+	}
+
+	/**
+	 * 
+	 * @param trunkOutsideNumber
+	 * @return
+	 */
+	public Delivered setTrunkOutsideNumber(String trunkOutsideNumber) {
+		this.mTrunkOutsideNumber = trunkOutsideNumber;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getTrunkOutsideNumber() {
+		return this.mTrunkOutsideNumber;
+	}
+
+	/**
+	 * 
+	 * @param callingDeviceType
+	 * @return
+	 */
+	public Delivered setCallingDeviceType(String callingDeviceType) {
+		this.mCallingDeviceType = callingDeviceType;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCallingDeviceType() {
+		return this.mCallingDeviceType;
+	}
+
+	/**
+	 * 
+	 * @param originallyCalledDev
+	 * @return
+	 */
+	public Delivered setOriginallyCalledDev(String originallyCalledDev) {
+		this.mOriginallyCalledDev = originallyCalledDev;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getOriginallyCalledDev() {
+		return this.mOriginallyCalledDev;
+	}
+
+	/**
+	 * 
+	 * @param lastRedirectionExt
+	 * @return
+	 */
+	public Delivered setLastRedirectionExt(String lastRedirectionExt) {
+		this.mLastRedirectionExt = lastRedirectionExt;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getLastRedirectionExt() {
+		return this.mLastRedirectionExt;
+	}
+
+	/**
+	 * 
+	 * @param accountCode
+	 * @return
+	 */
+	public Delivered setAccountCode(String accountCode) {
+		this.mAccountCode = accountCode;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAccountCode() {
+		return this.mAccountCode;
+	}
+
+	/**
+	 * 
+	 * @param aCDUCDGroup
+	 * @return
+	 */
+	public Delivered setACDUCDGroup(String aCDUCDGroup) {
+		this.mACDUCDGroup = aCDUCDGroup;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getACDUCDGroup() {
+		return this.mACDUCDGroup;
+	}
+
+	/**
+	 * 
+	 * @param eventParts
+	 */
+	public Delivered(String[] eventParts) {
+		super(eventParts);
+	}
+
+	/**
+	 * 
+	 * @param eventString
+	 */
+	public Delivered(String eventString) {
+		super(eventString);
+	}
+
+	/**
+	 * 0 <SEQUENCE_NUMBER> 1 <EVENT> 2 <Resync_Code>, 3 <Mon_Cross_Ref_ID> 4
+	 * <Call_ID> 5 <Alerting_Internal_Ext> 6 <Alerting_Outside_Number> 7
+	 * <Alerting_Device_Type> 8 <Internal_Calling_Ext> 9 <Outside_Caller_Name>
+	 * 10 <Outside_Caller_Number> 11 <Trunk_Name> 12 <Trunk_Outside_Number> 13
+	 * <Calling_Device_Type> 14 <Originally_Called_Dev> 15
+	 * <Last_Redirection_Ext> 16 <Account_Code> 17 <Local_Cnx_State> 18
+	 * <Event_Cause> 19 <ACD/UCD_Group>
 	 */
 	@Override
-	protected void parseEvent()
-	{
+	protected void parseEvent() {
 		super.parseEvent();
-		this.setCallID( this.getStringPart( 4 ) );
-		this.setAlertingInternalExt( this.getIntPart( 5 ) );
-		this.setAlertingOutsideNumber( this.getIntPart( 6 ) );
-		this.setAlertingDeviceType( this.getStringPart( 7 ) );
-		this.setInternalCallingExt( this.getIntPart( 8 ) );
-		this.setOutsideCallerName( this.getStringPart( 9 ) );
-		this.setTrunkName( this.getStringPart( 10 ) );
-		this.setTrunkOutsideNumber( this.getIntPart( 11 ) );
-		this.setCallingDeviceType( this.getStringPart( 12 ) );
-		this.setOriginallyCalledDev( this.getIntPart( 13 ) );
-		this.setLastRedirectionExt( this.getIntPart( 14 ) );
-		this.setAccountCode( this.getIntPart( 15 ) );
-		this.setLocalCnxState( this.getStringPart( 16 ) );
-		this.setEventCause( this.getIntPart( 17 ) );
-		this.setACDUCDGroup( this.getIntPart( 18 ) );
+		this.setCallID(this.getStringPart(4));
+
+		this.setAlertingInternalExt(this.getStringPart(5));
+		this.setAlertingOutsideNumber(this.getStringPart(6));
+		this.setAlertingDeviceType(this.getStringPart(7));
+
+		this.setInternalCallingExt(this.getStringPart(8));
+		this.setOutsideCallerName(this.getStringPart(9));
+		this.setOutsideCallerNumber(this.getStringPart(10));
+
+		this.setTrunkName(this.getStringPart(11));
+		this.setTrunkOutsideNumber(this.getStringPart(12));
+
+		this.setCallingDeviceType(this.getStringPart(13));
+		this.setOriginallyCalledDev(this.getStringPart(14));
+		this.setLastRedirectionExt(this.getStringPart(15));
+		this.setAccountCode(this.getStringPart(16));
+		this.setLocalCnxState(this.getStringPart(17));
+		this.setEventCause(this.getIntPart(18));
+		this.setACDUCDGroup(this.getStringPart(19));
 	}
 
+	/**
+	 * 
+	 */
 	@Override
-	public void process()
-	{
+	public void process() {
 		super.process();
 
-		mCall = getCall(this.getCallID());
+		// Get the call and bind this packet to the call
+		mCall = getCall(this.getCallID()).addEvent(this);
 
-        // Bind the call to the appropriate devices/agents
-        if (0 == CallingDeviceTypes.EXTERNAL.compareTo(getAlertingDeviceType()))
-        {
-            if (0 == CallingDeviceTypes.INTERNAL.compareTo(getCallingDeviceType()))
-            {
-            	processOutboundCall();
-            }
-            else
-            {
-            	processExternalCall();
-            }
-        }
-        else
-        {
-            if (0 == CallingDeviceTypes.EXTERNAL.compareTo(getCallingDeviceType()))
-            {
-            	processInboundCall();
-            }
-            else
-            {
-            	processInternalCall();
-            }
-        }
+		// Bind the call to the appropriate devices/agents
+		if (0 == CallingDeviceTypes.EXTERNAL.compareTo(getAlertingDeviceType())) {
+			if (0 == CallingDeviceTypes.INTERNAL
+					.compareTo(getCallingDeviceType())) {
+				processOutboundCall();
+			} else {
+				processExternalCall();
+			}
+		} else {
+			if (0 == CallingDeviceTypes.EXTERNAL
+					.compareTo(getCallingDeviceType())) {
+				processInboundCall();
+			} else {
+				processInternalCall();
+			}
+		}
 	}
 
-    // External ----> Internal
-    protected void processInboundCall()
-    {
+	/**
+	 * External ----> Internal
+	 */
+	protected void processInboundCall() {
+		mCall.setDirection(CallDirection.INBOUND)
+				.setAlertingDevice(getAlertingInternalExt()) // Ext
+				.setAlertingHuntGroup(getACDUCDGroup()) // Hunt Group
+				.setCallingNumber(getOutsideCallerNumber()) // Caller's CLI
+				.setAlertingTrunk(getInternalCallingExt()) // Trunk ID
+				.setAlertingNumber(getTrunkOutsideNumber()); // DDI
 
-    }
+		// Add the call to the device
+		getDevice(getAlertingInternalExt())
+			.addCall(getCallID())
+			.setCall(getCallID());
+	}
 
-    // Internal ----> External
-    protected void processOutboundCall()
-    {
-    }
+	/**
+	 * Internal ----> External
+	 */
+	protected void processOutboundCall() {
+		mCall.setDirection(CallDirection.OUTBOUND)
+				.setCallingDevice(getInternalCallingExt()) // Ext
+				.setCallingTrunk(getAlertingInternalExt()) // Trunk ID
+				.setAlertingNumber(getAlertingOutsideNumber()); // Caller's CLI
 
-    // Internal ----> Internal
-    protected void processInternalCall()
-    {
-    }
+		// Add the call to the device
+		getDevice(getInternalCallingExt())
+			.addCall(getCallID())
+			.setCall(getCallID());
+	}
 
-    // External ----> External
-    protected void processExternalCall()
-    {
-    }
+	/**
+	 * Internal ----> Internal
+	 */
+	protected void processInternalCall() {
+		// TODO
+	}
+
+	/**
+	 * External ----> External
+	 */
+	protected void processExternalCall() {
+		// TODO
+	}
 }

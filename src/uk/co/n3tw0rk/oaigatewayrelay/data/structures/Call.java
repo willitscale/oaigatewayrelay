@@ -16,40 +16,49 @@ public class Call extends Structure {
 
 	/** */
 	protected String mCallID;
-
-	/** */
-	protected String mAlertingAgent;
-
+	
 	/** */
 	protected String mCallingAgent;
-
-	/** */
-	protected String mAlertingDevice;
 
 	/** */
 	protected String mCallingDevice;
 
 	/** */
-	protected String mAlertingTrunk;
-
-	/** */
 	protected String mCallingTrunk;
-
-	/** */
-	protected String mAlertingNumber;
 
 	/** */
 	protected String mCallingNumber;
 
 	/** */
+	protected String mCallingType;
+
+	/** */
+	protected String mCallingHuntGroup;
+	
+	/** */
+	protected String mAlertingAgent;
+
+	/** */
+	protected String mAlertingDevice;
+
+	/** */
+	protected String mAlertingTrunk;
+
+	/** */
+	protected String mAlertingNumber;
+
+	/** */
 	protected String mAlertingType;
 
 	/** */
-	protected String mCallingType;
+	protected String mAlertingHuntGroup;
 
 	/** */
 	protected int mDuration;
 
+	/** */
+	protected int mDirection;
+	
 	/** */
 	protected LinkedList<Event> mEvents = new LinkedList<Event>();
 
@@ -270,6 +279,46 @@ public class Call extends Structure {
 
 	/**
 	 * 
+	 * @param huntGroup
+	 * @return
+	 */
+	public Call setCallingHuntGroup(String huntGroup)
+	{
+		this.mCallingHuntGroup = huntGroup;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCallingHuntGroup()
+	{
+		return this.mCallingHuntGroup;
+	}
+
+	/**
+	 * 
+	 * @param huntGroup
+	 * @return
+	 */
+	public Call setAlertingHuntGroup(String huntGroup)
+	{
+		this.mAlertingHuntGroup = huntGroup;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAlertingHuntGroup()
+	{
+		return this.mAlertingHuntGroup;
+	}
+	
+	/**
+	 * 
 	 * @param duration
 	 * @return
 	 */
@@ -296,6 +345,24 @@ public class Call extends Structure {
 	 */
 	public int getDuration() {
 		return mDuration;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getDirection() {
+		return this.mDirection;
+	}
+	
+	/**
+	 * 
+	 * @param direction
+	 * @return
+	 */
+	public Call setDirection(int direction) {
+		this.mDirection = direction;
+		return this;
 	}
 
 	/**
